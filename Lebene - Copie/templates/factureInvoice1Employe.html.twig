@@ -1,0 +1,342 @@
+{% extends 'base.html.twig' %}
+
+{% block clientFacture %}
+
+<link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<!--end::Page Vendor Stylesheets-->
+<!--begin::Global Stylesheets Bundle(used by all pages)-->
+<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css')}}" />
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+                </div>
+                <div><span class="text-uppercase font-weight-bold">
+
+                        {% for clientNom in clients.utilisateur%}
+                        {{clientNom.nom}} - {{clientNom.username}}
+                        {% endfor %}
+
+                    </span>
+                    <div class="page-title-subheading">
+                        {% for clientEmail in clients.utilisateur%}
+                        {{clientEmail.email}} - {{clientEmail.numero}}
+                        {% endfor %}
+                        </br>
+
+                        Indication: {{clients.zip}}, {{clients.indication}}</br>
+
+                        {% if clients.admin == null%}
+                        Ajouté par le Gérant
+                        {% for gerantNom in clients.gerant.utilisateur%}
+                        {{gerantNom.nom}}
+                        {% endfor%}
+                        {% elseif clients.admin != null%}
+                        Ajouté par l'Admin
+                        {% for adminNom in clients.admin.utilisateur%}
+                        {{adminNom.nom}}</br>
+                        Crée le {{adminNom.createdat | date("d M Y")}} à {{adminNom.createdat | date("h:i")}}
+                        {% endfor%}
+                        {% endif %}</br>
+                        <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE
+                            CLIENT</span>
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+                    class="btn-shadow mr-3 btn btn-dark">
+                    <i class="fa fa-star"></i>
+                </button>
+                <div class="d-inline-block dropdown">
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        class="btn-shadow dropdown-toggle btn btn-info">
+                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                            <i class="fa fa-business-time fa-w-20"></i>
+                        </span>
+                        Buttons
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span> Inbox</span>
+                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-book"></i>
+                                    <span> Book</span>
+                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-picture"></i>
+                                    <span> Picture</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a disabled class="nav-link disabled">
+                                    <i class="nav-link-icon lnr-file-empty"></i>
+                                    <span> File Disabled</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        
+        <li class="nav-item">
+            <a role="tab" class="nav-link active" href="">
+                <span>Invoice détails</span>
+            </a>
+        </li>
+    </ul>
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!--begin::Invoice 2 main-->
+            <div class="card">
+                <!--begin::Body-->
+                <div class="card-body p-lg-20">
+                    <!--begin::Layout-->
+                    <div class="d-flex flex-column flex-xl-row">
+                        <!--begin::Content-->
+                        <div class="flex-lg-row-fluid me-xl-18 mb-10 mb-xl-0">
+                            <!--begin::Invoice 2 content-->
+                            <div class="mt-n1">
+                                <!--begin::Top-->
+                                <div class="d-flex flex-stack pb-10">
+                                    <!--begin::Logo-->
+                                    <a href="#">
+                                        <img alt="Logo" src="../../../assets/media/svg/brand-logos/code-lab.svg" />
+                                    </a>
+                                    
+                                    <!--begin::Action-->
+                                    
+                                    <!--end::Action-->
+                                </div>
+                                <!--end::Top-->
+                                <!--begin::Wrapper-->
+                                <div class="m-0">
+                                    <!--begin::Label-->
+                                    {% if facture.etat == 'LIVRAISON'%}
+                                    <div class="fw-bolder fs-3 text-gray-800 mb-8">
+                                        Invoice #INV-{{facture.invoicecode}}
+                                        
+                                        
+                                    </div>
+                                   
+                                    
+
+                                    {% endif %}
+                                    
+                                    <!--end::Label-->
+                                    <!--begin::Row-->
+                                    <div class="row g-5 mb-11">
+                                        <!--end::Col-->
+                                        <div class="col-sm-6">
+                                            <!--end::Label-->
+                                            <div class="fw-bold fs-7 text-gray-600 mb-1">Date récupération:</div>
+                                            <!--end::Label-->
+                                            <!--end::Col-->
+                                            <div class="fw-bolder fs-6 text-gray-800">{{facture.daterecuperation | date('d M Y')}}</div>
+                                            <!--end::Col-->
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--end::Col-->
+                                        <div class="col-sm-6">
+                                            <!--end::Label-->
+                                            <div class="fw-bold fs-7 text-gray-600 mb-1">Date livraison:</div>
+                                            <!--end::Label-->
+                                            <!--end::Info-->
+                                            <div class="fw-bolder fs-6 text-gray-800 d-flex align-items-center flex-wrap">
+                                                <span class="pe-2">{{facture.datelivraison | date('d M Y')}}</span>
+                                                <span class="fs-7 text-danger d-flex align-items-center">
+                                                <span class="bullet bullet-dot bg-danger me-2"></span></span>
+                                            </div>
+                                            <!--end::Info-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Row-->
+                                    <!--begin::Row-->
+                                    <div class="row g-5 mb-12">
+                                        <!--end::Col-->
+                                        <div class="col-sm-6">
+                                            
+                                            <!--end::Text-->
+                                            <!--end::Description-->
+                                            <div class="fw-bold fs-7 text-gray-600">
+                                                {% for adresse in facture.client.utilisateur%}
+                                                {{adresse.adresse}} 
+                                                {% endfor %}
+                                            <br />Adidogomé, {{facture.client.zip}}</div>
+                                            <!--end::Description-->
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--end::Col-->
+                                        <div class="col-sm-6">
+                                            <!--end::Label-->
+                                            <div class="fw-bold fs-7 text-gray-600 mb-1">Servi par:</div>
+                                            <!--end::Label-->
+                                            <!--end::Text-->
+                                            <div class="fw-bolder fs-6 text-gray-800">{{entreprise.nom}} Inc.</div>
+                                            <!--end::Text-->
+                                            <!--end::Description-->
+                                            <div class="fw-bold fs-7 text-gray-600">{{entreprise.numerotelentre}}, {{entreprise.emailentre}}
+                                            <br />{{entreprise.adresse}}, {{entreprise.zip}}</div>
+                                            <!--end::Description-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Row-->
+                                    <!--begin::Content-->
+                                    <div class="flex-grow-1">
+                                        <!--begin::Table-->
+                                        <div class="table-responsive border-bottom mb-9">
+                                            <table class="table mb-3">
+                                                <thead>
+                                                    <tr class="border-bottom fs-6 fw-bolder text-muted">
+                                                        <th class="min-w-175px pb-2">Désig.</th>
+                                                        <th class="min-w-70px text-end pb-2">P.U</th>
+                                                        <th class="min-w-80px text-end pb-2">QTY</th>
+                                                        <th class="min-w-100px text-end pb-2">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for entete1 in facture.entete%}
+                                                    {% if entete1.statut == 0 %}
+                                                    <tr class="fw-bolder text-gray-700 fs-5 text-end">
+                                                        <td class="d-flex align-items-center pt-6">
+                                                            <div class="ms-5 text-capitalize">
+                                                                {{entete1.tarifs.icons.nomicon}}
+                                                                    {% if entete1.express == 1 and entete1.expressdelivered == 0%}
+                                                                    <a href=""><div class="badge badge-danger">COLLECTE</div></a>
+                                                                    {% elseif entete1.express == 1 and entete1.expressdelivered == 1%}
+                                                                    <div class="badge badge-info">LIVRER</div>
+                                                                    {% else%}
+                                                                    <div class="badge badge-info"></div>
+                                                                    {% endif %}
+
+                                                                    {% if entete1.express == 1 %}
+                                                                        <div class="badge badge-primary">EXPRESS</div>
+                                                                    {% endif %}
+                                                                    {% if entete1.express == 0 %}
+                                                                        <div class=""></div>
+                                                                    {% endif %}
+                                                                <div class="fs-7 text-muted">Delivery Date: {{entete.datelivraison | date('d/m/y')}}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="pt-6">XXX F</td>
+                                                        <td class="pt-6">{{entete1.quantite}}</td>
+                                                        <td class="pt-6 text-dark fw-boldest">XXX F</td>
+                                                       
+                                                    </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!--end::Table-->
+                                        <!--begin::Container-->
+                                        <div class="d-flex justify-content-end">
+                                            <!--begin::Section-->
+                                            <div class="mw-300px">
+                                                <!--begin::Item-->
+                                                <div class="d-flex flex-stack mb-3">
+                                                    <!--begin::Accountname-->
+                                                    <div class="fw-bold pe-10 text-gray-600 fs-7">Subtotal:</div>
+                                                    <!--end::Accountname-->
+                                                    <!--begin::Label-->
+                                                    <div class="text-end fw-bolder fs-6 text-gray-800">XXX F</div>
+                                                    <!--end::Label-->
+                                                </div>
+                                                <!--end::Item-->
+                                                <!--begin::Item-->
+                                                <div class="d-flex flex-stack mb-3">
+                                                    <!--begin::Accountname-->
+                                                    <div class="fw-bold pe-10 text-gray-600 fs-7">VAT XXX %</div>
+                                                    <!--end::Accountname-->
+                                                    <!--begin::Label-->
+                                                    <div class="text-end fw-bolder fs-6 text-gray-800">XXX F</div>
+                                                    <!--end::Label-->
+                                                </div>
+                                                <!--end::Item-->
+                                                
+                                                <!--begin::Item-->
+                                                <div class="d-flex flex-stack">
+                                                    <!--begin::Code-->
+                                                    <div class="fw-bold pe-10 text-gray-600 fs-7">Total</div>
+                                                    <!--end::Code-->
+                                                    <!--begin::Label-->
+                                                    <div class="text-end fw-bolder fs-6 text-gray-800">XXX F</div>
+                                                    <!--end::Label-->
+                                                </div>
+                                                <!--end::Item-->
+                                            </div>
+                                            <!--end::Section-->
+                                        </div>
+                                        <!--end::Container-->
+                                    </div>
+                                    <!--end::Content-->
+                                </div>
+                                <!--end::Wrapper-->
+                            </div>
+                            <!--end::Invoice 2 content-->
+                        </div>
+                        <!--end::Content-->
+                        <!--begin::Sidebar-->
+                        <div class="m-0">
+                            <!--begin::Invoice 2 sidebar-->
+                            <div class="d-print-none border border-dashed border-gray-300 card-rounded h-lg-100 min-w-md-350px p-9 bg-lighten">
+                                <!--begin::Labels-->
+                                <div class="mb-8">
+                                    {% if facture.etat == 'LIVRAISON' %}
+                                    <span class="badge badge-light-success me-2">Lavé</span>
+                                    <span class="badge badge-light-warning">Livré</span>
+                                    <span class="badge badge-light-primary">Payé</span>
+                                    
+                                   {% elseif facture.etat == 'ATTENTE' %}
+                                    <span class="badge badge-light-danger me-2">Lavé</span>
+                                    <a href=""><span class="badge badge-light-success">Attente Livraison</span></a>
+                                    {% elseif facture.etat == 'LAVAGE' %}
+                                    <a href=""><span class="badge badge-light-danger me-2">Lavage</span></a>
+                                    {% endif %}
+                                    
+                                    
+                                </div>
+                                <!--end::Labels-->
+                                
+                                
+                                
+                                
+                            </div>
+                            <!--end::Invoice 2 sidebar-->
+                        </div>
+                        
+                        <!--end::Sidebar-->
+                    </div>
+                    
+                </div>
+                <!--end::Body-->
+            </div>
+            <!--end::Invoice 2 main-->
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+    </body>
+
+    </html>
+    {% endblock %}

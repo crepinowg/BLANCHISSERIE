@@ -1,0 +1,325 @@
+{% extends 'base.html.twig' %}
+
+{% block clientFacture %}
+
+
+<div class="app-main__inner">
+  <div class="app-page-title">
+    <div class="page-title-wrapper">
+      <div class="page-title-heading">
+        <div class="page-title-icon">
+          <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+        </div>
+        <div><span class="text-uppercase font-weight-bold">
+
+          {% for clientNom in clients.utilisateur%}
+          {{clientNom.nom}} - {{clientNom.username}}
+          {% endfor %}
+
+      </span>
+      <div class="page-title-subheading">
+          {% for clientEmail in clients.utilisateur%}
+          {{clientEmail.email}} - {{clientEmail.numero}}
+          {% endfor %}
+          </br>
+
+          Indication: {{clients.zip}}, {{clients.indication}}</br>
+          
+          {% if clients.admin == null%}
+              Ajouté par le Gérant
+              {% for gerantNom in clients.gerant.utilisateur%}
+               {{gerantNom.nom}}
+              {% endfor%}
+          {% elseif clients.admin != null%}
+              Ajouté par l'Admin
+              {% for adminNom in clients.admin.utilisateur%}
+               {{adminNom.nom}}</br>
+               Crée le {{adminNom.createdat | date("d M Y")}} à {{adminNom.createdat | date("h:i")}}
+              {% endfor%}
+          {% endif %}</br>
+          <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE CLIENT</span>
+      </div>
+  </div>
+      </div>
+      <div class="page-title-actions">
+        <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+          class="btn-shadow mr-3 btn btn-dark">
+          <i class="fa fa-star"></i>
+        </button>
+        <div class="d-inline-block dropdown">
+          <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            class="btn-shadow dropdown-toggle btn btn-info">
+            <span class="btn-icon-wrapper pr-2 opacity-7">
+              <i class="fa fa-business-time fa-w-20"></i>
+            </span>
+            Buttons
+          </button>
+          <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link">
+                  <i class="nav-link-icon lnr-inbox"></i>
+                  <span> Inbox</span>
+                  <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <i class="nav-link-icon lnr-book"></i>
+                  <span> Book</span>
+                  <div class="ml-auto badge badge-pill badge-danger">5</div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">
+                  <i class="nav-link-icon lnr-picture"></i>
+                  <span> Picture</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a disabled class="nav-link disabled">
+                  <i class="nav-link-icon lnr-file-empty"></i>
+                  <span> File Disabled</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+    <li class="nav-item">
+      <a role="tab" class="nav-link" href="{{path('app.client.show' , {id: clients.id})}}">
+        <span>Informations du compte</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" class="nav-link active" href="{{path('app.facture.show' , {id: clients.id})}}">
+        <span>Les Factures</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a role="tab" class="nav-link " href="{{path('app.facture_grid.show' , {id: clients.id})}}">
+        <span>Factures Grid</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a role="tab" class="nav-link " href="dashboards-crm-variation.html">
+        <span>Paramètres</span>
+      </a>
+    </li>
+  </ul>
+
+
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="main-card mb-3 card">
+        <img src="./assets/images/logo-inverse.png"
+          style="height: 17%;width: 17%;border-radius: 50% 50%;position: relative;">
+        <div class="card-header" style="height:200px;">
+
+          <div style="margin-left: 75px;margin-top: 45px;text-transform: capitalize;font-size: 17px">
+            Zip: {{ clients.zip
+            }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% for clientInformation in clients.utilisateur%}
+
+            Nom: {{clientInformation.nom}}</br></br>
+            Contact:
+            {{clientInformation.numero}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Adresse: {{clientInformation.adresse}}
+            {% endfor %}
+          </div>
+          <div style="margin-top: -205px;margin-left: 480px;position: absolute;">
+            <h2 style="font-weight: bold;margin-left: -50px;">LEBENE - PRESSING</h2>
+            <p style="margin-left: -45px;">Lavage et Repassage des vêtements</p>
+
+          </div>
+          <div style="margin-top: -205px;margin-left: 480px;position: absolute;text-transform: capitalize;">
+            <p style="margin-left:375px">Téléphone: {{app.user.numero}} </br> Email:{{app.user.email}} </p>
+          </div>
+          <div class="btn-actions-pane-right">
+            <div role="group" class="btn-group-sm btn-group"
+              style="text-transform: capitalize;font-size: 17px;margin-top: 36px">
+              {% set k= 1 %}
+              {% for entete in facture%}
+              {% if k==loop.index%}
+              Date de Récupération: {{entete.daterecuperation}}</br></br>
+              Date de Livraison:{{entete.datelivraison}}
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+            <thead>
+              <tr>
+                <th class="text-center">#</th>
+                <th>Description</th>
+                <th></th>
+                <th class="text-center">Quantité</th>
+                <th class="text-center">Prix Unitaire</th>
+                <th class="text-center">Prix Total</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set k=1 %}
+              {% for entete in facture%}
+              {% if k==loop.index%}
+              {% for entete1 in entete.entete%}
+
+              <tr>
+                <td class="text-center text-muted">{{loop.index}}</td>
+                <td>
+                  <div class="widget-content p-0">
+                    <div class="widget-content-wrapper">
+                      <div class="widget-content-left mr-3">
+                        <div class="widget-content-left">
+                          <img width="40" class="rounded-circle" src="assets/images/avatars/4.jpg" alt="">
+                        </div>
+                      </div>
+                      <div class="widget-content-left flex2">
+                        <div class="widget-heading">
+                          {{entete1.description}} 
+                          {% if entete1.express == 1 and entete1.expressdelivered == 0%}
+                          <div class="badge badge-danger">COLLECTE</div>
+                          {% elseif entete1.express == 1 and entete1.expressdelivered == 1%}
+                          <div class="badge badge-info">LIVRER</div>
+                          {% endif %}
+                        </div>
+                        <div class="widget-subheading opacity-7">{{entete1.prixtotal | number_format}} | {{entete1.datedeliveredexpress }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                {% if entete1.express == 1 %}
+                <td class="text-center">
+                    <div class="badge badge-primary">EXPRESS</div>
+                </td>
+                {% endif %}
+                {% if entete1.express == 0 %}
+                <td class="text-center">
+                    <div class=""></div>
+                </td>
+                {% endif %}
+                <td class="text-center">
+                  <div class="badge badge-info">{{entete1.quantite}}</div>
+                </td>
+                <td class="text-center">
+                  <div class="badge badge-warning">{{entete1.prixunitaire | number_format}}F</div>
+                </td>
+                <td class="text-center" style="width: 150px;">
+                  <div class="badge badge-success">{{entete1.prixtotal | number_format}}F</div>
+                </td>
+                <td class="text-center">
+                  
+                  {% if entete1.express == 1 and entete1.expressdelivered == 0%}
+                  <a href="{{path('app.factureExpressLivre' , {id: entete1.id})}}"><button type="button" id="PopoverCustomT-1" class="btn btn-info btn-sm">Livrer</button></a>
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">Editer</button>
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-danger btn-sm">Delete</button>
+                  {% endif %}
+                  {% if entete1.express == 1  and entete1.expressdelivered == 1%}
+                  
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" disabled>Editer</button>
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-danger btn-sm" disabled>Delete</button>
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-info btn-sm" disabled >Check</button>
+                  {% endif %}
+                  {% if entete1.express == 0 and entete1.expressdelivered == 0%}
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">Editer</button>
+                  <button type="button" id="PopoverCustomT-1" class="btn btn-danger btn-sm">Delete</button>
+                  {% endif %}
+                </td>
+              </tr>
+
+
+
+              {% endfor %}
+              {% set k=loop.index %}
+              {% endif %}
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-block text-center card-footer" style="font-size:19px">
+          {% set k=1 %}
+          {% for entete in facture%}
+          {% if k==loop.index%}
+          <div class="badge badge-danger">Total HTVA: {{entete.totalttc | number_format}}F</div>
+          <div class="badge badge-danger">Taux de réduction: {{entete.tauxreduction}}%</div>
+          <div class="badge badge-danger">Total TTC: {{entete.totaltva | number_format}}F</div>
+
+          {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="d-block text-center card-footer" style="font-size:19px">
+          <p>NB:Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo bolo) est, en imprimerie, une suite de mots
+            sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venan…</p>
+        </div>
+
+        <div class="d-block text-center card-footer">
+          <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
+            <i class="pe-7s-trash btn-icon-wrapper"> </i>
+          </button>
+          {% set k=1 %}
+          {% for livr in livraison %}
+
+          {% if livr.statut=='LAVAGE'%}
+          {% if k==loop.index%}
+          <a href="{{path('app.statut.facture' , {id: livr.id})}}"><button class="btn-wide btn btn-danger">LAVAGE
+              ACHEVER</button></a>
+          {% endif %}
+          {% endif %}
+          {% if livr.statut=='ATTENTE'%}
+          {% if k==loop.index%}
+          <a href="{{path('app.statut2.facture' , {id: livr.id})}}"><button class="btn-wide btn btn-warning">ATTENTE DE
+              LIVRAISON</button></a>
+          {% endif %}
+          {% endif %}
+          {% if livr.statut=='LIVRAISON'%}
+          {% if k==loop.index%}
+          <button class="btn-wide btn btn-success">LIVRER & PAYER</button>
+          {% endif %}
+          {% endif %}
+          {% endfor%}
+          <ul>
+
+            <nav aria-label="...">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                {% for item in 1..((countFacture/1)|round(0, 'ceil')) %}
+                <li class="page-item {{ (page == item) ? 'active' : ''}}">
+                  <a class="page-link" href="?page={{ item }}"> {{ item }}<span class="sr-only">(current)</span></a>
+                </li>
+                {% endfor %}
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+
+  </html>
+  {% endblock %}

@@ -1,0 +1,1237 @@
+{% extends 'base.html.twig' %}
+
+{% block ajoutTarifs %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="fontawesome-free-6.3.0-web/css/all.min.css" />
+<script src="https://kit.fontawesome.com/43dd4c2005.js" crossorigin="anonymous"></script>
+<link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<!--end::Page Vendor Stylesheets-->
+<!--begin::Global Stylesheets Bundle(used by all pages)-->
+<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css')}}" />
+
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph text-success"></i>
+                </div>
+                <div>Form Layouts
+                    <div class="page-title-subheading">Build whatever layout you need with our Architect framework.
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+                    class="btn-shadow mr-3 btn btn-dark">
+                    <i class="fa fa-star"></i>
+                </button>
+                <div class="d-inline-block dropdown">
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        class="btn-shadow dropdown-toggle btn btn-info">
+                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                            <i class="fa fa-business-time fa-w-20"></i>
+                        </span>
+                        Buttons
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span> Inbox</span>
+                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-book"></i>
+                                    <span>Book</span>
+                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-picture"></i>
+                                    <span> Picture</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a disabled class="nav-link disabled">
+                                    <i class="nav-link-icon lnr-file-empty"></i>
+                                    <span> File Disabled</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item">
+            <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                <span>Lavage-Repassage</span>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <h5 class="card-title">Tarifs/Vêtement
+
+
+                <i class="fa-sharp fa-regular fa-business-time"></i>
+                <i class="pe-7s-shirt text-success"></i>
+                <i class="fa-solid fa-shirt"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa-regular fa-shirt"></i>
+                <i class="fa-light fa-shirt"></i>
+                <i class="fa-thin fa-shirt"></i>
+                <i class="fa-duotone fa-shirt"></i>
+            </h5>
+            <div>
+                {{dump(tarifs)}}
+                <form id="my-form">
+
+                    <div class="container">
+                        {% for icon in icons %}
+                        <div class="icon-container col-sm-6 col-md-4 col-lg-3">
+                            <label for="clothes-icon-{{loop.index}}" class="icon-checkbox-label">
+                                {% if tarifs.icons.id == icon.id %}
+                                <input type="checkbox" id="clothes-icon-{{loop.index}}" name="iconsObjet{{loop.index}}"
+                                    class="icon-checkbox"  checked>
+                                {% else %}
+                                <input type="checkbox" id="clothes-icon-{{loop.index}}" name="iconsObjet{{loop.index}}"
+                                    class="icon-checkbox" >
+                                {% endif %}
+    
+                                <a
+                                    class="btn btn-icon icon-hover-primary btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <img src='/assets/iconsTarifs/{{icon.syntaxeicon}}'><br>
+                                    <span class="nom">{{icon.nomicon}}</span>
+                                </a>
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <style>
+                        .container {
+                            display: flex;
+                            flex-wrap: wrap;
+                            justify-content: center;
+                        }
+
+                        .icon-container {
+                            margin: 10px;
+                            width: 95px;
+                            height: 95px;
+                            max-width: 300px;
+                            background-color: #fff;
+                            border-radius: 8px;
+                            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+
+                        .icon-checkbox {
+                            display: none;
+                        }
+
+                        .icon-checkbox-label {
+                            cursor: pointer;
+                            margin-top: 8px;
+                        }
+
+                        .icon-checkbox-label:hover {
+                            opacity: 0.7;
+                        }
+
+                        .icon-checkbox-label:active .icon-container {
+                            background-color: #ebebeb;
+                        }
+
+                        .icon-checkbox:checked+.btn {
+                            background-color: #007bff;
+                            color: #fff;
+                        }
+
+                        .icon-checkbox:checked+.icon-container {
+                            background-color: #007bff;
+                            color: #fff;
+                        }
+
+                        .icon-checkbox:checked+.btn .feather-trousers {
+                            stroke: #fff;
+                        }
+
+                        .icon-checkbox:checked+.btn .fas {
+                            color: #fff;
+                        }
+
+                        .icon-checkbox:checked+.btn .nom {
+                            color: #fff;
+                        }
+
+                        .btn-icon {
+                            width: 100%;
+                            max-width: 300px;
+                            height: 150px;
+                            padding: 0.5rem;
+                            border-radius: 8px;
+                            border: none;
+                            background-color: transparent;
+                            color: #007bff;
+                            transition: all 0.3s ease-in-out;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                        }
+
+                        .btn-icon:hover {
+                            background-color: #ebebeb;
+                            color: #007bff;
+                        }
+
+                        .btn-icon:focus {
+                            outline: none;
+                        }
+
+                        .btn-bg-light {
+                            background-color: #fff;
+                        }
+
+                        .btn-active-color-primary:active {
+                            background-color: #007bff;
+                            color: #fff;
+                        }
+
+                        .nom {
+                            margin-top: 0.5rem;
+                            font-size: 1rem;
+                            text-align: center;
+                        }
+                    </style>
+
+
+                    <div>
+                        <label for="examplePassword22" class="mr-sm-2">Prix</label>
+                        <input name="prix" id="price" placeholder="" type="number" class="form-control" value="{{tarifs.prix}}">
+                    </div>
+
+                    Express&nbsp;<label class="switch">
+                        {% if tarifs.express == 'true'%}
+                        <input type="checkbox" name="express" checked>
+                        {% else%}
+                        <input type="checkbox" name="express">
+                        {% endif %}
+                        <span class="slider"></span>
+                    </label>
+                    
+                    <!-- CSS SWITCH INPUT-->
+
+                    <style>
+                        .switch {
+                            position: relative;
+                            display: inline-block;
+                            width: 40px;
+                            height: 20px;
+                            margin-bottom: 0;
+                            vertical-align: middle;
+                            margin-right: 10px;
+                        }
+
+                        .switch input {
+                            opacity: 0;
+                            width: 0;
+                            height: 0;
+                        }
+
+                        .slider {
+                            position: absolute;
+                            cursor: pointer;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            background-color: #ccc;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                            border-radius: 34px;
+                        }
+
+                        .slider:before {
+                            position: absolute;
+                            content: "";
+                            height: 16px;
+                            width: 16px;
+                            left: 2px;
+                            bottom: 2px;
+                            background-color: #fff;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                            border-radius: 50%;
+                        }
+
+                        input:checked+.slider {
+                            background-color: #5d78ff;
+                        }
+
+                        input:focus+.slider {
+                            box-shadow: 0 0 1px #5d78ff;
+                        }
+
+                        input:checked+.slider:before {
+                            -webkit-transform: translateX(20px);
+                            -ms-transform: translateX(20px);
+                            transform: translateX(20px);
+                        }
+
+                        .slider.round {
+                            border-radius: 34px;
+                        }
+
+                        .slider.round:before {
+                            border-radius: 50%;
+                        }
+                    </style>
+
+                    <!-- END CSS SWITCH INPUT-->
+
+                    <div class="row mb-10">
+                        <!--begin::Label-->
+                        <label class="col-lg-3 col-form-label text-lg-end">Services</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8 pe-10">
+                            <!--begin::Row-->
+                            <div class="row g-9 mb-3" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                <!--begin::Col-->
+                                <div class="col-6">
+                                    <!--begin::Label-->
+                                    <label
+                                        class="btn btn-outline btn-outline-dashed btn-outline-default d-flex flex-column text-start p-6"
+                                        data-kt-button="true">
+                                        <!--begin::Wrapper-->
+                                        <span class="d-flex mb-2">
+                                            <!--begin::Radio button-->
+                                            <span
+                                                class="form-check form-check-custom form-check-solid form-check-sm me-5">
+                                                {% if tarifs.type == 1 %}
+                                                <input class="form-check-input" type="radio" name="type" value="1" checked/>
+                                                {%else%}
+                                                <input class="form-check-input" type="radio" name="type" value="1" />
+                                                {% endif %}
+                                            </span>
+                                            <!--end::Radio button-->
+                                            <!--begin::Title-->
+                                            <span class="fs-4 fw-bolder">&nbsp;&nbsp;&nbsp;&nbsp;Lavage</span>
+                                            <!--end::Title-->
+                                        </span>
+                                        <!--end::Wrapper-->
+                                        <!--begin::Thumbnail-->
+                                        <span style="background-image:url('assets/media/illustrations/sketchy-1/1.png')"
+                                            class="d-block h-200px w-100 bgi-no-repeat bgi-size-contain bgi-position-center"></span>
+                                        <!--begin::Thumbnail-->
+                                    </label>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col-6">
+                                    <!--begin::Label-->
+                                    <label
+                                        class="btn btn-outline btn-outline-dashed btn-outline-default d-flex flex-column text-start p-6"
+                                        data-kt-button="true">
+                                        <!--begin::Wrapper-->
+                                        <span class="d-flex mb-2">
+                                            <!--begin::Radio button-->
+                                            <span
+                                                class="form-check form-check-custom form-check-solid form-check-sm me-5">
+                                                {% if tarifs.type == 3 %}
+                                                <input class="form-check-input" type="radio" name="type" value="3" checked/>
+                                                {%else%}
+                                                <input class="form-check-input" type="radio" name="type" value="3" />
+                                                {% endif %}
+                                            </span>
+                                            <!--end::Radio button-->
+                                            <!--begin::Title-->
+                                            <span class="fs-4 fw-bolder">&nbsp;&nbsp;&nbsp;&nbsp;Lavage -
+                                                Repassage</span>
+                                            <!--end::Title-->
+                                        </span>
+                                        <!--end::Wrapper-->
+                                        <!--begin::Thumbnail-->
+                                        <span style="background-image:url('assets/media/illustrations/sigma-1/1.png')"
+                                            class="d-block h-200px w-100 bgi-no-repeat bgi-size-contain bgi-position-center"></span>
+                                        <!--begin::Thumbnail-->
+                                    </label>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Col-->
+
+                                <!--begin::Col-->
+                                <div class="col-6">
+                                    <!--begin::Label-->
+                                    <label
+                                        class="btn btn-outline btn-outline-dashed btn-outline-default d-flex flex-column text-start p-6"
+                                        data-kt-button="true">
+                                        <!--begin::Wrapper-->
+                                        <span class="d-flex mb-2">
+                                            <!--begin::Radio button-->
+                                            <span
+                                                class="form-check form-check-custom form-check-solid form-check-sm me-5">
+                                                {% if tarifs.type == 2 %}
+                                                <input class="form-check-input" type="radio" name="type" value="2" checked/>
+                                                {%else%}
+                                                <input class="form-check-input" type="radio" name="type" value="2" />
+                                                {% endif %}
+                                            </span>
+                                            <!--end::Radio button-->
+                                            <!--begin::Title-->
+                                            <span class="fs-4 fw-bolder">&nbsp;&nbsp;&nbsp;&nbsp;Repassage</span>
+                                            <!--end::Title-->
+                                        </span>
+                                        <!--end::Wrapper-->
+                                        <!--begin::Thumbnail-->
+                                        <span
+                                            style="background-image:url('assets/media/illustrations/unitedpalms-1/1.png')"
+                                            class="d-block h-200px w-100 bgi-no-repeat bgi-size-contain bgi-position-center"></span>
+                                        <!--begin::Thumbnail-->
+                                    </label>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Row-->
+                            <!--begin::Hint-->
+                            <div class="form-text text-muted">Select one of our in-house designed illustration set and
+                                apply globally for all apps and pages</div>
+                            <!--end::Hint-->
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Row-->
+
+
+
+
+                    <div class="divider"></div>
+
+                    <button class="btn btn-primary" type="submit">Enregistrer</button>
+
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                        <!--begin::Icon-->
+                        <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h5 class="mb-1">Erreur 404<span class="alert-identifiant"></span></h5>
+                            <!--end::Title-->
+                            <!--begin::Content-->
+                            <span class="alert-text">The alert component can be used to highlight certain parts of your page for higher content visibility.</span>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                            <i class="bi bi-x fs-1 text-danger"></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+        <!--end::Alert-->
+                </form>
+
+                <script>
+
+                    const price = document.getElementById('price');
+                    price.addEventListener('input', function(event) {
+                        const value = price.value;
+                        console.log(value);
+                        if (value=="" || value<=0){
+                            price.value="";
+                        }
+                        
+                        else {
+                        event.target.setCustomValidity('');
+                        }
+                    });
+
+                </script>
+
+                <script>
+                    $(document).ready(function() {
+                    $('#my-form').submit(function(e) {
+                        e.preventDefault(); // Empêche la soumission du formulaire par défaut
+                        var formData = $(this).serialize(); // Récupère les données du formulaire
+                        $.ajax({
+                        url: "/tarifs_update-{{tarifs.id}}",
+                        method: 'POST',
+                        data: formData,
+                        success: function(response) {
+                            //$('#result').html(response); // Met à jour la vue avec la réponse renvoyée par le contrôleur
+                        
+                        var champ = document.querySelector('.alert-dismissible');
+                            console.log("RESPONSE: "+response[1]);
+                            if(response!=""){
+                            
+                                var text = document.querySelector('.alert-text');
+                                text.innerText= response;
+                                champ.classList.remove("d-none");
+                            }
+
+                            if (response.success) {
+                                window.location.href = response.redirect_url;
+                            }
+                            
+                            
+                        },
+
+                        error: function(xhr, status, error) {
+                            console.log('Erreur : ' + (xhr.responseText));
+                            //var errors = JSON.parse(xhr.responseText).errors;
+                            // Affichez les messages d'erreur à l'utilisateur
+                        },
+                        
+                        });
+                    });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+    <div class="main-card mb-3 card">
+        <div class="card-body">
+            <h5 class="card-title">Grid</h5>
+            <form class="">
+                <div class="position-relative row form-group">
+                    <label for="exampleEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input name="email" id="exampleEmail" placeholder="with a placeholder" type="email"
+                            class="form-control">
+                    </div>
+                </div>
+                <div class="position-relative row form-group">
+                    <label for="examplePassword" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input name="password" id="examplePassword" placeholder="password placeholder" type="password"
+                            class="form-control">
+                    </div>
+                </div>
+                <div class="position-relative row form-group">
+                    <label for="exampleSelect" class="col-sm-2 col-form-label">Select</label>
+                    <div class="col-sm-10">
+                        <select name="select" id="exampleSelect" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="position-relative row form-group">
+                    <label for="exampleSelectMulti" class="col-sm-2 col-form-label">Select Multiple</label>
+                    <div class="col-sm-10">
+                        <select multiple="" name="selectMulti" id="exampleSelectMulti" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="position-relative row form-group">
+                    <label for="exampleText" class="col-sm-2 col-form-label">Text Area</label>
+                    <div class="col-sm-10">
+                        <textarea name="text" id="exampleText" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="position-relative row form-group">
+                    <label for="exampleFile" class="col-sm-2 col-form-label">File</label>
+                    <div class="col-sm-10">
+                        <input name="file" id="exampleFile" type="file" class="form-control-file">
+                        <small class="form-text text-muted">This is some placeholder block-level help text
+                            for the above input. It's a bit lighter and easily wraps to a new line.
+                        </small>
+                    </div>
+                </div>
+                <fieldset class="position-relative row form-group">
+                    <legend class="col-form-label col-sm-2">Radio Buttons</legend>
+                    <div class="col-sm-10">
+                        <div class="position-relative form-check">
+                            <label class="form-check-label">
+                                <input name="radio2" type="radio" class="form-check-input">
+                                Option one is this and that—be sure to include why it's great
+                            </label>
+                        </div>
+                        <div class="position-relative form-check">
+                            <label class="form-check-label">
+                                <input name="radio2" type="radio" class="form-check-input">
+                                Option two can be something else and selecting it will deselect option one
+                            </label>
+                        </div>
+                        <div class="position-relative form-check disabled">
+                            <label class="form-check-label">
+                                <input name="radio2" disabled="" type="radio" class="form-check-input"> Option three is
+                                disabled
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="position-relative row form-group">
+                    <label for="checkbox2" class="col-sm-2 col-form-label">Checkbox</label>
+                    <div class="col-sm-10">
+                        <div class="position-relative form-check">
+                            <label class="form-check-label">
+                                <input id="checkbox2" type="checkbox" class="form-check-input"> Check me out
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative row form-check">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button class="btn btn-secondary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="app-wrapper-footer">
+    <div class="app-footer">
+        <div class="app-footer__inner">
+            <div class="app-footer-left">
+                <div class="footer-dots">
+                    <div class="dropdown">
+                        <a aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dot-btn-wrapper">
+                            <i class="dot-btn-icon lnr-bullhorn icon-gradient bg-mean-fruit"></i>
+                            <div class="badge badge-dot badge-abs badge-dot-sm badge-danger">Notifications</div>
+                        </a>
+                        <div tabindex="-1" role="menu" aria-hidden="true"
+                            class="dropdown-menu-xl rm-pointers dropdown-menu">
+                            <div class="dropdown-menu-header mb-0">
+                                <div class="dropdown-menu-header-inner bg-deep-blue">
+                                    <div class="menu-header-image opacity-1"
+                                        style="background-image: url('assets/images/dropdown-header/city3.jpg');"></div>
+                                    <div class="menu-header-content text-dark">
+                                        <h5 class="menu-header-title">Notifications</h5>
+                                        <h6 class="menu-header-subtitle">You have <b>21</b> unread messages</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="tabs-animated-shadow tabs-animated nav nav-justified tabs-shadow-bordered p-3">
+                                <li class="nav-item">
+                                    <a role="tab" class="nav-link active" data-toggle="tab"
+                                        href="#tab-messages-header1">
+                                        <span>Messages</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a role="tab" class="nav-link" data-toggle="tab" href="#tab-events-header1">
+                                        <span>Events</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a role="tab" class="nav-link" data-toggle="tab" href="#tab-errors-header1">
+                                        <span>System Errors</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab-messages-header1" role="tabpanel">
+                                    <div class="scroll-area-sm">
+                                        <div class="scrollbar-container">
+                                            <div class="p-3">
+                                                <div class="notifications-box">
+                                                    <div
+                                                        class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--one-column">
+                                                        <div
+                                                            class="vertical-timeline-item dot-danger vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">All Hands Meeting</h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-warning vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <p>Yet another one, at
+                                                                        <span class="text-success">15:00 PM</span>
+                                                                    </p>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-success vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">Build the production
+                                                                        release
+                                                                        <span class="badge badge-danger ml-2">NEW</span>
+                                                                    </h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-primary vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">Something not important
+                                                                        <div
+                                                                            class="avatar-wrapper mt-2 avatar-wrapper-overlap">
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/1.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/2.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/3.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/4.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/5.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/9.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/7.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm">
+                                                                                <div class="avatar-icon">
+                                                                                    <img src="assets/images/avatars/8.jpg"
+                                                                                        alt="">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="avatar-icon-wrapper avatar-icon-sm avatar-icon-add">
+                                                                                <div class="avatar-icon"><i>+</i></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-info vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">This dot has an info
+                                                                        state</h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-danger vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">All Hands Meeting</h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-warning vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <p>Yet another one, at
+                                                                        <span class="text-success">15:00 PM</span>
+                                                                    </p>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-success vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">Build the production
+                                                                        release
+                                                                        <span class="badge badge-danger ml-2">NEW</span>
+                                                                    </h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="vertical-timeline-item dot-dark vertical-timeline-element">
+                                                            <div>
+                                                                <span
+                                                                    class="vertical-timeline-element-icon bounce-in"></span>
+                                                                <div
+                                                                    class="vertical-timeline-element-content bounce-in">
+                                                                    <h4 class="timeline-title">This dot has a dark state
+                                                                    </h4>
+                                                                    <span class="vertical-timeline-element-date"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-events-header1" role="tabpanel">
+                                    <div class="scroll-area-sm">
+                                        <div class="scrollbar-container">
+                                            <div class="p-3">
+                                                <div
+                                                    class="vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-success"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title">All Hands Meeting</h4>
+                                                                <p>Lorem ipsum dolor sic amet, today at
+                                                                    <a href="javascript:void(0);">12:00 PM</a>
+                                                                </p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-warning"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <p>Another meeting today, at
+                                                                    <b class="text-danger">12:00 PM</b>
+                                                                </p>
+                                                                <p>Yet another one, at <span class="text-success">15:00
+                                                                        PM</span></p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-danger"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title">Build the production release
+                                                                </h4>
+                                                                <p>Lorem ipsum dolor sit amit,consectetur eiusmdd tempor
+                                                                    incididunt ut labore et dolore magna elit enim at
+                                                                    minim veniam quis nostrud
+                                                                </p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-primary"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title text-success">Something not
+                                                                    important</h4>
+                                                                <p>Lorem ipsum dolor sit amit,consectetur elit enim at
+                                                                    minim veniam quis nostrud</p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-success"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title">All Hands Meeting</h4>
+                                                                <p>Lorem ipsum dolor sic amet, today at
+                                                                    <a href="javascript:void(0);">12:00 PM</a>
+                                                                </p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-warning"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <p>Another meeting today, at
+                                                                    <b class="text-danger">12:00 PM</b>
+                                                                </p>
+                                                                <p>Yet another one, at <span class="text-success">15:00
+                                                                        PM</span></p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-danger"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title">Build the production release
+                                                                </h4>
+                                                                <p>Lorem ipsum dolor sit amit,consectetur eiusmdd tempor
+                                                                    incididunt ut labore et dolore magna elit enim at
+                                                                    minim veniam quis nostrud
+                                                                </p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                                        <div>
+                                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                                <i
+                                                                    class="badge badge-dot badge-dot-xl badge-primary"></i>
+                                                            </span>
+                                                            <div class="vertical-timeline-element-content bounce-in">
+                                                                <h4 class="timeline-title text-success">Something not
+                                                                    important</h4>
+                                                                <p>Lorem ipsum dolor sit amit,consectetur elit enim at
+                                                                    minim veniam quis nostrud
+                                                                </p>
+                                                                <span class="vertical-timeline-element-date"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab-errors-header1" role="tabpanel">
+                                    <div class="scroll-area-sm">
+                                        <div class="scrollbar-container">
+                                            <div class="no-results pt-3 pb-0">
+                                                <div class="swal2-icon swal2-success swal2-animate-success-icon">
+                                                    <div class="swal2-success-circular-line-left"
+                                                        style="background-color: rgb(255, 255, 255);"></div>
+                                                    <span class="swal2-success-line-tip"></span>
+                                                    <span class="swal2-success-line-long"></span>
+                                                    <div class="swal2-success-ring"></div>
+                                                    <div class="swal2-success-fix"
+                                                        style="background-color: rgb(255, 255, 255);"></div>
+                                                    <div class="swal2-success-circular-line-right"
+                                                        style="background-color: rgb(255, 255, 255);"></div>
+                                                </div>
+                                                <div class="results-subtitle">All caught up!</div>
+                                                <div class="results-title">There are no system errors!</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="nav flex-column">
+                                <li class="nav-item-divider nav-item"></li>
+                                <li class="nav-item-btn text-center nav-item">
+                                    <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-sm">View Latest
+                                        Changes</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dots-separator"></div>
+                    <div class="dropdown">
+                        <a class="dot-btn-wrapper" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                            <i class="dot-btn-icon lnr-earth icon-gradient bg-happy-itmeo"></i>
+                        </a>
+                        <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu">
+                            <div class="dropdown-menu-header">
+                                <div class="dropdown-menu-header-inner pt-4 pb-4 bg-focus">
+                                    <div class="menu-header-image opacity-05"
+                                        style="background-image: url('assets/images/dropdown-header/city2.jpg');"></div>
+                                    <div class="menu-header-content text-center text-white">
+                                        <h6 class="menu-header-subtitle mt-0"> Choose Language</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 tabindex="-1" class="dropdown-header"> Popular Languages</h6>
+                            <button type="button" tabindex="0" class="dropdown-item">
+                                <span class="mr-3 opacity-8 flag large US"></span> USA
+                            </button>
+                            <button type="button" tabindex="0" class="dropdown-item">
+                                <span class="mr-3 opacity-8 flag large CH"></span> Switzerland
+                            </button>
+                            <button type="button" tabindex="0" class="dropdown-item">
+                                <span class="mr-3 opacity-8 flag large FR"></span>France
+                            </button>
+                            <button type="button" tabindex="0" class="dropdown-item">
+                                <span class="mr-3 opacity-8 flag large ES"></span>Spain
+                            </button>
+                            <div tabindex="-1" class="dropdown-divider"></div>
+                            <h6 tabindex="-1" class="dropdown-header">Others</h6>
+                            <button type="button" tabindex="0" class="dropdown-item active">
+                                <span class="mr-3 opacity-8 flag large DE"></span>Germany
+                            </button>
+                            <button type="button" tabindex="0" class="dropdown-item">
+                                <span class="mr-3 opacity-8 flag large IT"></span> Italy
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dots-separator"></div>
+                    <div class="dropdown">
+                        <a class="dot-btn-wrapper dd-chart-btn-2" aria-haspopup="true" data-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="dot-btn-icon lnr-pie-chart icon-gradient bg-love-kiss"></i>
+                            <div class="badge badge-dot badge-abs badge-dot-sm badge-warning">Notifications</div>
+                        </a>
+                        <div tabindex="-1" role="menu" aria-hidden="true"
+                            class="dropdown-menu-xl rm-pointers dropdown-menu">
+                            <div class="dropdown-menu-header">
+                                <div class="dropdown-menu-header-inner bg-premium-dark">
+                                    <div class="menu-header-image"
+                                        style="background-image: url('assets/images/dropdown-header/abstract4.jpg');">
+                                    </div>
+                                    <div class="menu-header-content text-white">
+                                        <h5 class="menu-header-title">Users Online</h5>
+                                        <h6 class="menu-header-subtitle">Recent Account Activity Overview</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-chart">
+                                <div class="widget-chart-content">
+                                    <div class="icon-wrapper rounded-circle">
+                                        <div class="icon-wrapper-bg opacity-9 bg-focus"></div>
+                                        <i class="lnr-users text-white"></i>
+                                    </div>
+                                    <div class="widget-numbers">
+                                        <span>344k</span>
+                                    </div>
+                                    <div class="widget-subheading pt-2"> Profile views since last login</div>
+                                    <div class="widget-description text-danger">
+                                        <span class="pr-1"> <span>176%</span></span>
+                                        <i class="fa fa-arrow-left"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-chart-wrapper">
+                                    <div id="dashboard-sparkline-carousel-4-pop"></div>
+                                </div>
+                            </div>
+                            <ul class="nav flex-column">
+                                <li class="nav-item-divider mt-0 nav-item"></li>
+                                <li class="nav-item-btn text-center nav-item">
+                                    <button class="btn-shine btn-wide btn-pill btn btn-warning btn-sm">
+                                        <i class="fa fa-cog fa-spin mr-2"></i> View Details
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-footer-right">
+                <ul class="header-megamenu nav">
+                    <li class="nav-item">
+                        <a data-placement="top" rel="popover-focus" data-offset="300" data-toggle="popover-custom"
+                            class="nav-link">
+                            Footer Menu
+                            <i class="fa fa-angle-up ml-2 opacity-8"></i>
+                        </a>
+                        <div class="rm-max-width rm-pointers">
+                            <div class="d-none popover-custom-content">
+                                <div class="dropdown-mega-menu dropdown-mega-menu-sm">
+                                    <div class="grid-menu grid-menu-2col">
+                                        <div class="no-gutters row">
+                                            <div class="col-sm-6 col-xl-6">
+                                                <ul class="nav flex-column">
+                                                    <li class="nav-item-header nav-item">Overview</li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link">
+                                                            <i class="nav-link-icon lnr-inbox"></i>
+                                                            <span>Contacts</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link">
+                                                            <i class="nav-link-icon lnr-book"></i>
+                                                            <span>Incidents</span>
+                                                            <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link">
+                                                            <i class="nav-link-icon lnr-picture"></i>
+                                                            <span>Companies</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a disabled="" class="nav-link disabled">
+                                                            <i class="nav-link-icon lnr-file-empty"></i>
+                                                            <span>Dashboards</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-6 col-xl-6">
+                                                <ul class="nav flex-column">
+                                                    <li class="nav-item-header nav-item">Sales &amp; Marketing</li>
+                                                    <li class="nav-item"><a class="nav-link">Queues</a></li>
+                                                    <li class="nav-item"><a class="nav-link">Resource Groups</a></li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link">Goal Metrics
+                                                            <div class="ml-auto badge badge-warning">3</div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item"><a class="nav-link">Campaigns</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-placement="top" rel="popover-focus" data-offset="300" data-toggle="popover-custom"
+                            class="nav-link">
+                            Grid Menu
+                            <div class="badge badge-dark ml-0 ml-1">
+                                <small>NEW</small>
+                            </div>
+                            <i class="fa fa-angle-up ml-2 opacity-8"></i>
+                        </a>
+                        <div class="rm-max-width rm-pointers">
+                            <div class="d-none popover-custom-content">
+                                <div class="dropdown-menu-header">
+                                    <div class="dropdown-menu-header-inner bg-tempting-azure">
+                                        <div class="menu-header-image opacity-1"
+                                            style="background-image: url('assets/images/dropdown-header/city5.jpg');">
+                                        </div>
+                                        <div class="menu-header-content text-dark">
+                                            <h5 class="menu-header-title">Two Column Grid</h5>
+                                            <h6 class="menu-header-subtitle">Easy grid navigation inside popovers</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-menu grid-menu-2col">
+                                    <div class="no-gutters row">
+                                        <div class="col-sm-6">
+                                            <button
+                                                class="btn-icon-vertical btn-transition-text btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-dark">
+                                                <i
+                                                    class="lnr-lighter text-dark opacity-7 btn-icon-wrapper mb-2"></i>Automation
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button
+                                                class="btn-icon-vertical btn-transition-text btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-danger">
+                                                <i
+                                                    class="lnr-construction text-danger opacity-7 btn-icon-wrapper mb-2"></i>Reports
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button
+                                                class="btn-icon-vertical btn-transition-text btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-success">
+                                                <i
+                                                    class="lnr-bus text-success opacity-7 btn-icon-wrapper mb-2"></i>Activity
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button
+                                                class="btn-icon-vertical btn-transition-text btn-transition btn-transition-alt pt-2 pb-2 btn btn-outline-focus">
+                                                <i
+                                                    class="lnr-gift text-focus opacity-7 btn-icon-wrapper mb-2"></i>Settings
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="nav flex-column">
+                                    <li class="nav-item-divider nav-item"></li>
+                                    <li class="nav-item-btn clearfix nav-item">
+                                        <div class="float-left">
+                                            <button class="btn btn-link btn-sm">Link Button</button>
+                                        </div>
+                                        <div class="float-right">
+                                            <button class="btn-shadow btn btn-info btn-sm">Info Button</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

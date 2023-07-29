@@ -1,0 +1,464 @@
+{% extends 'base.html.twig' %}
+
+{% block ajoutClient %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- form method="POST" action="{{path('app.client.register')}}" -->
+
+<form id="my-form">
+<div class="app-main__inner">
+<div class="app-page-title">
+<div class="page-title-wrapper">
+<div class="page-title-heading">
+<div class="page-title-icon">
+<i class="lnr-map text-info"></i>
+</div>
+<div>Nouveau Client
+<div class="page-title-subheading">Ajouter en seulement quelques clics vos clients suivi de leurs coordonnées </div>
+</div>
+</div>
+<div class="page-title-actions">
+<button type="button" data-toggle="tooltip" title="Ajouter ce client a vos favoris" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
+<i class="fa fa-star"></i>
+</button>
+<div class="d-inline-block dropdown">
+<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn-shadow dropdown-toggle btn btn-info">
+<span class="btn-icon-wrapper pr-2 opacity-7">
+<i class="fa fa-business-time fa-w-20"></i>
+</span>
+ Liste des clients
+</button>
+<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+<ul class="nav flex-column">
+<li class="nav-item">
+<a class="nav-link">
+<i class="nav-link-icon lnr-inbox"></i>
+<span> Inbox</span>
+<div class="ml-auto badge badge-pill badge-secondary">86</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link">
+<i class="nav-link-icon lnr-book"></i>
+<span> Book</span>
+<div class="ml-auto badge badge-pill badge-danger">5</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link">
+<i class="nav-link-icon lnr-picture"></i>
+<span> Picture</span>
+</a>
+</li>
+<li class="nav-item">
+<a disabled class="nav-link disabled">
+<i class="nav-link-icon lnr-file-empty"></i>
+<span> File Disabled</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div> </div>
+</div> <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+<li class="nav-item">
+<a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+<span>Inscription client</span>
+</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+<div class="row">
+<div class="col-lg-10 col-md-12" >
+<div class="main-card mb-3 card">
+<div class="card-body">
+<div id="smartwizard">
+<ul class="forms-wizard">
+<li>
+<a href="#step-5">
+<em>#</em><span>Let's go</span>
+</a>
+</li>
+<li>
+<a href="#step-1">
+<em>1</em><span>Informations Personnelles</span>
+</a>
+</li>
+<li>
+<a href="#step-2">
+<em>2</em><span>Adresse Complète</span>
+</a>
+</li>
+<li>
+<a href="#step-4">
+<em>3</em><span>Localisation - Maps</span>
+</a>
+</li>
+<li>
+<a href="#step-3">
+<em>4</em><span>Terminé</span>
+</a>
+</li>
+</ul>
+
+
+
+<div class="form-wizard-content">
+<div id="step-1">
+<div id="accordion" class="accordion-wrapper mb-3">
+<div class="card">
+<div id="headingOne" class="card-header">
+<button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-left m-0 p-0 btn btn-link btn-block">
+<span class="form-heading">Informations Personelles<p>Veuillez remplir le formulaire suivant avec les informatons du clients</p></span>
+</button>
+</div>
+<div data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne" class="collapse show">
+<div class="card-body">
+
+<div class="form-row">
+<div class="col-md-6">
+<div class="position-relative form-group">
+<label for="emailId">Email</label>
+<input name="email" id="emailId" placeholder="" type="email" class="form-control" required>
+<div class="invalid-existant-email text-danger d-none">Désolé! email existant.</div>
+<div class="valid-email text-success d-none">Nice</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="position-relative form-group">
+<label for="examplePassword22">Nom</label>
+<input name="nom" id="examplePassword22" placeholder="" type="text" class="form-control" required>
+</div>
+</div>
+</div>
+
+<div class="position-relative form-group">
+<label for="contactId">Numéro</label>
+<input name="contact" id="contactId" placeholder="" type="number" class="form-control" required>
+<div class="invalid-existant-contact text-danger d-none">Désolé! numéro existant.</div>
+<div class="invalid-contact text-danger d-none">Entrez un numéro valide (ex: +228 9000....)</div>
+<div class="valid-contact text-success d-none">Nice</div>
+</div>
+<div class="form-row">
+<div class="col-md-6">
+<div class="position-relative form-group">
+
+<div class="position-relative form-group">
+<label for="usernameId">Username</label>
+<input name="username" id="usernameId" placeholder="" type="text" class="form-control" required>
+<div class="invalid-existant-username text-danger d-none">Désolé! username existant.</div>
+<div class="valid-username text-success d-none">Nice</div>
+</div>
+<label for="">Sexe</label>
+<div class="position-relative form-group">
+    <label for="">Masculin</label>
+    <input name="sexe" id="" placeholder="" type="radio" class="form-control" value="Masculin" required>
+    <label for="">Féminin</label>
+    <input name="sexe" id="" placeholder="" type="radio" class="form-control" value="Féminin" required>
+</div>
+
+</div>
+</div>
+</div>
+<div class="position-relative form-check">
+<input name="check" id="exampleCheck" type="checkbox" class="form-check-input">
+<label for="exampleCheck" class="form-check-label">Check me out</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="step-2">
+<div id="accordion" class="accordion-wrapper mb-3">
+<div class="card">
+<div id="headingOne" class="card-header">
+<button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-left m-0 p-0 btn btn-link btn-block">
+<span class="form-heading">Adresse Complète<p>Entrez tout les adresses du clients</p></span>
+</button>
+</div>
+<div data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne" class="collapse show">
+<div class="card-body">
+<div class="form-row">
+<div class="col-md-6">
+
+</div>
+<div class="col-md-6">
+
+</div>
+</div>
+<div class="position-relative form-group">
+<label for="exampleAddress">Adresse de Livraison & Récupération</label>
+<input name="adresse" id="exampleAddress" placeholder="" type="text" class="form-control" required>
+</div>
+
+<div class="form-row">
+<div class="col-md-6">
+<div class="position-relative form-group">
+<label for="exampleEmail2">Zip</label>
+<input name="zip" id="exampleEmail2" placeholder="" type="text" class="form-control" required>
+</div>
+</div>
+<div class="col-md-6">
+<div class="position-relative form-group">
+<label for="examplePassword">Indication détaillé</label>
+ <input name="indication" id="examplePassword" placeholder="" type="text" class="form-control" required>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="step-4" style="">
+<div id="accordion" class="accordion-wrapper mb-3">
+<div class="card">
+<div id="headingOne" class="card-header">
+<button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-left m-0 p-0 btn btn-link btn-block">
+<span class="form-heading">Localisation - Maps<p>Uploader la localication du client (GPS)</p></span>
+</button>
+</div>
+<div data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne" class="collapse show">
+<div class="card-body">
+<div class="form-row">
+<div class="col-md-6">
+<div class="position-relative form-group">
+<label for="exampleEmail2">Uploader un maps</label>
+<input name="file" id="exampleEmail2" placeholder="" type="file" class="form-control">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="step-3">
+ <div class="no-results">
+<div class="swal2-icon swal2-success swal2-animate-success-icon">
+<div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+<span class="swal2-success-line-tip"></span>
+<span class="swal2-success-line-long"></span>
+<div class="swal2-success-ring"></div>
+<div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+<div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+</div>
+<div class="results-subtitle mt-4">Finished!</div>
+<div class="results-title">You arrived at the last form wizard step!</div>
+<div class="mt-3 mb-3"></div>
+<div class="text-center">
+<button class="btn-shadow btn-wide btn btn-success btn-lg" type="submit">Finish</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="divider"></div>
+<div class="clearfix">
+<button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>
+<button type="button" id="next-btn" class="btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
+<button type="button" id="prev-btn" class="btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
+
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                        <!--begin::Icon-->
+                        <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
+                        <!--end::Icon-->
+
+                        <!--begin::Wrapper-->
+                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                            <!--begin::Title-->
+                            <h5 class="mb-1">Erreur 404<span class="alert-identifiant"></span></h5>
+                            <!--end::Title-->
+                            <!--begin::Content-->
+                            <span class="alert-text">The alert component can be used to highlight certain parts of your page for higher content visibility.</span>
+                            <!--end::Content-->
+                        </div>
+                        <!--end::Wrapper-->
+
+                        <!--begin::Close-->
+                        <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                            <i class="bi bi-x fs-1 text-danger"></i>
+                        </button>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Alert-->
+
+</div>
+</div>
+</div>
+</div>
+</div></div></div></div></div></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/dataClient',
+                dataType: 'json',
+                success: function Object(response) {
+                    console.log("RESONSE: "+response)
+                    emailId = document.getElementById('emailId');
+                    contactId = document.getElementById('contactId');
+                    usernameId = document.getElementById('usernameId');
+                    buttonSubmit = document.getElementById('finish');
+                   //buttonSubmit.disabled=true;
+                    
+                        let isCheckEmail = false;
+                        let isCheckContact = false;
+                        let isCheckUsername = false;
+                        emailId.addEventListener("input", function () {
+                            let isCheck = false;
+                            for (let key in response) {
+                                if (emailId.value == response[key].email) {
+                                    $(".invalid-existant-email").removeClass("d-none");
+                                    $(".valid-email").addClass("d-none");
+                                    console.log("EXISTE");
+                                    isCheck = true;
+                                    
+                                }
+                                else if (emailId.value != response[key].email && isCheck != true) {
+                                    $(".invalid-existant-email").addClass("d-none");
+                                    $(".valid-email").removeClass("d-none");
+                                    isCheckEmail = true;
+                                
+                                    
+                                }
+                                if (emailId.value == "") {
+                                    $(".invalid-existant-email").addClass("d-none");
+                                    $(".valid-email").addClass("d-none");
+                                    
+                                }
+                            }  
+                        })
+                        contactId.addEventListener("input", function () {
+                            let isCheck = false;
+                            var regexp = /^\228\d{1,8}$/;
+
+                            for (let key in response) {
+                                if (contactId.value == response[key].numero) {
+                                    $(".invalid-existant-contact").removeClass("d-none");
+                                    $(".valid-contact").addClass("d-none");
+                                    console.log("EXISTE");
+                                    isCheck = true;
+                                }
+                                else if (contactId.value != response[key].numero && isCheck != true) {
+                                    $(".invalid-existant-contact").addClass("d-none");
+                                    $(".valid-contact").removeClass("d-none");
+                                    isCheckContact =true;
+                                   
+                                    
+                                }
+                                /*if (regexp.test(contactId.value)) {
+                                    $(".valid-contact").removeClass("d-none");
+                                    $(".invalid-contact").addClass("d-none");
+                                    $(".invalid-existant-contact").addClass("d-none");  
+                                    console.log("FDP");  
+                                }
+                                else if(!regexp.test(contactId.value)){
+                                    $(".valid-contact").addClass("d-none");
+                                    $(".invalid-contact").removeClass("d-none");
+                                    $(".invalid-existant-contact").addClass("d-none"); 
+                                    console.log("FDDP "+(contactId.value));     
+                                }*/
+                            if (contactId.value == "") {
+                                    $(".invalid-existant-contact").addClass("d-none");
+                                    $(".valid-contact").addClass("d-none");
+                                    
+                                }
+                            }  
+                        })
+                        usernameId.addEventListener("input", function () {
+                            let isCheck = false;
+                            for (let key in response) {
+                                if (usernameId.value == response[key].username) {
+                                    $(".invalid-existant-username").removeClass("d-none");
+                                    $(".valid-username").addClass("d-none");
+                                    isCheck = true;
+                                }
+                                else if (usernameId.value != response[key].username && isCheck != true) {
+                                    $(".invalid-existant-username").addClass("d-none");
+                                    $(".valid-username").removeClass("d-none");
+                                    isCheckUsername = true;
+                                    
+                                    
+                                }
+                                if (usernameId.value == "") {
+                                    $(".invalid-existant-username").addClass("d-none");
+                                    $(".valid-username").addClass("d-none");
+                                    
+                                }
+                            }
+                        })
+                  
+                   
+            },
+                error: function (xhr, status, error) {
+                    console.log("OKAY");
+                    console.log('Erreur : ' + xhr.responseText);
+                }
+            });
+
+        });
+
+               
+
+</script>
+
+<script>
+    $(document).ready(function() {
+      $('#my-form').submit(function(e) {
+        e.preventDefault(); // Empêche la soumission du formulaire par défaut
+        var formData = $(this).serialize(); // Récupère les données du formulaire
+        $.ajax({
+          url: "{{path('app.client.register')}}",
+          method: 'POST',
+          data: formData,
+          success: function(response) {
+            //$('#result').html(response); // Met à jour la vue avec la réponse renvoyée par le contrôleur
+           
+           var champ = document.querySelector('.alert-dismissible');
+            console.log("RESPONSE: "+response[1]);
+            if(response!=""){
+               
+                var text = document.querySelector('.alert-text');
+                text.innerText= response;
+                champ.classList.remove("d-none");
+            }
+
+            if (response.success) {
+                window.location.href = response.redirect_url;
+            }
+            
+            
+        },
+
+        error: function(xhr, status, error) {
+            console.log('Erreur : ' + (xhr.responseText));
+            //var errors = JSON.parse(xhr.responseText).errors;
+            // Affichez les messages d'erreur à l'utilisateur
+        },
+          
+        });
+      });
+    });
+  </script>
+
+</form>
+<div class="app-drawer-overlay d-none animated fadeIn"></div>
+</body>
+</html>
+
+{% endblock%}

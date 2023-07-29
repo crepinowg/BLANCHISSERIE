@@ -1,0 +1,23 @@
+{
+  "devDependencies": {
+    "chalk": "^5.2.0",
+    "path-browserify": "^1.0.1",
+    "twig-loader": "^0.5.5",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "name": "lebene---copie",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

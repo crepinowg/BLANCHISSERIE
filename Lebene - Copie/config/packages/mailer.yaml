@@ -1,0 +1,6 @@
+# config/packages/mailer.yaml
+framework:
+    mailer:
+        dsn: 'smtp://smtp.gmail.com?encryption=tls&auth_mode=login&username=totopressing@gmail.com&password=TotoPressing1'
+
+

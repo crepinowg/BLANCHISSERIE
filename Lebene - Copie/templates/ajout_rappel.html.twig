@@ -1,0 +1,337 @@
+{% extends 'base.html.twig' %}
+
+{% block clientFacture %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" type="text/css" />
+<!--end::Page Vendor Stylesheets-->
+<!--begin::Global Stylesheets Bundle(used by all pages)-->
+<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+                </div>
+                <div><span class="text-uppercase font-weight-bold">
+
+                       
+
+                    </span>
+                    <div class="page-title-subheading">
+                        
+                        </br>
+
+                        Indication: {{clients.zip}}, {{clients.indication}}</br>
+
+                       
+                        Ajouté par l'Admin
+                       
+                        <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE
+                            CLIENT</span>
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+                    class="btn-shadow mr-3 btn btn-dark">
+                    <i class="fa fa-star"></i>
+                </button>
+                <div class="d-inline-block dropdown">
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        class="btn-shadow dropdown-toggle btn btn-info">
+                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                            <i class="fa fa-business-time fa-w-20"></i>
+                        </span>
+                        Buttons
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span> Inbox</span>
+                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-book"></i>
+                                    <span> Book</span>
+                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-picture"></i>
+                                    <span> Picture</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a disabled class="nav-link disabled">
+                                    <i class="nav-link-icon lnr-file-empty"></i>
+                                    <span> File Disabled</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--begin::Modal - New Product-->
+    <div    >
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <!--begin::Modal content-->
+            <div class="modal-content">
+                <!--begin::Form-->
+                <form id="my-form" >
+                    <!--begin::Modal header-->
+                    <div class="modal-header">
+                        <!--begin::Modal title-->
+                        <h2 class="fw-bolder" data-kt-calendar="title">Ajouter un rappel</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-icon-primary" id="kt_modal_add_event_close">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+                                    <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+                                </svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <!--end::Modal header-->
+                    <!--begin::Modal body-->
+                    <div class="modal-body py-10 px-lg-17">
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-9">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold required mb-2">Nom du rappel</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" class="form-control form-control-solid" placeholder="" name="nom" />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-9">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-bold mb-2"> Description</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <textarea type="text" class="form-control form-control-solid" placeholder="" name="description" ></textarea>
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-9">
+                            <!--begin::Checkbox-->
+                            <label class="form-check form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" name="allDay" value="" id="kt_calendar_datepicker_allday" />
+                                <span class="form-check-label fw-bold" for="kt_calendar_datepicker_allday">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toutes la journée</span>
+                            </label>
+                            <!--end::Checkbox-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="row row-cols-lg-2 g-10">
+                            <div class="col">
+                                <div class="fv-row mb-9">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-bold mb-2 required">Date Début</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input class="form-control form-control-solid" name="dateRappel" placeholder="Pick a start date" type="date" />
+                                    <!--end::Input-->
+                                </div>
+                            </div>
+                            <div class="col" data-kt-calendar="datepicker">
+                                <div class="fv-row mb-9">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-bold mb-2">Heure Début</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input class="form-control form-control-solid" name="heureDebut" type="time" placeholder="Pick a start time" id="kt_calendar_datepicker_start_time" />
+                                    <!--end::Input-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row row-cols-lg-2 g-10">
+                            <div class="col">
+                                <div class="fv-row mb-9">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-bold mb-2 required">Date Fin</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input class="form-control form-control-solid" name="dateFin" placeholder="Pick a start date" type="date" />
+                                    <!--end::Input-->
+                                </div>
+                            </div>
+                            <div class="col" data-kt-calendar="datepicker">
+                                <div class="fv-row mb-9">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-bold mb-2">Heure Fin</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input class="form-control form-control-solid" name="heureFin" type="time" placeholder="Pick a start time" id="kt_calendar_datepicker_start_time" />
+                                    <!--end::Input-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        
+                        <!--end::Input group-->
+                    </div>
+                    <!--end::Modal body-->
+                    <!--begin::Modal footer-->
+                    <div class="modal-footer flex-center">
+                        <!--begin::Button-->
+                        <!--end::Button-->
+                        <!--begin::Button-->
+                        <button type="submit"class="btn btn-primary">
+                            <span class="indicator-label">Submit</span>
+                            
+                            
+                        </button>
+                        <!--end::Button-->
+                    </div>
+                    <!--end::Modal footer-->
+                </form>
+
+
+                 <!--begin::Alert-->
+                 <div
+                 class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                 <!--begin::Icon-->
+                 <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
+                 <!--end::Icon-->
+             
+                 <!--begin::Wrapper-->
+                 <div class="d-flex flex-column pe-0 pe-sm-10">
+                     <!--begin::Title-->
+                     <h5 class="mb-1">Erreur sur la Désignation <span class="alert-identifiant"></span></h5>
+                     <!--end::Title-->
+                     <!--begin::Content-->
+                     <span class="alert-text">The alert component can be used to highlight certain parts of your page for higher
+                         content visibility.</span>
+                     <!--end::Content-->
+                 </div>
+                 <!--end::Wrapper-->
+             
+                 <!--begin::Close-->
+                 <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                     data-bs-dismiss="alert">
+                     <i class="bi bi-x fs-1 text-danger"></i>
+                 </button>
+                 <!--end::Close-->
+             </div>
+             <!--end::Alert-->
+             
+             <!--begin::Alert ENTETE-->
+             <div
+                 class="alert alert-dismissible  bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                 <!--begin::Icon-->
+                 <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
+                 <!--end::Icon-->
+             
+                 <!--begin::Wrapper-->
+                 <div class="d-flex flex-column pe-0 pe-sm-10">
+                     <!--begin::Title-->
+                     <h5 class="mb-1">Erreur au niveau des Détails de la facture</span></h5>
+                     <!--end::Title-->
+                     <!--begin::Content-->
+                     <span class="alert-entete-text">The alert component can be used to highlight certain parts of your page for
+                         higher content visibility.</span>
+                     <!--end::Content-->
+                 </div>
+                 <!--end::Wrapper-->
+             
+                 <!--begin::Close-->
+                 <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                     data-bs-dismiss="alert">
+                     <i class="bi bi-x fs-1 text-danger"></i>
+                 </button>
+                 <!--end::Close-->
+             </div>
+             <!--end::Alert-->
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+
+                       
+
+
+    <script>
+        $(document).ready(function() {
+          $('#my-form').submit(function(e) {
+            e.preventDefault(); // Empêche la soumission du formulaire par défaut
+            var formData = $(this).serialize(); // Récupère les données du formulaire
+            $.ajax({
+              url: "{{path('app.rappel')}}",
+              method: 'POST',
+              data: formData,
+              success: function(response) {
+                //$('#result').html(response); // Met à jour la vue avec la réponse renvoyée par le contrôleur
+               
+                var champ = document.querySelector('.alert-dismissible');
+                console.log("RESPONSE: "+response);
+                
+                   
+                    var text = document.querySelector('.alert-text');
+                    var identifiant = document.querySelector('.alert-identifiant');
+                    text.innerText= response;
+                    
+                    champ.classList.remove("d-none");
+                
+
+                if (response.success) {
+                    window.location.href = response.redirect_url;
+                }
+                
+            },
+
+            error: function(xhr, status, error) {
+                console.log('Erreur : ' + (xhr.responseText));
+                //var errors = JSON.parse(xhr.responseText).errors;
+                // Affichez les messages d'erreur à l'utilisateur
+            },
+              
+            });
+          });
+        });
+      </script>
+
+
+
+    </body>
+     </body>
+    <!--begin::Global Javascript Bundle(used by all pages)-->
+		<script src="../assets/plugins/global/plugins.bundle.js"></script>
+		<script src="../assets/js/scripts.bundle.js"></script>
+		<!--end::Global Javascript Bundle-->
+		<!--begin::Page Vendors Javascript(used by this page)-->
+		<script src="../assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+		<script src="../assets/plugins/custom/datatables/datatables.bundle.js"></script>
+		<!--end::Page Vendors Javascript-->
+		<!--begin::Page Custom Javascript(used by this page)-->
+		<script src="../assets/js/custom/apps/calendar/calendar.js"></script>
+		
+		<!--end::Page Custom Javascript-->
+
+    </html>
+
+    </html>
+    {% endblock %}

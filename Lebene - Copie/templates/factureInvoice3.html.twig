@@ -1,0 +1,408 @@
+{% extends 'base.html.twig' %}
+
+{% block clientFacture %}
+
+<link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<!--end::Page Vendor Stylesheets-->
+<!--begin::Global Stylesheets Bundle(used by all pages)-->
+<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css')}}" />
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+                </div>
+                <div><span class="text-uppercase font-weight-bold">
+
+                        {% for clientNom in clients.utilisateur%}
+                        {{clientNom.nom}} - {{clientNom.username}}
+                        {% endfor %}
+
+                    </span>
+                    <div class="page-title-subheading">
+                        {% for clientEmail in clients.utilisateur%}
+                        {{clientEmail.email}} - {{clientEmail.numero}}
+                        {% endfor %}
+                        </br>
+
+                        Indication: {{clients.zip}}, {{clients.indication}}</br>
+
+                        {% if clients.admin == null%}
+                        Ajouté par le Gérant
+                        {% for gerantNom in clients.gerant.utilisateur%}
+                        {{gerantNom.nom}}
+                        {% endfor%}
+                        {% elseif clients.admin != null%}
+                        Ajouté par l'Admin
+                        {% for adminNom in clients.admin.utilisateur%}
+                        {{adminNom.nom}}</br>
+                        Crée le {{adminNom.createdat | date("d M Y")}} à {{adminNom.createdat | date("h:i")}}
+                        {% endfor%}
+                        {% endif %}</br>
+                        <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE
+                            CLIENT</span>
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+                    class="btn-shadow mr-3 btn btn-dark">
+                    <i class="fa fa-star"></i>
+                </button>
+                <div class="d-inline-block dropdown">
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        class="btn-shadow dropdown-toggle btn btn-info">
+                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                            <i class="fa fa-business-time fa-w-20"></i>
+                        </span>
+                        Buttons
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span> Inbox</span>
+                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-book"></i>
+                                    <span> Book</span>
+                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-picture"></i>
+                                    <span> Picture</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a disabled class="nav-link disabled">
+                                    <i class="nav-link-icon lnr-file-empty"></i>
+                                    <span> File Disabled</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+       
+    </ul>
+    <!--begin::Container-->
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!-- begin::Invoice 3-->
+            <div class="card">
+                <!-- begin::Body-->
+                <div class="card-body py-20">
+                    <!-- begin::Wrapper-->
+                    <div class="mw-lg-950px mx-auto w-100">
+                        <!-- begin::Header-->
+                        <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
+                            {% set k=1 %}
+                            {% for factureId in facture %}
+                            {% if k==loop.index%}
+                                <h4 class="fw-boldest text-gray-800 fs-2qx pe-5 pb-7">FACTURE - #{{factureId.factureidnumber}}</h4>
+                            {% endif %}
+                            {% endfor %}
+                            <!--end::Logo-->
+                            <div class="text-sm-end">
+                                <!--begin::Logo-->
+                                <a href="#" class="d-block mw-150px ms-sm-auto">
+                                    <img alt="Logo" src="../../../assets/media/svg/brand-logos/lloyds-of-london-logo.svg" class="w-100" />
+                                </a>
+                                <!--end::Logo-->
+                                <!--begin::Text-->
+                                <div class="text-sm-end fw-bold fs-4 text-muted mt-7">
+                                    <div>Cecilia Chapman, 04 BP 405, Lomé-Togo</div>
+                                    <div>{{entreprise.numerotelentre}}, {{entreprise.emailentre}}</div>
+                                </div>
+                                <!--end::Text-->
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="pb-12">
+                            <!--begin::Wrapper-->
+                            <div class="d-flex flex-column gap-7 gap-md-10">
+                                <!--begin::Message-->
+                                <div id="toPrint">
+                                {% for clientInformation in client.utilisateur%}
+                                <div class="fw-bolder fs-2">
+                                    
+                                      <span class="text text-capitalize">{{clientInformation.username}} {{clientInformation.nom}}</span> 
+                                    
+                                <span class="fs-6">({{clientInformation.email}})</span>,
+                                <br />
+                                <span class="text-muted fs-5">Nos produit ne sont pas repris après service. Merci pour votre compréhension.</span></div>
+                                <!--begin::Message-->
+                                <!--begin::Separator-->
+                                <div class="separator"></div>
+                                <!--begin::Separator-->
+                                <!--begin::Order details-->
+                                <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bolder">
+                                    {% set k=1 %}
+                                    {% for factureId in facture %}
+                                    {% if k==loop.index%}
+                                    
+                                    <div class="flex-root d-flex flex-column">
+                                        <span class="text-muted">Order ID</span>
+                                        <span class="fs-5">#{{factureId.factureidnumber}}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <div class="flex-root d-flex flex-column">
+                                        <span class="text-muted">Date</span>
+                                        <span class="fs-5">{{entete.daterecuperation | date('d M, Y')}}</span>
+                                    </div>
+                                    {% set k=1 %}
+                                    {% for factureId in facture %}
+                                    {% if k==loop.index%}
+                                    <div class="flex-root d-flex flex-column">
+                                        <span class="text-muted">Invoice ID</span>
+                                        <a href="{{path('app.facture.showInvoice' , {id: factureId.id})}}"><span class="fs-5">#INV-00{{factureId.invoicecode}}</span></a>
+                                    </div>
+                                    <div class="flex-root d-flex flex-column">
+                                        <span class="text-muted">Old Order ID</span>
+                                        <span class="fs-5">#{{factureId.numfacture}}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <!--end::Order details-->
+                                <!--begin::Billing & shipping-->
+                                <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bolder">
+                                    <div class="flex-root d-flex flex-column">
+                                        <span class="text-muted">Adresse de Livraison</span>
+                                        <span class="fs-6">{{client.indication}},
+                                        <br />{{client.zip}},
+                                        <br />{{clientInformation.adresse}},
+                                        <br />TOGO.</span>
+                                    </div>
+                                    <div class="flex-root d-flex flex-column">
+                                        <span class="text-muted">Adresse de Collecte</span>
+                                        <span class="fs-6">{{client.indication}},
+                                        <br />{{client.zip}},
+                                        <br />{{clientInformation.adresse}},
+                                        <br />TOGO.</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!--end::Billing & shipping-->
+                                <!--begin:Order summary-->
+                                <div class="d-flex justify-content-between flex-column">
+                                    <!--begin::Table-->
+                                    <div class="table-responsive border-bottom mb-9">
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                                            <thead>
+                                                <tr class="border-bottom fs-6 fw-bolder text-muted">
+                                                    <th class="min-w-175px pb-2">Désign.</th>
+                                                    <th class="min-w-70px text-end pb-2">P.U</th>
+                                                    <th class="min-w-80px text-end pb-2">QTY</th>
+                                                    <th class="min-w-100px text-end pb-2">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="fw-bold text-gray-600">
+                                                {% set k=1 %}
+                                                {% for entete in facture%}
+                                                
+                                                {% if k==loop.index%}
+                                                {% for entete1 in entete.entete%}
+                                                {% if entete1.statut == 0 %}
+                                                <!--begin::Products-->
+                                                <tr>
+                                                    <!--begin::Product-->
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <!--begin::Thumbnail-->
+                                                            <a href="../../ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
+                                                                <span class="symbol-label" style="background-image:url(../../../assets/media/stock/ecommerce/1.gif);"></span>
+                                                            </a>
+                                                            <!--end::Thumbnail-->
+                                                            <!--begin::Title-->
+                                                            <div class="ms-5 text-capitalize">
+                                                                {{entete1.tarifs.icons.nomicon}}
+                                                                    {% if entete1.express == 1 and entete1.expressdelivered == 0%}
+                                                                    <a href="{{path('app.facture.express_livrer' , {id: entete1.id})}}"><div class="badge badge-danger">COLLECTE</div></div>
+                                                                    {% elseif entete1.express == 1 and entete1.expressdelivered == 1%}
+                                                                    <div class="badge badge-info">LIVRER</div>
+                                                                    {% endif %}
+                                                                    {% if entete1.express == 1 %}
+                                                                        <div class="badge badge-primary">EXPRESS</div>
+                                                                    {% endif %}
+                                                                    {% if entete1.express == 0 %}
+                                                                        <div class=""></div>
+                                                                    {% endif %}
+                                                                <div class="fs-7 text-muted">Delivery Date: {{entete.datelivraison | date('d/m/y')}}</div>
+                                                            </div>
+                                                            <!--end::Title-->
+                                                        </div>
+                                                    </td>
+                                                    
+                                                    
+                                                    <!--end::Product-->
+                                                    <!--begin::SKU-->
+                                                    <td class="text-end">{{entete1.tarifs.prix | number_format}}F</td>
+                                                    <!--end::SKU-->
+                                                    <!--begin::Quantity-->
+                                                    <td class="text-end">{{entete1.quantite | number_format}}</td>
+                                                    <!--end::Quantity-->
+                                                    <!--begin::Total-->
+                                                    <td class="text-end">{{entete1.prixtotal | number_format}}F</td>
+                                                    
+                                                    <!--end::Total-->
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% set k=loop.index %}
+                                                {% endif %}
+                                                
+                                                {% endfor %}
+                                                <!--begin::Subtotal-->
+                                                {% set k=1 %}
+                                                {% for entete in facture%}
+                                                {% if k==loop.index%}
+                                               
+                                                
+                                                
+                                                
+                                                <tr>
+                                                    <td colspan="3" class="text-end">Subtotal</td>
+                                                    <td class="text-end">{{entete.totalttc}}F</td>
+                                                </tr>
+                                                <!--end::Subtotal-->
+                                                <!--begin::VAT-->
+                                                <tr>
+                                                    <td colspan="3" class="text-end">VAT ({{entete.tauxreduction}})%</td>
+                                                    <td class="text-end">{{entete.totaltva}}F</td>
+                                                </tr>
+                                                <!--end::VAT-->
+                                                <!--begin::Shipping-->
+                                               <!--<tr>
+                                                    <td colspan="3" class="text-end">Shipping Rate</td>
+                                                    <td class="text-end">5.00F</td>
+                                                </tr>-->
+                                                <!--end::Shipping-->
+                                                <!--begin::Grand total-->
+                                                <tr>
+                                                    <td colspan="3" class="fs-3 text-dark fw-bolder text-end">Grand Total</td>
+                                                    <td class="text-dark fs-3 fw-boldest text-end">{{entete.totaltva}} F</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                                <!--end::Grand total-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--end::Table-->
+                                </div>
+                                </div>
+                                <!--end:Order summary-->
+                                <ul>
+
+                                    <nav aria-label="...">
+                                      <ul class="pagination">
+                                        <li class="page-item">
+                                          <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                          </a>
+                                        </li>
+                                        {% for item in 1..((countFacture/1)|round(0, 'ceil')) %}
+                                        <li class="page-item {{ (page == item) ? 'active' : ''}}">
+                                          <a class="page-link" href="?page={{ item }}"> {{ item }}<span class="sr-only">(current)</span></a>
+                                        </li>
+                                        {% endfor %}
+                                        <li class="page-item">
+                                          <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </nav>
+                                  </ul>
+                            </div>
+                            <!--end::Wrapper-->
+                        </div>
+                        <!--end::Body-->
+                        <!-- begin::Footer-->
+                        <div class="d-flex flex-stack flex-wrap mt-lg-20 pt-13">
+                            <!-- begin::Actions-->
+                            <div class="my-1 me-5">
+                                <!-- begin::Pint-->
+                                <button type="button" class="btn btn-success my-1 me-12" onclick="window.print();">Imprimer</button>
+                                <!-- end::Pint-->
+                                <!-- begin::Download-->
+                                <button type="button" class="btn btn-light-success my-1">Télécharger</button>
+                                <!-- Icône "edit" -->
+                                <i class="fas fa-edit btn-primary"></i>
+
+                                <!-- Icône "delete" -->
+                                <i class="fas fa-trash btn-danger"></i>
+
+                                <!-- end::Download-->
+                            </div>
+
+                            {% set k=1 %}
+                            {% for livr in facture %}
+
+                            {% if livr.etat=='LAVAGE'%}
+                            {% if k==loop.index%}
+                            <a href="{{path('app.statut.facture' , {id: livr.id})}}" class="btn btn-danger my-1">LAVAGE</a>
+                            
+                            {% endif %}
+                            {% endif %}
+                            {% if livr.etat=='ATTENTE'%}
+                            {% if k==loop.index%}
+                            <a href="{{path('app.statut2.facture' , {id: livr.id})}}" class="btn btn-warning my-1">LIVRAISON</a>
+                            
+                            {% endif %}
+                            {% endif %}
+                            {% if livr.etat=='LIVRAISON'%}
+                            {% if k==loop.index%}
+                            <a href="" class="btn btn-primary my-1">LIVRER & PAYER</a>
+                            {% endif %}
+                            {% endif %}
+                            {% endfor%}
+                            <!-- end::Actions-->
+                            <!-- begin::Action-->
+                            
+                            <!-- end::Action-->
+                        </div>
+                        <!-- end::Footer-->
+                    </div>
+                    <!-- end::Wrapper-->
+                </div>
+                <!-- end::Body-->
+            </div>
+            <!-- end::Invoice 1-->
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+    <script>
+        function printElement(elementId) {
+            var elementToPrint = document.getElementById(elementId);
+            var temporaryContainer = document.createElement("div");
+            temporaryContainer.appendChild(elementToPrint.cloneNode(true));
+            
+            window.print(document.body.appendChild(temporaryContainer));
+            document.body.removeChild(temporaryContainer);
+        }
+
+    </script>
+    </body>
+
+    </html>
+    {% endblock %}

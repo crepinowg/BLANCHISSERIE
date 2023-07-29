@@ -1,0 +1,44 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+   twilio_sid: 'AC19b639e2534329d5c7b33868d057dfe0'
+   twilio_token: '2846b4472d4321b0ec06b17269913a2c'
+   twilio_number: '+22896761412'
+
+
+services:
+     # ...
+    twilio.client:
+       class: Twilio\Rest\Clients
+       arguments: ['%twilio_sid%', '%twilio_token%']
+  
+   # Ajoute un alias pour le service twilio.client
+    Twilio\Rest\Clients: '@twilio.client'
+            
+            
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
+    App\Service\NotifService: ~ 
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    twig:
+        class: Twig\Environment
+        arguments: ['@twig.loader', {debug: '%kernel.debug%', cache: '%kernel.cache_dir%/twig'}]

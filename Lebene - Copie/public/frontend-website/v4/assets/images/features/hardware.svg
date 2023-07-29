@@ -1,0 +1,22 @@
+<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="42" height="42">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.737305H41.6948V41.7006H0V0.737305Z" fill="white"/>
+</mask>
+<g mask="url(#mask0)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M35.5687 41.7008H6.12675C2.74275 41.7008 0 39.0062 0 35.6816V6.75608C0 3.43145 2.74275 0.736816 6.12675 0.736816H35.5687C38.952 0.736816 41.6948 3.43145 41.6948 6.75608V35.6816C41.6948 39.0062 38.952 41.7008 35.5687 41.7008Z" fill="#F4F9FF"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M29.2398 22.9108V27.3171C29.2398 28.4039 28.3443 29.2837 27.2381 29.2837H14.4566C13.3511 29.2837 12.4548 28.4039 12.4548 27.3171V14.7598C12.4548 13.6745 13.3511 12.7939 14.4566 12.7939H27.2381C28.3443 12.7939 29.2398 13.6745 29.2398 14.7598V22.9108Z" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M22.0752 16.6152H24.2765C24.8697 16.6152 25.3497 17.0883 25.3497 17.6704V22.0428V24.4073C25.3497 24.9902 24.8697 25.4625 24.2765 25.4625H17.4185C16.826 25.4625 16.3445 24.9902 16.3445 24.4073V17.6704C16.3445 17.0883 16.826 16.6152 17.4185 16.6152H19.6325" stroke="#152ABE" stroke-width="1.5"/>
+<path d="M15.0193 12.7935V8.43506" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M20.8479 12.7935V8.43506" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M26.6758 12.7935V8.43506" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M15.0193 33.6426V29.2842" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M20.8479 33.6426V29.2842" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M26.6758 33.6426V29.2842" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M10.2373 26.7649H8.0188" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M12.455 21.0388H8.0188" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M12.455 15.3128H8.0188" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M33.6762 26.7649H29.24" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M33.6762 21.0388H31.4585" stroke="#00ADFB" stroke-width="1.5"/>
+<path d="M33.6762 15.3128H29.24" stroke="#00ADFB" stroke-width="1.5"/>
+</svg>

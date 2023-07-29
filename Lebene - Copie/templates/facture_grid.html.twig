@@ -1,0 +1,546 @@
+{% extends 'base.html.twig' %}
+
+{% block clientFacture %}
+
+
+<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+<!--begin::Fonts-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+<!--end::Fonts-->
+<!--begin::Page Vendor Stylesheets(used by this page)-->
+<link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<!--end::Page Vendor Stylesheets-->
+<!--begin::Global Stylesheets Bundle(used by all pages)-->
+<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css')}}" />
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+                </div>
+                <div><span class="text-uppercase font-weight-bold">
+
+                    {% for clientNom in clients.utilisateur%}
+                    {{clientNom.nom}} - {{clientNom.username}}
+                    {% endfor %}
+
+                </span>
+                <div class="page-title-subheading">
+                    {% for clientEmail in clients.utilisateur%}
+                    {{clientEmail.email}} - {{clientEmail.numero}}
+                    {% endfor %}
+                    </br>
+
+                    Indication: {{clients.zip}}, {{clients.indication}}</br>
+                    
+                    {% if clients.admin == null%}
+                        Ajouté par le Gérant
+                        {% for gerantNom in clients.gerant.utilisateur%}
+                         {{gerantNom.nom}}
+                        {% endfor%}
+                    {% elseif clients.admin != null%}
+                        Ajouté par l'Admin
+                        {% for adminNom in clients.admin.utilisateur%}
+                         {{adminNom.nom}}</br>
+                         Crée le {{adminNom.createdat | date("d M Y")}} à {{adminNom.createdat | date("h:i")}}
+                        {% endfor%}
+                    {% endif %}</br>
+                    <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE CLIENT</span>
+                </div>
+            </div>
+            </div>
+            <div class="page-title-actions">
+                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
+                    class="btn-shadow mr-3 btn btn-dark">
+                    <i class="fa fa-star"></i>
+                </button>
+                <div class="d-inline-block dropdown">
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        class="btn-shadow dropdown-toggle btn btn-info">
+                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                            <i class="fa fa-business-time fa-w-20"></i>
+                        </span>
+                        Buttons
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-inbox"></i>
+                                    <span> Inbox</span>
+                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-book"></i>
+                                    <span> Book</span>
+                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <i class="nav-link-icon lnr-picture"></i>
+                                    <span> Picture</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a disabled class="nav-link disabled">
+                                    <i class="nav-link-icon lnr-file-empty"></i>
+                                    <span> File Disabled</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item">
+            <a role="tab" class="nav-link" href="{{path('app.client.show' , {id: clients.id})}}">
+                <span>Informations du compte</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a role="tab" class="nav-link " href="{{path('app.facture.show' , {id: clients.id})}}">
+                <span>Les Factures</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a role="tab" class="nav-link active" href="{{path('app.facture_grid.show' , {id: clients.id})}}">
+                <span>Factures Grid</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a role="tab" class="nav-link " href="dashboards-crm-variation.html">
+                <span>Paramètres</span>
+            </a>
+        </li>
+    </ul>
+    {% for factures in facture %}
+    <!--begin::Col-->
+    {% if factures.livraison.statut=='LAVAGE' %}
+    <div class="row g-6 g-xl-15" style="display:flexbox">
+        <div class="col-md-6 col-xxl-4">
+            <!--begin::Card-->
+            <div class="card">
+                <!--begin::Card body-->
+                <div class="card-body d-flex flex-center flex-column p-9">
+                    <!--begin::Wrapper-->
+                    <div class="mb-5">
+                        <!--begin::Avatar-->
+                        <div class="symbol symbol-75px symbol-circle">
+                            <span
+                                class="symbol-label bg-light-danger text-danger fs-5 fw-bolder">#00{{factures.factureidnumber}}</span>
+                            <div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3">
+                            </div>
+                        </div>
+                        <!--end::Avatar-->
+                        <!--begin::Avatar-->
+                        <div class="symbol symbol-75px symbol-circle">
+                            <span
+                                class="symbol-label bg-light-danger text-danger fs-5 fw-bolder">#00{{factures.numfacture}}</span>
+                            <div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3">
+                            </div>
+                        </div>
+                        <!--end::Avatar-->
+                    </div>
+                    <!--end::Wrapper-->
+
+                    <!--begin::Name-->
+                    {% for facturesInfo in factures.admin.utilisateur %}
+                    <a href="#"
+                        class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{facturesInfo.username}}</a>
+                    <!--end::Name-->
+                    <!--begin::Position-->
+                    {% if factures.admin == "null"%}
+                    <div class="fw-bold text-gray-400 mb-6">Crée par GERANT</div>
+                    {% elseif factures.admin != "null"%}
+                    <div class="fw-bold text-gray-400 mb-6">Crée par ADMIN</div>
+                    {% endif %}
+                    <!--end::Position-->
+                    {% endfor %}
+                    <!--begin::Info-->
+                    <div class="d-flex flex-center flex-wrap mb-5">
+                        <!--begin::Stats-->
+                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totalttc | number_format}}F</div>
+                            <div class="fw-bold text-gray-400">Total TTC</div>
+                        </div>
+                        <!--end::Stats-->
+                        <!--begin::Stats-->
+                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">
+                            {% if factures.livraison.express == 1%}
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totaltva | number_format}}F |
+                                {{factures.tauxreduction}}% | {{countEntete2}}/{{countEntete}}</div>
+                            <div class="fw-bold text-gray-400">TVA & Réduction</div>
+                            {% elseif factures.livraison.express == 0%}
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totaltva | number_format}}F |
+                                {{factures.tauxreduction}}%</div>
+                            <div class="fw-bold text-gray-400">TVA & Réduction</div>
+                            {% endif %}
+                        </div>
+                        <div
+                            class="border border-gray-300 border-dashed rounded bg-light-danger min-w-125px py-3 px-4 mx-3 mb-3">
+                            <div class="fs-6 fw-bolder text-700 text-danger text-center">LAVAGE</div>
+
+                        </div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Info-->
+                    <!--begin::Link-->
+                    <a href="{{path('app.facture.showInvoice' , {id: factures.client.id})}}"><button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true"
+                        data-kt-drawer-target="#kt_drawer_chat">Voir Invoice</button></a>
+                    <a href="{{path('app.statut.facture' , {id: factures.id})}}"><button
+                            class="btn btn-sm btn-danger fw-bolder" data-kt-drawer-show="true"
+                            data-kt-drawer-target="#kt_drawer_chat"> ACHEVER</button></a>
+                    <!--end::Link-->
+                         <!--begin::Footer-->
+                         <div class="card-footer d-flex flex-center py-5" >
+                            {% if factures.livraison.express == 1%}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0 me-7 me-lg-12">
+                                <!--begin::Bullet-->
+                                <!--end::Bullet-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <span class="form-check-label fw-bold text-white">Expre</span>
+                                        <input class="form-check-input" type="checkbox" value="1" checked="checked" disabled />
+                                        <span class="form-check-label fw-bold text-gray">Expess</span>
+                                    </label>
+                            </div>
+                            <!--ed::Item-->
+                            {% elseif factures.livraison.express == 0%}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0 me-7 me-lg-12">
+                                <!--begin::Bullet-->
+                                <!--end::Bullet-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <span class="form-check-label fw-bold text-white">Expre</span>
+                                        <input class="form-check-input" type="checkbox" value="0"  disabled />
+                                        <span class="form-check-label fw-bold text-gray">Expess</span>
+                                    </label>
+                            </div>
+                            <!--ed::Item-->
+                            {% endif %}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0">
+                                <!--begin::Bullet-->
+                                <span class="bullet bullet-dot bg-success me-2 h-10px w-10px"></span>
+                                <!--end::Bullet-->
+                                <!--begin::Label-->
+                                <span class="fw-bold text-gray-400 fs-6">Due: {{factures.livraison.datelivr | date('d M Y')}}</span>
+                                <!--end::Label-->
+                            </div>
+                            <!--ed::Item-->
+                           
+                            
+                        </div>
+                </div>
+                <!--begin::Card body-->
+            </div>
+            <!--begin::Card-->
+        </div>
+    </div>
+
+    {% elseif factures.livraison.statut=='ATTENTE' %}
+    <div class="row g-6 g-xl-15" style="display:flexbox">
+        <div class="col-md-6 col-xxl-4">
+            <!--begin::Card-->
+            <div class="card">
+                <!--begin::Card body-->
+                <div class="card-body d-flex flex-center flex-column p-9">
+                    <!--begin::Wrapper-->
+                    <div class="mb-5">
+                        <!--begin::Avatar-->
+                        <div class="symbol symbol-75px symbol-circle">
+                            <span
+                                class="symbol-label bg-light-warning text-warning fs-5 fw-bolder">#00{{factures.factureidnumber}}</span>
+                            <div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3">
+                            </div>
+                        </div>
+                        <!--end::Avatar-->
+                        <!--begin::Avatar-->
+                        <div class="symbol symbol-75px symbol-circle">
+                            <span
+                                class="symbol-label bg-light-warning text-warning fs-5 fw-bolder">#00{{factures.numfacture}}</span>
+                            <div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3">
+                            </div>
+                        </div>
+                        <!--end::Avatar-->
+                    </div>
+                    <!--end::Wrapper-->
+                    <!--begin::Name-->
+                    {% for facturesInfo in factures.admin.utilisateur %}
+                    <a href="#"
+                        class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{facturesInfo.username}}</a>
+                    <!--end::Name-->
+                    <!--begin::Position-->
+                    {% if factures.admin == "null"%}
+                    <div class="fw-bold text-gray-400 mb-6">Crée par GERANT</div>
+                    {% elseif factures.admin != "null"%}
+                    <div class="fw-bold text-gray-400 mb-6">Crée par ADMIN</div>
+                    {% endif %}
+                    <!--end::Position-->
+                    {% endfor %}
+                    <!--begin::Info-->
+                    <div class="d-flex flex-center flex-wrap mb-5">
+                        <!--begin::Stats-->
+                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totalttc | number_format}}F</div>
+                            <div class="fw-bold text-gray-400">Total TTC</div>
+                        </div>
+                        <!--end::Stats-->
+                        <!--begin::Stats-->
+                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">
+                            {% if factures.livraison.express == 1%}
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totaltva | number_format}}F |
+                                {{factures.tauxreduction}}% | {{countEntete2}}/{{countEntete}}</div>
+                            <div class="fw-bold text-gray-400">TVA & Réduction</div>
+                            {% elseif factures.livraison.express == 0%}
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totaltva | number_format}}F |
+                                {{factures.tauxreduction}}%</div>
+                            <div class="fw-bold text-gray-400">TVA & Réduction</div>
+                            {% endif %}
+                        </div>
+                        <div
+                            class="border border-gray-300 border-dashed rounded bg-light-warning min-w-125px py-3 px-4 mx-3 mb-3">
+                            <div class="fs-6 fw-bolder text-700 text-warning">ATTENTE DE LIVRAISON</div>
+                        </div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Info-->
+                    <!--begin::Link-->
+                    <button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true"
+                        data-kt-drawer-target="#kt_drawer_chat">Voir invoice</button>
+                    <a href="{{path('app.statut2.facture' , {id: factures.id})}}"><button
+                            class="btn btn-sm btn-warning fw-bolder" data-kt-drawer-show="true"
+                            data-kt-drawer-target="#kt_drawer_chat">LIVRAISON</button></a>
+                    <!--end::Link-->
+                         <!--begin::Footer-->
+                         <div class="card-footer d-flex flex-center py-5">
+                            {% if factures.livraison.express == 1%}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0 me-7 me-lg-12">
+                                <!--begin::Bullet-->
+                                <!--end::Bullet-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <span class="form-check-label fw-bold text-white">Expre</span>
+                                        <input class="form-check-input" type="checkbox" value="1" checked="checked" disabled />
+                                        <span class="form-check-label fw-bold text-gray">Expess</span>
+                                    </label>
+                            </div>
+                            <!--ed::Item-->
+                            {% elseif factures.livraison.express == 0%}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0 me-7 me-lg-12">
+                                <!--begin::Bullet-->
+                                <!--end::Bullet-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <span class="form-check-label fw-bold text-white">Expre</span>
+                                        <input class="form-check-input" type="checkbox" value="0"  disabled />
+                                        <span class="form-check-label fw-bold text-gray">Expess</span>
+                                    </label>
+                            </div>
+                            <!--ed::Item-->
+                            {% endif %}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0">
+                                <!--begin::Bullet-->
+                                <span class="bullet bullet-dot bg-success me-2 h-10px w-10px"></span>
+                                <!--end::Bullet-->
+                                <!--begin::Label-->
+                                <span class="fw-bold text-gray-400 fs-6">Due: {{factures.livraison.datelivr | date('d M Y')}}</span>
+                                <!--end::Label-->
+                            </div>
+                            <!--ed::Item-->
+                        </div>
+                </div>
+                <!--begin::Card body-->
+            </div>
+            <!--begin::Card-->
+        </div>
+    </div>
+
+    {% elseif factures.livraison.statut=='LIVRAISON' %}
+    <div class="row g-6 g-xl-19" style="display:flexbox">
+        <div class="col-md-6 col-xxl-4">
+            <!--begin::Card-->
+            <div class="card">
+                <!--begin::Card body-->
+                <div class="card-body d-flex flex-center flex-column p-9">
+                    <!--<div class="d-flex align-items-center bg-primary-light">
+                        <div class="symbol symbol-60px me-5 bg-primary-light" style="margin-left: -181px;position: absolute;margin-top: 2px;">
+                            <div class="symbol-label bg-light-primary text-primary">
+                                <span style="font-size: 26px;" >13</span></br>
+                                <span style="font-size: 15px;">nov.</span>
+                            </div>
+                        </div>
+                
+                    </div>-->
+                    <!--begin:Info-->
+                    <!--begin::Wrapper-->
+                    <div class="mb-5">
+
+                        <!--begin::Avatar-->
+                        <div class="symbol symbol-75px symbol-circle">
+                            <span
+                                class="symbol-label bg-light-info text-info fs-5 fw-bolder">#00{{factures.factureidnumber}}</span>
+                            <div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3">
+                            </div>
+                        </div>
+                        <!--end::Avatar-->
+                        <!--begin::Avatar-->
+                        <div class="symbol symbol-75px symbol-circle">
+                            <span
+                                class="symbol-label bg-light-info text-info fs-5 fw-bolder">#00{{factures.numfacture}}</span>
+                            <div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3">
+                            </div>
+                        </div>
+                        <!--end::Avatar-->
+                    </div>
+                    <!--end::Wrapper-->
+                    <!--begin:Info-->
+
+                    <!--begin::Name-->
+                    {% for facturesInfo in factures.admin.utilisateur %}
+                    <a href="#"
+                        class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{facturesInfo.username}}</a>
+                    <!--end::Name-->
+                    <!--begin::Position-->
+                    {% if factures.admin == "null"%}
+                    <div class="fw-bold text-gray-400 mb-6">Crée par GERANT</div>
+                    {% elseif factures.admin != "null"%}
+                    <div class="fw-bold text-gray-400 mb-6">Crée par ADMIN</div>
+                    {% endif %}
+                    <!--end::Position-->
+                    {% endfor %}
+
+
+                    <!--begin:Info-->
+                    <!--begin::Info-->
+                    <div class="d-flex flex-center flex-wrap mb-5">
+                        <!--begin::Stats-->
+                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totalttc | number_format}}F</div>
+                            <div class="fw-bold text-gray-400">Total TTC</div>
+                        </div>
+                        <!--end::Stats-->
+                        <!--begin::Stats-->
+                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">
+                            {% if factures.livraison.express == 1%}
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totaltva | number_format}}F |
+                                {{factures.tauxreduction}}% | {{countEntete2}}/{{countEntete}}</div>
+                            <div class="fw-bold text-gray-400">TVA & Réduction</div>
+                            {% elseif factures.livraison.express == 0%}
+                            <div class="fs-6 fw-bolder text-gray-700">{{factures.totaltva | number_format}}F |
+                                {{factures.tauxreduction}}%</div>
+                            <div class="fw-bold text-gray-400">TVA & Réduction</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div
+                            class="border border-gray-300 border-dashed rounded bg-light-info min-w-125px py-3 px-4 mx-3 mb-3">
+                            <!--end::Switch-->
+                            <div class="fs-6 fw-bolder text-700 text-info">LIVRER & PAYER</div>
+                        </div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Info-->
+                    <!--begin::Link-->
+                    <button class="btn btn-sm btn-primary fw-bolder" data-kt-drawer-show="true"
+                        data-kt-drawer-target="#kt_drawer_chat">Voir invoice</button>
+                    <!--end::Link-->
+                    <!--begin::Footer-->
+                    <div class="card-footer d-flex flex-center py-5">
+                        {% if factures.livraison.express == 1%}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0 me-7 me-lg-12">
+                                <!--begin::Bullet-->
+                                <!--end::Bullet-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <span class="form-check-label fw-bold text-white">Expre</span>
+                                        <input class="form-check-input" type="checkbox" value="1" checked="checked" disabled />
+                                        <span class="form-check-label fw-bold text-gray">Expess</span>
+                                    </label>
+                            </div>
+                            <!--ed::Item-->
+                            {% elseif factures.livraison.express == 0%}
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center flex-shrink-0 me-7 me-lg-12">
+                                <!--begin::Bullet-->
+                                <!--end::Bullet-->
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <span class="form-check-label fw-bold text-white">Expre</span>
+                                        <input class="form-check-input" type="checkbox" value="0"  disabled />
+                                        <span class="form-check-label fw-bold text-gray">Expess</span>
+                                    </label>
+                            </div>
+                            <!--ed::Item-->
+                            {% endif %}
+                        <!--begin::Item-->
+                        <div class="d-flex align-items-center flex-shrink-0">
+                            <!--begin::Bullet-->
+                            <span class="bullet bullet-dot bg-success me-2 h-10px w-10px"></span>
+                            <!--end::Bullet-->
+                            <!--begin::Label-->
+                            <span class="fw-bold text-gray-400 fs-6">Due: {{factures.livraison.delivredat | date('d M Y')}}</span>
+                            <!--end::Label-->
+                        </div>
+                        <!--ed::Item-->
+                    </div>
+                </div>
+                <!--begin::Card body-->
+            </div>
+            <!--begin::Card-->
+        </div>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+    <!--begin::Pagination-->
+    <div class="d-flex flex-stack flex-wrap pt-10">
+        <div class="fs-6 fw-bold text-gray-700">Showing 1 to 10 of 50 entries</div>
+        <!--begin::Pages-->
+        <ul class="pagination">
+            <li class="page-item previous">
+                <a href="#" class="page-link">
+                    <i class="previous"></i>
+                </a>
+            </li>
+            <li class="page-item active">
+                <a href="#" class="page-link">1</a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link">2</a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link">3</a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link">4</a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link">5</a>
+            </li>
+            <li class="page-item">
+                <a href="#" class="page-link">6</a>
+            </li>
+            <li class="page-item next">
+                <a href="#" class="page-link">
+                    <i class="next"></i>
+                </a>
+            </li>
+        </ul>
+        <!--end::Pages-->
+    </div>
+    <!--end::Pagination-->
+    </body>
+
+    </html>
+    {% endblock %}
