@@ -57,27 +57,41 @@ class IconsController extends AbstractController
 
         $nom = $request->request->get('nom');
         $syntaxe = $request->request->get('syntaxe');
-        /*$img=$_FILES["syntaxe"]["name"];
-        $info_img=@getImageSize($img);
-        dd($info_img);*/
-        
+
+            // Récupérer le fichier téléchargé depuis la demande
+        $file = $request->files->get('image');
+        //dd($file);
+
+        // Vérifier si un fichier a été téléchargé
+        if ($file) {
+            // Définir le répertoire de destination pour stocker les images
+            $uploadDirectory = $this->getParameter('icones_uploads_directory');
+
+             // Vérifier si le répertoire existe. Si non, le créer.
+            if (!is_dir($uploadDirectory)) {
+                mkdir($uploadDirectory, 0777, true); // Créer le répertoire récursivement
+            }
+
+            // Générer un nom de fichier unique
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+
+            // Déplacer le fichier vers le répertoire de destination
+            $file->move(
+                $uploadDirectory,
+                $fileName
+            );
+
+            // Vous pouvez ajouter ici la logique pour enregistrer le nom de fichier dans la base de données, si nécessaire
+        }
+
+        //dd("uiop");
+            
         if (isset($nom)){
             $icons->setNomIcon($nom);
-            $icons->setSyntaxeIcon($syntaxe);
+            $icons->setSyntaxeIcon($fileName);
             $this->em->persist($icons);
             $this->em->flush();
             return $this->redirectToRoute('app.icons');
-           /* /** @var UploadedFile $file 
-            $file = $form->get('fileField')->getData();
-            
-           
-            $destination = 'chemin/vers/votre/dossier';
-            $fileName = uniqid().'.'.$file->guessExtension();
-            $file->move($destination, $fileName);*/
-            
-            // Faites ce que vous voulez avec le fichier téléchargé (par exemple, enregistrez le nom du fichier dans la base de données, etc.)
-            
-            // Redirigez ou affichez une réponse appropriée
         }
 
         return $this->render('ajout_icons.html.twig', [

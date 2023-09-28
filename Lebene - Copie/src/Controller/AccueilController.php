@@ -83,7 +83,7 @@ class AccueilController extends AbstractController
                         return $this->redirectToRoute('app.logout');
                     }
                     else{
-                        return $this->redirectToRoute('app.equipe.liste');
+                        return $this->redirectToRoute('app.equipe.suivi');
                     }
                       
                 }
@@ -211,6 +211,8 @@ class AccueilController extends AbstractController
         }
 
         $app = $this->getUser();
+        $_GLOBALS['app'] =  $this->getUser();
+        
         $appAdmin = $this->getUser()->getAdministrateur();
         return $this->render('account.html.twig', [
             'app'=>$app,

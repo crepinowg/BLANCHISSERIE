@@ -60,6 +60,9 @@ class Client
     #[ORM\Column(nullable: true)]
     private ?bool $deleted = null;
 
+    #[ORM\Column(length: 300, nullable: true)]
+    private ?string $gpsLink = null;
+
     
 
     public function __construct()
@@ -324,6 +327,18 @@ class Client
     public function setDeleted(?bool $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getGpsLink(): ?string
+    {
+        return $this->gpsLink;
+    }
+
+    public function setGpsLink(?string $gpsLink): self
+    {
+        $this->gpsLink = $gpsLink;
 
         return $this;
     }

@@ -54,6 +54,8 @@ class CalendrierController extends AbstractController
                     return $this->redirectToRoute('app.security');
                 }
         }
+
+        dd("   OPPP");
         return $this->render('calendrier.html.twig', [
             'controller_name' => 'CalendrierController',
         ]);

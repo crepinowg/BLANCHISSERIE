@@ -17,6 +17,7 @@ use App\Entity\Gerant;
 use App\Controller\FunctionImplementController;
 use App\Entity\CodeUiAll;
 use App\Entity\Employe;
+use App\Entity\SuperAdmin;
 use App\Entity\CleProduit;
 use App\Entity\Notifications;
 use App\Repository\EmployeRepository;
@@ -327,7 +328,7 @@ class SuperAdminController extends AbstractController
     public function saa(Request $request ,Security $security, UserPasswordHasherInterface $passwordHasher): Response
     {
 
-        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+        /*if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             
             return $this->redirectToRoute('app.security');
             
@@ -341,7 +342,7 @@ class SuperAdminController extends AbstractController
             else{
                 return $this->redirectToRoute('app.notfound');           
             }
-        }
+        }*/
 
         $utilisateur = new Utilisateur;
         $superAdmin = new SuperAdmin;
@@ -376,6 +377,11 @@ class SuperAdminController extends AbstractController
            $this->em->flush();
           
           
+        }
+        else{
+            return $this->render('sa_register.html.twig', [
+                'controller_name' => 'SecurityController',
+            ]);
         }
         return $this->redirectToRoute('app.security');
         

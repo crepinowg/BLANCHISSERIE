@@ -162,11 +162,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -216,11 +220,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -275,11 +283,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -346,11 +358,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -419,11 +435,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -457,11 +477,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
                 if ($client->isDeleted() == 1){
                     return $this->redirectToRoute('app.notfound');
                 }
@@ -929,11 +953,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -964,11 +992,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -1031,11 +1063,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -1129,11 +1165,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -1169,11 +1209,15 @@ class FactureController extends AbstractController
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{
@@ -1708,11 +1752,15 @@ public function facture_update(Request $request,Facture $facture,int $id,MailerI
                
                 $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            //dd($statut);
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
             }
             else{

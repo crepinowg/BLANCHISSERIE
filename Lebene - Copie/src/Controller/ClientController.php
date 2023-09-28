@@ -63,9 +63,13 @@ class ClientController extends AbstractController
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
             }
@@ -235,9 +239,13 @@ class ClientController extends AbstractController
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
             }
@@ -272,9 +280,13 @@ class ClientController extends AbstractController
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
                 if ($clients->isDeleted ()== 1){
@@ -338,9 +350,13 @@ class ClientController extends AbstractController
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
             }
@@ -397,9 +413,13 @@ class ClientController extends AbstractController
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
             }
@@ -459,14 +479,18 @@ class ClientController extends AbstractController
             
         }
         else{
-            if($this->authorizationChecker->isGranted('ROLE_ADMIN') OR ($this->authorizationChecker->isGranted('ROLE_GERANT_BLEU') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR'))){
+            if($this->authorizationChecker->isGranted('ROLE_ADMIN') OR ($this->authorizationChecker->isGranted('ROLE_GERANT_BLEU') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR') OR $this->authorizationChecker->isGranted('ROLE_LIVREUR'))){
                
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
             }
@@ -517,7 +541,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/supprimer_client-{id}', name: 'app.client.supprimer')]
-    public function supprimer_client(Client $client, int $id): Response
+    public function supprimer_client(Client $client, int $id,Security $security): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             
@@ -530,9 +554,13 @@ class ClientController extends AbstractController
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
                 }
 
             }
@@ -544,6 +572,48 @@ class ClientController extends AbstractController
         $this->em->persist($client);
         $this->em->flush();
         return $this->redirectToRoute('app.client.liste');
+       
+    }
+
+    #[Route('/location_client-{id}', name: 'app.client.location')]
+    public function location_client(Client $client, int $id,Request $request,Security $security): Response
+    {
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            
+            return $this->redirectToRoute('app.security');
+            
+        }
+        else{
+            if($this->authorizationChecker->isGranted('ROLE_ADMIN') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR') OR $this->authorizationChecker->isGranted('ROLE_LIVREUR')){
+               
+                $this->functionImplement->checking();
+
+                $suspendu = $this->functionImplement->admin_suspendu();
+                $statut = $this->functionImplement->gerant_suspendu();
+                //dd($statut);
+                if ($suspendu == 1){
+                    return $this->redirectToRoute('app.security');
+                }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
+                }
+
+            }
+            else{
+                return $this->redirectToRoute('app.notfound');           
+            }
+        }
+        $data =$request->request->all();
+        $gpsLink = $data['gps'];
+        $client->setGpsLink($gpsLink);
+        $this->em->persist($client);
+        $this->em->flush();
+        //dd($gpsLink);
+        return new JsonResponse([
+            'success' => true,
+            'redirect_url' => $this->generateUrl('app.client.liste'),
+        ]);
+        //return $this->redirectToRoute('app.client.liste');
        
     }
 

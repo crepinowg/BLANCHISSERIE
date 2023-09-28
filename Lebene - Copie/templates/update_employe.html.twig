@@ -252,12 +252,12 @@
 </section>
 
 <section class="signup-section">
-{{dump(employe)}}
          <!--<form action="{{path('app.employe.register')}}" method="POST">-->
    {% for employes in employe.utilisateur %}
     <form id="my-form">
-
+        {% if is_granted('ROLE_LAVAGE') or is_granted('ROLE_LIVREUR')%}
         <h4 style="margin-bottom:24px;margin-top:48px;">Informations personnelles</h4>
+
         <div class="form-group name">
             <label for="owner_name"> Nom de l'employé</label>
             <input type="text" class="form-control" id="owner_name" name="nom" value="{{employes.nom}}">
@@ -329,8 +329,7 @@
         <div class="signup_error" id="signup_error" style="background:red;color:#fff;padding:24px;border-radius:4px;  font-family: 'Galano Grotesque', sans-serif;font-size:14px;margin-bottom:12px;display:none;">
             Example Error        </div>
 
-        <button type="submit" class="button_action--large" id="integrer">Intéger un employé</button>
-        <a href="terms.html" class="term_condition">By signing up to Lébénè you agree to our <span>Terms and Conditions</span></a>
+        <button type="submit" class="button_action--large" id="integrer">Modifier</button>
         <!--begin::Alert-->
         <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
             <!--begin::Icon-->
@@ -355,6 +354,60 @@
             <!--end::Close-->
         </div>
         <!--end::Alert-->
+
+        {% elseif is_granted('ROLE_ADMIN')%}
+        <div class="form-group accès">
+            <label for="register_password">Type d'employé</label>
+            <div class="">
+                
+                {% for employeRole in employes.roles%}
+                    {% if employeRole == "ROLE_LIVREUR" %}
+                    <label for="register_password">Responsable Lavage</label>
+                    <input type="radio" class="form-control" id="password" name="employe" value="2">
+                    <label for="register_password">Livreur</label>
+                    <input type="radio" class="form-control" id="password" name="employe" value="3" checked>
+                    {% elseif employeRole == "ROLE_LAVAGE"%}
+                    <label for="register_password">Responsable Lavage</label>
+                    <input type="radio" class="form-control" id="password" name="employe" value="2" checked>
+                    <label for="register_password">Livreur</label>
+                    <input type="radio" class="form-control" id="password" name="employe" value="3" >
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group email">
+            <label for="register_email">Salaire</label>
+            <input type="number" class="form-control" id="mailPerso" name="salaire" value="{{employe.salaire}}">
+        </div>
+
+        <div class="signup_error" id="signup_error" style="background:red;color:#fff;padding:24px;border-radius:4px;  font-family: 'Galano Grotesque', sans-serif;font-size:14px;margin-bottom:12px;display:none;">
+            Example Error        </div>
+
+        <button type="submit" class="button_action--large" id="integrer">Modifier</button>
+        <!--begin::Alert-->
+        <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+            <!--begin::Icon-->
+            <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
+            <!--end::Icon-->
+
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column pe-0 pe-sm-10">
+                <!--begin::Title-->
+                <h5 class="mb-1">Erreur 404<span class="alert-identifiant"></span></h5>
+                <!--end::Title-->
+                <!--begin::Content-->
+                <span class="alert-text">The alert component can be used to highlight certain parts of your page for higher content visibility.</span>
+                <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+
+            <!--begin::Close-->
+            <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                <i class="bi bi-x fs-1 text-danger"></i>
+            </button>
+            <!--end::Close-->
+        </div>
+        {% endif %}
     </form>
     {% endfor %}
 </section>

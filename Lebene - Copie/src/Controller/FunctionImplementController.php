@@ -219,13 +219,24 @@ class FunctionImplementController extends AbstractController
     {
         if($this->getUser()->getGerant() != null){
             $suspendu = $this->getUser()->getGerant()->isStatut();
+            return $suspendu;
         }
-        else if($this->getUser()->getGerant() == null){
+        elseif($this->getUser()->getGerant() == null){
             $suspendu = "";
+            return $suspendu;
+            
+        }
+        if($this->getUser()->getEmploye() != null){
+            $suspendu = $this->getUser()->getEmploye()->isStatut();
+            return $suspendu;
+        }
+        elseif($this->getUser()->getEmploye() == null){
+            $suspendu = "";
+            return $suspendu;
         }
         //$suspendu = $this->getUser()->getGerant()->isStatut();
         
-        return $suspendu;
+        
         
     }
 

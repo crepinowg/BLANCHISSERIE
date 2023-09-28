@@ -2,6 +2,7 @@
 
 {% block clientFacture %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 <!--end::Page Vendor Stylesheets-->
 <!--begin::Global Stylesheets Bundle(used by all pages)-->
@@ -309,15 +310,101 @@
                                     
                                    {% elseif facture.etat == 'ATTENTE' %}
                                     <span class="badge badge-light-danger me-2">Lavé</span>
-                                    <a href=""><span class="badge badge-light-success">Attente Livraison</span></a>
+                                    <a ><span class="badge badge-light-success">Attente Livraison</span></a>
                                     {% elseif facture.etat == 'LAVAGE' %}
-                                    <a href=""><span class="badge badge-light-danger me-2">Lavage</span></a>
+                                    <a><span class="badge badge-light-danger me-2">Lavage</span></a>
                                     {% endif %}
                                     
                                     
                                 </div>
+                                <h6 class="mb-8 fw-boldest text-gray-600 text-hover-primary">CLIENT & PAYEMENT DETAILS</h6>
+                                <!--end::Title-->
+                                <!--begin::Item-->
+                                {% for clientDetails in facture.client.utilisateur%}
+                                <div class="mb-6">
+                                    <div class="fw-bold text-gray-600 fs-7">Nom & username:</div>
+                                    <div class="fw-bolder text-gray-800 fs-6">{{clientDetails.nom}} {{clientDetails.username}}</div>
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="mb-6">
+                                    <div class="fw-bold text-gray-600 fs-7">Email & Numéro:</div>
+                                    <div class="fw-bolder text-gray-800 fs-6">{{clientDetails.email}} 
+                                    <br />{{clientDetails.numero}} </div>
+                                </div>
                                 <!--end::Labels-->
+                                {% endfor %}
+
+                                <h6 class="mb-8 fw-boldest text-gray-600 text-hover-primary">LOCALISATION DETAILS</h6>
+                                <!--end::Title-->
+                                <!--begin::Item-->
+                                <div class="mb-6">
+                                    <div class="fw-bold text-gray-600 fs-7">Indication:</div>
+                                    <div class="fw-bolder fs-6 text-gray-800">{{facture.client.indication}} ~
+                                        {% if facture.client.gpslink == "" %}
+                                    <a onclick="getAddressLink()" class="link-primary text-primary" style="cursor: pointer;">Localiser</a>
+                                    {% elseif facture.client.gpslink != "" %}
+                                    <a href="{{facture.client.gpslink}}" class="link-primary ps-1" target="_blank">Accéder au maps</a>
+                                    {% endif %}
+                                </div>
+                                </div>
+                                <script>
+							
+                                    function getAddressLink() {
                                 
+                                    // Fonction pour récupérer l'adresse sur Google Maps
+                                        // Vérifier si le navigateur prend en charge la géolocalisation
+                                        
+                                        if ("geolocation" in navigator) {
+                                            // Obtenir les coordonnées de l'appareil
+    
+                                            navigator.geolocation.getCurrentPosition(
+                                                function (position) {
+                                                    const latitude = position.coords.latitude;
+                                                    const longitude = position.coords.longitude;
+                                                    
+                                                    // Construire le lien Google Maps
+                                                    const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                                                    var encodeGpsLink = encodeURIComponent(googleMapsLink);
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '/location_client-{{facture.client.id}}', // URL de la route Symfony
+                                                        data: {
+                                                            gps: googleMapsLink,
+    
+                                                        },
+                                                        success: function(response) {
+                                                            redirect_url = "{{path('app.factureShowEmploye', {id:facture.id})}}"
+                                                            window.location.href= redirect_url;
+                                                        },
+                                                        error: function(error) {
+                                                            console.error(error.xhr);
+                                                            // Gérer les erreurs ici
+                                                        }
+                                                    });
+                                                },
+                                                function (error) {
+                                                    if (error.code === 1) {
+                                                    alert("Veuillez autoriser l'accès a votre localisation dans les réglages/paramètres pour continuer.")
+                                                    
+                                                    } 
+                                                    else{
+                                                        console.log("Erreur de géolocalisation :", error);
+                                                    }
+                                                    
+                                                }
+                                            );
+                                            
+                                        } else {
+                                            alert("La géolocalisation n'est pas prise en charge par ce navigateur.");
+                                        }
+                                      }
+                                    
+        
+        
+                                    //document.getElementById("reserver").addEventListener("click", getAddressLink);
+        
+                                </script>
                                 
                                 
                                 

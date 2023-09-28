@@ -95,23 +95,38 @@
             </h5>
             <div>
                 <form id="my-form">
-                
-                      
+
+
                     <div class="container">
                         {% for icon in icons %}
-                        <div class="icon-container col-sm-6 col-md-4 col-lg-3">
+                        <div class="icon-container">
                             <label for="clothes-icon-{{loop.index}}" class="icon-checkbox-label">
                                 <input type="checkbox" id="clothes-icon-{{loop.index}}" name="iconsObjet{{loop.index}}"
                                     class="icon-checkbox">
 
-                                <a
-                                    class="btn btn-icon icon-hover-primary btn-bg-light btn-active-color-primary btn-sm me-1">
-                                   <!-- <link rel="icon" href='/assets/iconsTarifs/{{icon.syntaxeicon}}' /><br>-->
+                                <a class="btn btn-icon btn-bg-light "
+                                    style="width: 94px;height: 94px;">
+                                    <img class="iconesImage"
+                                        src="{{asset('uploads/icones/'~ icon.syntaxeicon)}}"></br></br>
                                     <span class="nom">{{icon.nomicon}}</span>
                                 </a>
                             </label>
                         </div>
                         {% endfor %}
+                        <style>
+                            .iconesImage {
+                                width: 60px;
+                                /* Largeur souhaitée */
+                                height: 60px;
+                                /* Hauteur souhaitée */
+                                overflow: cover;
+                                color: #fff;
+                                margin-bottom: 10px;
+                                
+
+                            }
+                        </style>
+
                     </div>
                     <style>
                         .container {
@@ -124,13 +139,16 @@
                             margin: 10px;
                             width: 95px;
                             height: 95px;
-                            max-width: 300px;
                             background-color: #fff;
                             border-radius: 8px;
                             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
                             display: flex;
                             justify-content: center;
                             align-items: center;
+                            flex-direction: column;
+                            /* Ajoutez cette ligne */
+                            position: relative;
+                            /* Ajoutez cette ligne */
                         }
 
                         .icon-checkbox {
@@ -139,11 +157,17 @@
 
                         .icon-checkbox-label {
                             cursor: pointer;
-                            margin-top: 8px;
+                            margin: 10px;
+                            width: 95px;
+                            height: 95px;
+                            border-radius: 8px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
                         }
 
                         .icon-checkbox-label:hover {
-                            opacity: 0.7;
+                            opacity: 1;
                         }
 
                         .icon-checkbox-label:active .icon-container {
@@ -160,37 +184,25 @@
                             color: #fff;
                         }
 
-                        .icon-checkbox:checked+.btn .feather-trousers {
-                            stroke: #fff;
-                        }
-
-                        .icon-checkbox:checked+.btn .fas {
+                        .icon-checkbox:checked+.btn{
                             color: #fff;
-                        }
-
-                        .icon-checkbox:checked+.btn .nom {
-                            color: #fff;
+                            
                         }
 
                         .btn-icon {
-                            width: 100%;
-                            max-width: 300px;
-                            height: 150px;
+
                             padding: 0.5rem;
                             border-radius: 8px;
                             border: none;
-                            background-color: transparent;
-                            color: #007bff;
-                            transition: all 0.3s ease-in-out;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
+                            background-color: white;
+                            transition: all 0.1s ease-in-out;
+
+
                         }
 
                         .btn-icon:hover {
                             background-color: #ebebeb;
-                            color: #007bff;
+                            color: black;
                         }
 
                         .btn-icon:focus {
@@ -207,23 +219,31 @@
                         }
 
                         .nom {
-                            margin-top: 0.5rem;
+                            position: absolute;
+                            padding-top: 70px;
                             font-size: 1rem;
-                            text-align: center;
+
                         }
                     </style>
 
-
-                    <div>
-                        <label for="examplePassword22" class="mr-sm-2">Prix</label>
-                        <input name="prix" id="price" placeholder="" type="number" class="form-control">
-                    </div>
-
-                    Express&nbsp;<label class="switch">
-                        <input type="checkbox" name="express">
-                        <span class="slider"></span>
-                    </label>
+                    <br><div class="" style="display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;">
+                        <div style="width: 200px;">
+                            <label for="examplePassword22" class="mr-sm-2">Prix</label>
+                            <input name="prix" id="price" placeholder="" type="number" class="form-control">
+                        </div>
+                        <div style="margin-left: -55px;">
+                            Express&nbsp;</br><label class="switch" style="margin-top: 10px;">
+                                <input type="checkbox" name="express">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div></br>
                     
+
+                    
+
                     <!-- CSS SWITCH INPUT-->
 
                     <style>
@@ -299,7 +319,7 @@
                         <label class="col-lg-3 col-form-label text-lg-end">Services</label>
                         <!--end::Label-->
                         <!--begin::Col-->
-                        <div class="col-lg-8 pe-10">
+                        <div class="col-lg-8 pe-10" >
                             <!--begin::Row-->
                             <div class="row g-9 mb-3" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
                                 <!--begin::Col-->
@@ -321,10 +341,7 @@
                                             <!--end::Title-->
                                         </span>
                                         <!--end::Wrapper-->
-                                        <!--begin::Thumbnail-->
-                                        <span style="background-image:url('assets/media/illustrations/sketchy-1/1.png')"
-                                            class="d-block h-200px w-100 bgi-no-repeat bgi-size-contain bgi-position-center"></span>
-                                        <!--begin::Thumbnail-->
+                                        
                                     </label>
                                     <!--end::Label-->
                                 </div>
@@ -350,10 +367,7 @@
                                             <!--end::Title-->
                                         </span>
                                         <!--end::Wrapper-->
-                                        <!--begin::Thumbnail-->
-                                        <span style="background-image:url('assets/media/illustrations/sigma-1/1.png')"
-                                            class="d-block h-200px w-100 bgi-no-repeat bgi-size-contain bgi-position-center"></span>
-                                        <!--begin::Thumbnail-->
+                                      
                                     </label>
                                     <!--end::Label-->
                                 </div>
@@ -378,11 +392,7 @@
                                             <!--end::Title-->
                                         </span>
                                         <!--end::Wrapper-->
-                                        <!--begin::Thumbnail-->
-                                        <span
-                                            style="background-image:url('assets/media/illustrations/unitedpalms-1/1.png')"
-                                            class="d-block h-200px w-100 bgi-no-repeat bgi-size-contain bgi-position-center"></span>
-                                        <!--begin::Thumbnail-->
+                                        
                                     </label>
                                     <!--end::Label-->
                                 </div>
@@ -406,7 +416,8 @@
                     <button class="btn btn-primary" type="submit">Enregistrer</button>
 
                     <!--begin::Alert-->
-                    <div class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                    <div
+                        class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
                         <!--begin::Icon-->
                         <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
                         <!--end::Icon-->
@@ -417,73 +428,76 @@
                             <h5 class="mb-1">Erreur 404<span class="alert-identifiant"></span></h5>
                             <!--end::Title-->
                             <!--begin::Content-->
-                            <span class="alert-text">The alert component can be used to highlight certain parts of your page for higher content visibility.</span>
+                            <span class="alert-text">The alert component can be used to highlight certain parts of your
+                                page for higher content visibility.</span>
                             <!--end::Content-->
                         </div>
                         <!--end::Wrapper-->
 
                         <!--begin::Close-->
-                        <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                        <button type="button"
+                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                            data-bs-dismiss="alert">
                             <i class="bi bi-x fs-1 text-danger"></i>
                         </button>
                         <!--end::Close-->
                     </div>
-        <!--end::Alert-->
+                    <!--end::Alert-->
                 </form>
 
                 <script>
 
                     const price = document.getElementById('price');
-                    price.addEventListener('input', function(event) {
+                    price.addEventListener('input', function (event) {
                         const value = price.value;
                         console.log(value);
-                        if (value=="" || value<=0){
-                            price.value="";
+                        if (value == "" || value <= 0) {
+                            price.value = "";
                         }
-                        
+
                         else {
-                        event.target.setCustomValidity('');
+                            event.target.setCustomValidity('');
                         }
                     });
 
                 </script>
 
                 <script>
-                    $(document).ready(function() {
-                    $('#my-form').submit(function(e) {
-                        e.preventDefault(); // Empêche la soumission du formulaire par défaut
-                        var formData = $(this).serialize(); // Récupère les données du formulaire
-                        $.ajax({
-                        url: "{{path('app.tarifs.ajout')}}",
-                        method: 'POST',
-                        data: formData,
-                        success: function(response) {
-                            //$('#result').html(response); // Met à jour la vue avec la réponse renvoyée par le contrôleur
-                        
-                        var champ = document.querySelector('.alert-dismissible');
-                            console.log("RESPONSE: "+response[1]);
-                            if(response!=""){
-                            
-                                var text = document.querySelector('.alert-text');
-                                text.innerText= response;
-                                champ.classList.remove("d-none");
-                            }
+                    $(document).ready(function () {
+                        $('#my-form').submit(function (e) {
+                            e.preventDefault(); // Empêche la soumission du formulaire par défaut
+                            var formData = $(this).serialize(); // Récupère les données du formulaire
+                            $.ajax({
+                                url: "{{path('app.tarifs.ajout')}}",
+                                method: 'POST',
+                                data: formData,
+                                success: function (response) {
+                                    //$('#result').html(response); // Met à jour la vue avec la réponse renvoyée par le contrôleur
 
-                            if (response.success) {
-                                window.location.href = response.redirect_url;
-                            }
-                            
-                            
-                        },
+                                    var champ = document.querySelector('.alert-dismissible');
+                                    console.log("RESPONSE: " + response[1]);
+                                    if (response != "") {
 
-                        error: function(xhr, status, error) {
-                            console.log('Erreur : ' + (xhr.responseText));
-                            //var errors = JSON.parse(xhr.responseText).errors;
-                            // Affichez les messages d'erreur à l'utilisateur
-                        },
-                        
+                                        var text = document.querySelector('.alert-text');
+                                        text.innerText = response;
+                                        champ.classList.remove("d-none");
+                                    }
+
+                                    if (response.success) {
+                                        window.location.href = response.redirect_url;
+                                    }
+
+
+                                },
+
+                                error: function (xhr, status, error) {
+                                    console.log('Erreur : ' + (xhr.responseText));
+                                    //var errors = JSON.parse(xhr.responseText).errors;
+                                    // Affichez les messages d'erreur à l'utilisateur
+                                },
+
+                            });
                         });
-                    });
                     });
                 </script>
             </div>

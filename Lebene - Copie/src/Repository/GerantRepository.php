@@ -55,11 +55,14 @@ class GerantRepository extends ServiceEntityRepository
 
    public function gerantActif(int $id)
     {
+        $null="NULL";
        $query = $this->createQueryBuilder('g')
                ->where('g.id = :id')
                ->andWhere('g.statut = 0')
+               ->andWhere('g.statut = :null')
                ->orderBy('g.id','DESC')
                ->setParameter('id',$id)
+               ->setParameter('null',$null)
 
                ;
            

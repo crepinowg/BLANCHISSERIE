@@ -52,13 +52,24 @@ class EquipeController extends AbstractController
             
         }
         else{       
+            if($this->authorizationChecker->isGranted('ROLE_ADMIN')){
+               
                 $this->functionImplement->checking();
 
                 $suspendu = $this->functionImplement->admin_suspendu();
-
+                $statut = $this->functionImplement->gerant_suspendu();
+                
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
                 }
+                if ($statut == 1){
+                    return $this->redirectToRoute('app.logout');
+                }
+                
+            }
+            else{
+                return $this->redirectToRoute('app.notfound'); 
+            }
         }
         $equipe = $this->equipeRepo->findAll();
         return $this->render('liste_equipe.html.twig', [
@@ -76,14 +87,17 @@ class EquipeController extends AbstractController
             
         }
         else{       
-                $this->functionImplement->checking();
-
-                $suspendu = $this->functionImplement->admin_suspendu();
-
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
         }
+        
 
         $find_factureEquipe_all = $this->factureEquipeRepo->findAll();
         $equipe = $this->equipeRepo->findAll();
@@ -134,7 +148,7 @@ class EquipeController extends AbstractController
             
         }
         else{
-            if($this->authorizationChecker->isGranted('ROLE_ADMIN') OR ($this->authorizationChecker->isGranted('ROLE_GERANT_BLEU') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR'))){
+            if($this->authorizationChecker->isGranted('ROLE_ADMIN')){
                
                 $this->functionImplement->checking();
 

@@ -72,7 +72,7 @@ class RegistrerController extends AbstractController
     #[Route('/register', name: 'app.register')]
     public function index(Request $request , Security $security,UserPasswordHasherInterface $passwordHasher): Response
     {
-        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+        /*if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             
             return $this->redirectToRoute('app.security');
             
@@ -91,7 +91,7 @@ class RegistrerController extends AbstractController
             else{
                 return $this->redirectToRoute('app.notfound');           
             }
-        }
+        }*/
 
         $admin = new Administrateur;
         $utilisateur = new Utilisateur;
@@ -162,6 +162,11 @@ class RegistrerController extends AbstractController
            $this->em->flush();
            //dd($entreprise);
           
+        }
+        else{
+            return $this->render('pages-register.html.twig', [
+                'controller_name' => 'SecurityController',
+            ]);
         }
         return $this->redirectToRoute('app.security');
     }
@@ -285,6 +290,7 @@ class RegistrerController extends AbstractController
                    
                     $utilisateur->setRoles(["ROLE_GERANT_NOIR"]);
                     $gerant->setRoles(["ROLE_GERANT_NOIR"]);
+                    $gerant->setStatut(0);
                     
 
                     $hashedPassword = $passwordHasher->hashPassword($utilisateur,$password);
@@ -368,7 +374,7 @@ class RegistrerController extends AbstractController
      #[Route('/register1', name: 'app.register1')]
     public function index1(Security $security,): Response
     {
-        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+       /* if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             
             return $this->redirectToRoute('app.security');
             
@@ -387,7 +393,7 @@ class RegistrerController extends AbstractController
             else{
                 return $this->redirectToRoute('app.notfound');           
             }
-        }
+        }*/
         return $this->render('pages-register.html.twig', [
             'controller_name' => 'SecurityController',
         ]);
@@ -506,7 +512,7 @@ class RegistrerController extends AbstractController
                     }
 
                     else if($checkUser == true){
-                        $client->setAdministrateur();
+                        $client->setAdministrateur($admin);
                         $utilisateur->setCreatedByAdmin($admin);
                         
                     }

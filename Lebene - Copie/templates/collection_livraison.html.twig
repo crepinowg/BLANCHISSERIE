@@ -153,7 +153,7 @@
                             <div class="fw-bold text-gray-400 mb-6">Equipe: {{equipeInfo.equipe.nom}}</div>
                         {% endfor %}
                         <!--end::Position-->
-
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GERANT_NOIR')%}
                         <!--begin::Info-->
                         <div class="d-flex flex-center flex-wrap mb-5">
                             <!--begin::Stats-->
@@ -190,6 +190,11 @@
                                 class="btn btn-sm btn-danger fw-bolder" data-kt-drawer-show="true"
                                 data-kt-drawer-target="#kt_drawer_chat"> ACHEVER</button></a>
                         <!--end::Link-->
+                        {% endif %}
+                    {% if is_granted('ROLE_LIVREUR')%}
+                    <a href="{{path('app.factureShowEmploye' , {id: factures.client.id})}}"><button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true"
+                        data-kt-drawer-target="#kt_drawer_chat">Voir Invoice</button></a>
+                    {%endif%}
                         <!--begin::Footer-->
                         <div class="card-footer d-flex flex-center py-5">
                             {% if factures.livraison.express == 1%}
@@ -285,6 +290,7 @@
                         <div class="fw-bold text-gray-400 mb-6">Equipe: {{equipeInfo.equipe.nom}}</div>
                     {% endfor %}
                         <!--begin::Info-->
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GERANT_NOIR')%}
                         <div class="d-flex flex-center flex-wrap mb-5">
                             <!--begin::Stats-->
                             <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
@@ -318,6 +324,11 @@
                                 class="btn btn-sm btn-warning fw-bolder" data-kt-drawer-show="true"
                                 data-kt-drawer-target="#kt_drawer_chat">LIVRAISON</button></a>
                         <!--end::Link-->
+                        {% endif %}
+                    {% if is_granted('ROLE_LIVREUR')%}
+                    <a href="{{path('app.factureShowEmploye' , {id: factures.client.id})}}"><button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true"
+                        data-kt-drawer-target="#kt_drawer_chat">Voir Invoice</button></a>
+                    {%endif%}
                         <!--begin::Footer-->
                         <div class="card-footer d-flex flex-center py-5">
                             {% if factures.livraison.express == 1%}
@@ -426,6 +437,7 @@
                     {% endfor %}
                         <!--begin:Info-->
                         <!--begin::Info-->
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GERANT_NOIR')%}
                         <div class="d-flex flex-center flex-wrap mb-5">
                             <!--begin::Stats-->
                             <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
@@ -453,6 +465,11 @@
                             </div>
                             <!--end::Stats-->
                         </div>
+                        {% endif %}
+                    {% if is_granted('ROLE_LIVREUR')%}
+                    <a href="{{path('app.factureShowEmploye' , {id: factures.client.id})}}"><button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true"
+                        data-kt-drawer-target="#kt_drawer_chat">Voir Invoice</button></a>
+                    {%endif%}
                         <!--end::Info-->
                         <!--begin::Link-->
                         <a href="{{path('app.facture.showInvoice' , {id: factures.id})}}"> <button class="btn btn-sm btn-primary fw-bolder" data-kt-drawer-show="true"

@@ -286,7 +286,9 @@ class PaiementController extends AbstractController
             elseif($augmentation>0){
                 
                 $paiement->setAugmentation($augmentation);
+                //dd($employeId);
                 foreach ($employeId as $key => $value) {
+                    
                     $calculPaiementFinal = $value->getSalaire()*$augmentation/100;
                     $paiementFinal = $calculPaiementFinal + $value->getSalaire();
                     $paiement->setSalaireInitital($value->getSalaire());
@@ -335,25 +337,29 @@ class PaiementController extends AbstractController
             
         }
         else{
-            if($this->authorizationChecker->isGranted('ROLE_ADMIN')){
+            
                
-                $this->functionImplement->checking();
+            $this->functionImplement->checking();
 
-                $suspendu = $this->functionImplement->admin_suspendu();
-                if ($suspendu == 1){
-                    return $this->redirectToRoute('app.security');
-                }
+            $suspendu = $this->functionImplement->admin_suspendu();
+            $statut = $this->functionImplement->gerant_suspendu();
+            
+            if ($suspendu == 1){
+                return $this->redirectToRoute('app.security');
+            }
+            if ($statut == 1){
+                return $this->redirectToRoute('app.logout');
+            }
 
-            }
-            else{
-                return $this->redirectToRoute('app.notfound');           
-            }
+            
+            
         }
-
+        $app = $this->getUser();
         $paiement = $this->paiementRepo->findAll();
         return $this->render('liste_paiement_tabs.html.twig', [
             'controller_name' => 'PaiementController',
-            'paiement'=>$paiement
+            'paiement'=>$paiement,
+            "app"=>$app
         ]);
     }
 }

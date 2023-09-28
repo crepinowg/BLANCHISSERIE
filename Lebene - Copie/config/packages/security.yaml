@@ -24,7 +24,7 @@ security:
 
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 5 # Durée d'expiration en secondes (5 heures)
+                #lifetime: 5 # Durée d'expiration en secondes (5 heures)
                 path: /security
              # ...
             logout:

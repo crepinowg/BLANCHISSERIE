@@ -422,7 +422,7 @@ class RegisterUpdateController extends AbstractController
             
         }
         else{
-            if(($this->authorizationChecker->isGranted('ROLE_LAVAGE') OR $this->authorizationChecker->isGranted('ROLE_LIVREUR'))){
+            if(($this->authorizationChecker->isGranted('ROLE_LAVAGE') OR $this->authorizationChecker->isGranted('ROLE_LIVREUR') OR $this->authorizationChecker->isGranted('ROLE_ADMIN'))){
                
                 $this->functionImplement->checking();
 
@@ -446,6 +446,7 @@ class RegisterUpdateController extends AbstractController
             $adresse=$request->request->get('adresse');
             $salaire=$request->request->get('salaire');
             $password=$request->request->get('password');
+            $type=$request->request->get('employe');
 
             $numeroCheck=false;
             $emailCheck=false;
@@ -454,75 +455,105 @@ class RegisterUpdateController extends AbstractController
             //dd("Nom:".$nom." Username:".$username." Mail:".$email." Numéro:".$numero." Password:".$password." Adresse:".$adresse." Payement:".$payement." Employe:".$employe." Salaire:".$salaire);
             //dd((int)$niveau);
             if ($request->isXmlHttpRequest()) {
-                if ($nom==null OR $username==null OR $numero==null OR $adresse==null){
-                    
-                    $message="Veuillez remplir tout les champs requis avant soumission";            
-                    return $this->json($message);
 
-                }
-                if (strlen($numero)>8){
-                    $message="Numéro de téléphone trop long!";            
-                    return $this->json($message);     
-                }
-
-                if ($password!= null AND strlen($password)<8){
-                    $message="Mot de passe: minimum 8 caratères";            
-                    return $this->json($message);     
-                }
-
-                
-
-                
-                
-                $clients = $this->utilisateurRepo->findDataClient();
-                foreach ($clients as $key => $value) {
-                    if ($value->getUsername()== $username AND $value->getEmploye()->getId()!= $id){
-                        $message=$value->getEmploye()->getId();            
-                        return $this->json($message);     
+                if(($this->authorizationChecker->isGranted('ROLE_ADMIN'))){
+                    if ($salaire == null or $type==null){
+                        $message="Veuillez renseigner un salaire et le type d'employé";            
+                        return $this->json($message);
                     }
-                    if ($value->getNumero()== $numero AND $value->getEmploye()->getId()!= $id){
-                        $message="Numéro de téléphone existant!";            
-                        return $this->json($message);     
-                    }
-                }
-                if (isset($nom,$username,$numero,$adresse)){
-                    foreach ($utilisateur as $key => $value) {
-                        $value->setNom($nom);
-                        $value->setUsername($username);
-                        if($password!=null){
-                            $hashedPassword = $passwordHasher->hashPassword($value,$password);
-                            $value->setMotDePasse($hashedPassword);
+                    else{
+                        $employe->setSalaire($salaire);
+                        if($type == 3){
+                            $employe->setRoles([
+                                "ROLE_LIVREUR"
+                            ]);
                         }
-                        //$utilisateur->setEmail($email);
-                        $value->setNumero($numero);
-                        $value->setAdresse($adresse);
-
-                        $this->em->persist($value);
-                    }
-
-
-                    $this->em->persist($employe);
-                    foreach ($utilisateur as $key => $value) {
-                        $value->setEmploye($employe);
-                        $this->em->persist($value);
+                        elseif($type == 2){
+                            $employe->setRoles([
+                                "ROLE_LAVAGE"
+                            ]);
+                        }
+                        $this->em->flush();
+                        return new JsonResponse([
+                            'success' => true,
+                            'redirect_url' => $this->generateUrl('app.account'),
+                        ]);
                     }
                     
-
-                    $notifications->setTitre("Update Employe");
-                    $notifications->setReader(false);
-                    $notifications->setCreatedAt(date("Y-m-d h:i"));
-                    $notifications->setTypeNotif("MJ");
-                   
-
-                    $notifications->setEmploye($employe);
-                    $this->em->persist($notifications);
                     
-                    $this->em->flush();
-                    return new JsonResponse([
-                        'success' => true,
-                        'redirect_url' => $this->generateUrl('app.account'),
-                    ]);
+                }
+                elseif(($this->authorizationChecker->isGranted('ROLE_LAVAGE') OR $this->authorizationChecker->isGranted('ROLE_LIVREUR'))){
+
+                    if ($nom==null OR $username==null OR $numero==null OR $adresse==null){
+                        
+                        $message="Veuillez remplir tout les champs requis avant soumission";            
+                        return $this->json($message);
+
+                    }
+                    if (strlen($numero)>8){
+                        $message="Numéro de téléphone trop long!";            
+                        return $this->json($message);     
+                    }
+
+                    if ($password!= null AND strlen($password)<8){
+                        $message="Mot de passe: minimum 8 caratères";            
+                        return $this->json($message);     
+                    }
+
                     
+
+                    
+                    
+                    $clients = $this->utilisateurRepo->findDataClient();
+                    foreach ($clients as $key => $value) {
+                        if ($value->getUsername()== $username AND $value->getEmploye()->getId()!= $id){
+                            $message=$value->getEmploye()->getId();            
+                            return $this->json($message);     
+                        }
+                        if ($value->getNumero()== $numero AND $value->getEmploye()->getId()!= $id){
+                            $message="Numéro de téléphone existant!";            
+                            return $this->json($message);     
+                        }
+                    }
+                    if (isset($nom,$username,$numero,$adresse)){
+                        foreach ($utilisateur as $key => $value) {
+                            $value->setNom($nom);
+                            $value->setUsername($username);
+                            if($password!=null){
+                                $hashedPassword = $passwordHasher->hashPassword($value,$password);
+                                $value->setMotDePasse($hashedPassword);
+                            }
+                            //$utilisateur->setEmail($email);
+                            $value->setNumero($numero);
+                            $value->setAdresse($adresse);
+
+                            $this->em->persist($value);
+                        }
+
+
+                        $this->em->persist($employe);
+                        foreach ($utilisateur as $key => $value) {
+                            $value->setEmploye($employe);
+                            $this->em->persist($value);
+                        }
+                        
+
+                        $notifications->setTitre("Update Employe");
+                        $notifications->setReader(false);
+                        $notifications->setCreatedAt(date("Y-m-d h:i"));
+                        $notifications->setTypeNotif("MJ");
+                    
+
+                        $notifications->setEmploye($employe);
+                        $this->em->persist($notifications);
+                        
+                        $this->em->flush();
+                        return new JsonResponse([
+                            'success' => true,
+                            'redirect_url' => $this->generateUrl('app.account'),
+                        ]);
+                        
+                    }
                 }
             }
             else{

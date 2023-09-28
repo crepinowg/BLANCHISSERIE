@@ -68,11 +68,14 @@
         </div>
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        {% if is_granted("ROLE_ADMIN")%}
         <li class="nav-item">
             <a class="nav-link" href="{{path('app.paiement')}}">
                 <span>Payement</span>
             </a>
         </li>
+        {%endif%}
+        
         <li class="nav-item">
             <a class="nav-link active"  href="">
                 <span>Tabs Payement</span>
@@ -169,8 +172,258 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody class="fw-bold text-gray-600">
+                                    
                                     {% for paiements in paiement %}
+                                    {% if is_granted('ROLE_ADMIN') %}
                                     <!--begin::Table row-->
+                                    <tr>
+                                        <!--begin::Checkbox-->
+                                        <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" type="checkbox" value="1" />
+                                            </div>
+                                        </td>
+                                        <!--end::Checkbox-->
+                                        <!--begin::Category=-->
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <!--begin::Thumbnail-->
+                                                <a href="edit-product.html" class="symbol symbol-50px">
+                                                    <span class="symbol-label"
+                                                        style="background-image:url(../../../assets/media/stock/ecommerce/1.gif);"></span>
+                                                </a>
+                                                <!--end::Thumbnail-->
+                                                <div class="ms-5">
+                                                    <!--begin::Title-->
+                                                    {% if paiements.employe != null %}
+                                                    <a href=""
+                                                        class="text-gray-800 text-hover-primary fs-5 "
+                                                        data-kt-ecommerce-product-filter="product_name">
+                                                       {% for paiementEmploye in paiements.employe.utilisateur%}
+                                                        {{paiementEmploye.nom}}</br>
+                                                        <span class="text-400 text-hover-primary text-info fs-7 ">{{paiements.salaireinitital | number_format}}F</span>
+                                                       {% endfor %}
+                                                    </a>
+                                                  
+                                                    {% elseif paiements.gerant != null%}
+                                                    <a href=""
+                                                    class="text-gray-800 text-hover-primary fs-5 "
+                                                    data-kt-ecommerce-product-filter="product_name">
+                                                   {% for paiementEmploye in paiements.gerant.utilisateur%}
+                                                    {{paiementEmploye.nom}}</br>
+                                                    <span class="text-400 text-hover-primary text-info fs-7 ">{{paiements.salaireinitital | number_format}}F</span>
+                                                   {% endfor %}
+                                                </a>
+                                                    {%endif%}
+                                                    <!--end::Title-->
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!--end::Category=-->
+                                        <!--begin::SKU=-->
+                                        <td class="text-end pe-0">
+                                        {% for paiementEmployeRole in paiements.employe.roles%}                                    
+                                        {% if paiementEmployeRole == "ROLE_REPASSEUR" %}
+                                        <span class="text-muted fw-bold d-block pt-1">Repasseur</span>
+                                        {% elseif paiementEmployeRole == "ROLE_LIVREUR" %}
+                                        <span class="text-muted fw-bold d-block pt-1">Livreur</span>
+                                        {% elseif paiementEmployeRole == "ROLE_LAVAGE" %}
+                                        <span class="text-muted fw-bold d-block pt-1">Resp. Lavage</span>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if paiements.gerant != null %}
+                                        <span class="text-muted fw-bold d-block pt-1">Gérant</span>
+                                        {% endif %}
+                                                
+                                        </td>
+                                        <!--end::SKU=-->
+                                        <!--begin::Qty=-->
+                                        <td class="text-end pe-0" data-order="40">
+                                            <span class="text-gray-800 text-hover-primary fs-5 ">
+                                               {{paiements.paiementfinal | number_format}}F</br>
+                                               <div class="d-inline text-info pr-1">
+                                                <i class="fa fa-angle-up text-info"></i>
+                                                <span class="text-400 text-hover-primary fs-7 ">{{paiements.augmentation}}%</span>
+                                            </div>
+                                               
+
+                                            </span>
+                                        </td>
+                                        <!--end::Qty=-->
+
+                                        <!--begin::Price=-->
+                                        <td class="text-end pe-0">
+                                            <span class="fw-bolder text-gary text-uppercase">
+                                               {{paiements.paiementat | date('d M Y')}} 
+                                            </span>
+                                        </td>
+                                        <!--end::Price=-->
+
+                                        <!--begin::Rating-->
+                                        <td class="text-end pe-0" data-order="rating-5">
+                                            <span class="text-gray-800 text-hover-primary fs-5 text-capitalize">
+                                                {{paiements.moyenpaiement}}
+                                            </span>
+                                        </td>
+                                        <!--end::Rating-->
+                                        <!--begin::Status=-->
+                                        
+                                        <td class="text-end pe-0" data-order="diamond">
+                                            <!--begin::Badges-->
+                                            <div class="badge badge-light-success">PAYER</div>
+                                            <!--end::Badges-->
+                                        </td>
+                                        <!--end::Status=-->
+                                        <!--begin::Action=-->
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                                                <span class="svg-icon svg-icon-5 m-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <path
+                                                            d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                                                            fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon--></a>
+                                            <!--begin::Menu-->
+                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
+                                                data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a href="edit-product.html" class="menu-link px-3">Editer</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a href="#" class="menu-link px-3"
+                                                        data-kt-ecommerce-product-filter="delete_row">Supprimer</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href=""
+                                                        class="menu-link px-3">Show</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href=""
+                                                        class="menu-link px-3">Facturer</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                            </div>
+                                            <!--end::Menu-->
+                                        </td>
+                                        <!--end::Action=-->
+                                    </tr>
+                                    {% endif %}
+                                    
+
+                                    {% if is_granted('ROLE_GERANT_NOIR') and app.gerant == paiements.gerant %}
+                                    
+                                    <tr>
+                                        <!--begin::Checkbox-->
+                                        <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" type="checkbox" value="1" />
+                                            </div>
+                                        </td>
+                                        <!--end::Checkbox-->
+                                        <!--begin::Category=-->
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <!--begin::Thumbnail-->
+                                                <a href="edit-product.html" class="symbol symbol-50px">
+                                                    <span class="symbol-label"
+                                                        style="background-image:url(../../../assets/media/stock/ecommerce/1.gif);"></span>
+                                                </a>
+                                                <!--end::Thumbnail-->
+                                                <div class="ms-5">
+                                                    <!--begin::Title-->
+                                                    <a href=""
+                                                        class="text-gray-800 text-hover-primary fs-5 "
+                                                        data-kt-ecommerce-product-filter="product_name">
+                                                       {% for paiementEmploye in paiements.gerant.utilisateur%}
+                                                        {{paiementEmploye.nom}}</br>
+                                                        <span class="text-400 text-hover-primary text-info fs-7 ">{{paiements.salaireinitital | number_format}}F</span>
+                                                       {% endfor %}
+                                                    </a>
+                                                    <!--end::Title-->
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!--end::Category=-->
+                                        <!--begin::SKU=-->
+                                        <td class="text-end pe-0">
+                                        
+                                        <span class="text-muted fw-bold d-block pt-1">Gérant</span>
+                                       
+                                                
+                                        </td>
+                                        <!--end::SKU=-->
+                                        <!--begin::Qty=-->
+                                        <td class="text-end pe-0" data-order="40">
+                                            <span class="text-gray-800 text-hover-primary fs-5 ">
+                                               {{paiements.paiementfinal | number_format}}F</br>
+                                               <div class="d-inline text-info pr-1">
+                                                <i class="fa fa-angle-up text-info"></i>
+                                                <span class="text-400 text-hover-primary fs-7 ">{{paiements.augmentation}}%</span>
+                                            </div>
+                                               
+
+                                            </span>
+                                        </td>
+                                        <!--end::Qty=-->
+
+                                        <!--begin::Price=-->
+                                        <td class="text-end pe-0">
+                                            <span class="fw-bolder text-gary text-uppercase">
+                                               {{paiements.paiementat | date('d M Y')}} 
+                                            </span>
+                                        </td>
+                                        <!--end::Price=-->
+
+                                        <!--begin::Rating-->
+                                        <td class="text-end pe-0" data-order="rating-5">
+                                            <span class="text-gray-800 text-hover-primary fs-5 text-capitalize">
+                                                {{paiements.moyenpaiement}}
+                                            </span>
+                                        </td>
+                                        <!--end::Rating-->
+                                        <!--begin::Status=-->
+                                        
+                                        <td class="text-end pe-0" data-order="diamond">
+                                            <!--begin::Badges-->
+                                            <div class="badge badge-light-success">PAYER</div>
+                                            <!--end::Badges-->
+                                        </td>
+                                        <!--end::Status=-->
+                                        <!--begin::Action=-->
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-sm btn-light btn-active-light-primary"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">N/A
+                                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                                                <span class="svg-icon svg-icon-5 m-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none">
+                                                        <path
+                                                            d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                                                            fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon--></a>
+                                            <!--begin::Menu-->
+                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
+                                                data-kt-menu="true">
+                                                
+                                            </div>
+                                            <!--end::Menu-->
+                                        </td>
+                                        <!--end::Action=-->
+                                    </tr>
+                                    {% endif %}
+
+                                    
+                                    {% if (is_granted('ROLE_LIVREUR') or is_granted('ROLE_LAVAGE')) and app.employe == paiements.employe %}
                                     <tr>
                                         <!--begin::Checkbox-->
                                         <td>
@@ -257,7 +510,7 @@
                                         <!--begin::Action=-->
                                         <td class="text-end">
                                             <a href="#" class="btn btn-sm btn-light btn-active-light-primary"
-                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">N/A
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                                                 <span class="svg-icon svg-icon-5 m-0">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -271,30 +524,14 @@
                                             <!--begin::Menu-->
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
                                                 data-kt-menu="true">
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="edit-product.html" class="menu-link px-3">Editer</a>
-                                                </div>
-                                                <!--end::Menu item-->
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3"
-                                                        data-kt-ecommerce-product-filter="delete_row">Supprimer</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href=""
-                                                        class="menu-link px-3">Show</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href=""
-                                                        class="menu-link px-3">Facturer</a>
-                                                </div>
-                                                <!--end::Menu item-->
+                                                
                                             </div>
                                             <!--end::Menu-->
                                         </td>
                                         <!--end::Action=-->
                                     </tr>
+                                    {% endif %}
+
                                     {% endfor %}
                                     <!--end::Table row-->
                                 </tbody>
