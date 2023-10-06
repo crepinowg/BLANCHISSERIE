@@ -6,6 +6,7 @@ namespace App\Service;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class MailerService
 {
@@ -16,14 +17,21 @@ class MailerService
         $this->mailer = $mailer;
     }
 
-    public function sendEmail()
+    public function sendEmailFacture(  
+        string $to,
+        string $subject,
+        string $htmlTemplate,
+        array $context
+    )
     {
-        $email = (new Email())
-            ->from(new Address('totopressing@gmail.com'))
-            ->to('crepintoviawou@gmail.com')
-            ->subject('FACTURE')
-            ->text('HI BOYS');
-
+        $from = "kplola.toviawou@ipnetinstitute.com";
+        $today = Date('d M Y');
+        $email = (new TemplatedEmail())
+            ->from($from)
+            ->to($to)
+            ->subject($subject)
+            ->htmlTemplate('email_sender/'.$htmlTemplate) // Modèle HTML
+            ->context([$context]); // Données passées au modèle Twig
         $this->mailer->send($email);
     }
 }

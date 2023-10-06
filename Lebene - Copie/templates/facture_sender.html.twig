@@ -1,102 +1,14 @@
-{% extends 'base.html.twig' %}
-
-{% block clientFacture %}
 
 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 <!--end::Page Vendor Stylesheets-->
 <!--begin::Global Stylesheets Bundle(used by all pages)-->
 <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css')}}" />
 <div class="app-main__inner">
-    <div class="app-page-title">
-        <div class="page-title-wrapper">
-            <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
-                </div>
-                <div><span class="text-uppercase font-weight-bold">
-
-                        {% for clientNom in clients.utilisateur%}
-                        {{clientNom.nom}} - {{clientNom.username}}
-                        {% endfor %}
-
-                    </span>
-                    <div class="page-title-subheading">
-                        {% for clientEmail in clients.utilisateur%}
-                        {{clientEmail.email}} - {{clientEmail.numero}}
-                        {% endfor %}
-                        </br>
-
-                        Indication: {{clients.zip}}, {{clients.indication}}</br>
-
-                        {% if clients.admin == null%}
-                        Ajouté par le Gérant
-                        {% for gerantNom in clients.gerant.utilisateur%}
-                        {{gerantNom.nom}}
-                        {% endfor%}
-                        {% elseif clients.admin != null%}
-                        Ajouté par l'Admin
-                        {% for adminNom in clients.admin.utilisateur%}
-                        {{adminNom.nom}}</br>
-                        Crée le {{adminNom.createdat | date("d M Y")}} à {{adminNom.createdat | date("h:i")}}
-                        {% endfor%}
-                        {% endif %}</br>
-                        <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE
-                            CLIENT</span>
-                    </div>
-                </div>
-            </div>
-            <div class="page-title-actions">
-                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
-                    class="btn-shadow mr-3 btn btn-dark">
-                    <i class="fa fa-star"></i>
-                </button>
-                <div class="d-inline-block dropdown">
-                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        class="btn-shadow dropdown-toggle btn btn-info">
-                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                            <i class="fa fa-business-time fa-w-20"></i>
-                        </span>
-                        Buttons
-                    </button>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-inbox"></i>
-                                    <span> Inbox</span>
-                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-book"></i>
-                                    <span> Book</span>
-                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-picture"></i>
-                                    <span> Picture</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a disabled class="nav-link disabled">
-                                    <i class="nav-link-icon lnr-file-empty"></i>
-                                    <span> File Disabled</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
-       
-    </ul>
+  
     <!--begin::Container-->
     <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
         <!--begin::Post-->
@@ -170,7 +82,7 @@
                                     {% if k==loop.index%}
                                     <div class="flex-root d-flex flex-column">
                                         <span class="text-muted">Invoice ID</span>
-                                        <a href="{{path('app.facture.showInvoice' , {id: factureId.id})}}"><span class="fs-5">#INV-00{{factureId.invoicecode}}</span></a>
+                                        <span class="fs-5">#INV-00{{factureId.invoicecode}}</span>
                                     </div>
                                     <div class="flex-root d-flex flex-column">
                                         <span class="text-muted">Old Order ID</span>
@@ -227,14 +139,14 @@
                                                         <div class="d-flex align-items-center">
                                                             <!--begin::Thumbnail-->
                                                             <a href="../../ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
-                                                                <span class="symbol-label" style="background-image:url(../../../assets/media/stock/ecommerce/1.gif);"></span>
+                                                                <img src="{{asset('uploads/icones/'~ entete1.tarifs.icons.syntaxeicon)}}">
                                                             </a>
                                                             <!--end::Thumbnail-->
                                                             <!--begin::Title-->
                                                             <div class="ms-5 text-capitalize">
                                                                 {{entete1.tarifs.icons.nomicon}}
                                                                     {% if entete1.express == 1 and entete1.expressdelivered == 0%}
-                                                                    <a href="{{path('app.facture.express_livrer' , {id: entete1.id})}}"><div class="badge badge-danger">COLLECTE</div></div>
+                                                                    <div class="badge badge-danger">COLLECTE</div></div>
                                                                     {% elseif entete1.express == 1 and entete1.expressdelivered == 1%}
                                                                     <div class="badge badge-info">LIVRER</div>
                                                                     {% endif %}
@@ -355,27 +267,7 @@
                                 <!-- end::Download-->
                             </div>
 
-                            {% set k=1 %}
-                            {% for livr in facture %}
-
-                            {% if livr.etat=='LAVAGE'%}
-                            {% if k==loop.index%}
-                            <a href="{{path('app.statut.facture' , {id: livr.id})}}" class="btn btn-danger my-1">LAVAGE</a>
-                            
-                            {% endif %}
-                            {% endif %}
-                            {% if livr.etat=='ATTENTE'%}
-                            {% if k==loop.index%}
-                            <a href="{{path('app.statut2.facture' , {id: livr.id})}}" class="btn btn-warning my-1">LIVRAISON</a>
-                            
-                            {% endif %}
-                            {% endif %}
-                            {% if livr.etat=='LIVRAISON'%}
-                            {% if k==loop.index%}
-                            <a href="" class="btn btn-primary my-1">LIVRER & PAYER</a>
-                            {% endif %}
-                            {% endif %}
-                            {% endfor%}
+                           
                             <!-- end::Actions-->
                             <!-- begin::Action-->
                             
@@ -392,18 +284,7 @@
         <!--end::Post-->
     </div>
     <!--end::Container-->
-    <script>
-        function printElement(elementId) {
-            var elementToPrint = document.getElementById(elementId);
-            var temporaryContainer = document.createElement("div");
-            temporaryContainer.appendChild(elementToPrint.cloneNode(true));
-            
-            window.print(document.body.appendChild(temporaryContainer));
-            document.body.removeChild(temporaryContainer);
-        }
-
-    </script>
+ 
     </body>
 
     </html>
-    {% endblock %}

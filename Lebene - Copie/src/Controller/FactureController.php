@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Facture;
 use App\Entity\Rappel;
 use Symfony\Component\Security\Core\Security;
-
+use App\Controller\EmailSenderController;
 use App\Entity\Livraison;
 use App\Entity\Entete;
 use App\Entity\Administrateur;
@@ -50,7 +50,9 @@ class FactureController extends AbstractController
 
 
     public function __construct(
-        EntityManagerInterface $em, 
+        EntityManagerInterface $em,
+        MailerService $mailerService,
+        EmailSenderController $emailSender, 
         FactureEquipeRepository $factureEquipeRepo,
         FunctionImplementController $functionImplement,
         RappelRepository $rappelRepo,
@@ -66,6 +68,8 @@ class FactureController extends AbstractController
         EntrepriseRepository $entrepriseRepo
         ){
         $this->clientRepo = $clientRepo;
+        $this->mailerService = $mailerService;
+        $this->emailSender = $emailSender;
         $this->employeEquipeRepo = $employeEquipeRepo;
         $this->rappelRepo = $rappelRepo;
         $this->factureEquipeRepo = $factureEquipeRepo;
@@ -883,12 +887,22 @@ class FactureController extends AbstractController
                     //exit;
                     //return new RedirectResponse('app.facture.show', ['id' => $id]);
                     // Effectue une redirection vers la page de redirection
-                    return new JsonResponse([
-                        'success' => true,
-                        'redirect_url' => $this->generateUrl('app.facture.show', ['id' => $id]),
-                    ]);
+                   
                     
                     //return $this->redirectToRoute('app.facture.show', ['id' => $id]);
+                   $today = Date("d-M-Y");
+                   foreach ($client->getUtilisateur() as $key => $value) {
+                     $user = $value;
+                   }
+                   $this->mailerService->sendEmailFacture(
+                    $user->getEmail(),
+                    "Facture du ".$today,
+                    "my_mail.html.twig",
+                    [
+                        "client"=>$client
+                    ]
+                    
+                );
 
                 /* $email = (new Email())
                     ->from('toviawoukplolacrepin@gmail.com')
@@ -902,6 +916,11 @@ class FactureController extends AbstractController
                     //$transports = Transport::fromDns();
                 //dd($mailer= new Mailer());
                 ($mailer->send($email));*/
+
+                return new JsonResponse([
+                    'success' => true,
+                    'redirect_url' => $this->generateUrl('app.facture.show', ['id' => $id]),
+                ]);
 
                 }
 
