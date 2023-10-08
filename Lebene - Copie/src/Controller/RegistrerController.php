@@ -33,7 +33,10 @@ use Symfony\Component\DependencyInjection\Autowire\Autowire;
 use App\Entity\Equipe;
 use App\Entity\EmployeEquipe;
 use App\Entity\Entreprise;
+use App\Service\MailerService;
+use DateInterval;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class RegistrerController extends AbstractController
 {
@@ -44,8 +47,15 @@ class RegistrerController extends AbstractController
     private $authorizationChecker;
 
 
-
+      
+      /**
+       * __construct
+       *
+       * @return void
+       */
       public function __construct(
+        TokenGeneratorInterface $tokenGeneratorInterface,
+        MailerService $mailerService,
         AdministrateurRepository $repoAdmin, 
         EmployeRepository $repoEmploye,
         FunctionImplementController $functionImplement,
@@ -57,7 +67,9 @@ class RegistrerController extends AbstractController
         EntityManagerInterface $em,
         AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->repoAdmin= $repoAdmin;
+        $this->mailerService = $mailerService;
+        $this->repoAdmin = $repoAdmin;
+        $this->tokenGeneratorInterface= $tokenGeneratorInterface;
         $this->repoEmploye= $repoEmploye;
         $this->functionImplement = $functionImplement;
         $this->repoEquipe= $repoEquipe;
@@ -69,7 +81,129 @@ class RegistrerController extends AbstractController
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    #[Route('/register', name: 'app.register')]
+    #[Route('/account_verify/{token}/{id}', name: 'app.account.verify')]
+    public function account_verify(string $token, Client $client){
+
+        
+        if ($client == null OR $client->getUtilisateur() == null){
+            $type = "warning";
+            $message = "Une erreur s'est produite. Il est probable que compte est été désactivé ou supprimer. Veuillez contacter le service client lebene.service@gmail.com";
+        }
+        else{
+            foreach ($client->getUtilisateur() as $key => $value) {
+                $utilisateur = $value;
+                if($utilisateur->getTokenRegistration() != $token){
+                    if ($utilisateur->isIsVerify()){   
+                        $message = "Cette vérification à déjà été faite et votre compte est actif";
+                        $type = "warning";
+                    }
+                    else{
+                        $message = "La vérification de votre compte a échouer. Veuillez réessayer ou demander un nouveau code de vérification.";
+                    $type = "danger";
+                    }
+                    
+                }
+    
+                elseif( (new \DateTime('now'))->format("Y-m-d h:i") > (new \DateTime($utilisateur->getTokenRegistrationLifeTime()))->format("Y-m-d h:i")){
+                    if ($utilisateur->isIsVerify()){   
+                        $message = "Cette demande de vérification est expirée. Mais votre compte a déja été activé";
+                        $type = "warning";
+                    }
+                    else{
+                        $message = "Cette demande de vérification est expirée. Veuillez demander une nouvelle vérification";
+                        $type = "danger";
+                    }
+                  
+                }
+    
+                elseif ($utilisateur->isIsVerify()){
+                    $type = "success";
+                    $message = "Votre compte a déja été activé";
+                }
+                elseif (!$utilisateur->isIsVerify()){
+                    $utilisateur->setIsVerify(true);
+                    $this->em->flush();
+                    if(
+                        $utilisateur->getRoles() == ["ROLE_ADMIN"] OR 
+                        $utilisateur->getRoles() == ["ROLE_GERANT"] OR 
+                        $utilisateur->getRoles() == ["ROLE_SUPER_ADMIN"] OR 
+                        $utilisateur->getRoles() == ["ROLE_LIVREUR"] OR
+                        $utilisateur->getRoles() == ["ROLE_LAVAGE"])
+                    {
+                        $this->addFlash('success','Votre compte à été bien activé. Connecter-vous et accéder a votre dashboard');
+                        return $this->redirectToRoute("app.security");
+                    }
+                    else{
+                        $type = "success";
+                        $message = "Votre compte a été bien activé";
+                    }
+                }
+                
+                return $this->render("email_sender/verify_page.html.twig", [
+                    "function_name"=>'account_verify',
+                    "message"=>$message,
+                    "type"=>$type,
+                    "idClient"=> $client->getId()
+                ]);
+            }
+        }
+
+        $type = "warning";
+        $message = "Une erreur s'est produite. Il est probable que compte est été désactivé ou supprimer. Veuillez contacter le service client lebene.service@gmail.com";
+        return $this->render("email_sender/verify_page.html.twig", [
+            "function_name"=>'account_verify',
+            "message"=>$message,
+            "type"=>$type,
+            "idClient"=> $client->getId()
+        ]);
+    }
+
+    #[Route('/account_new_verify/{id}', name: 'app.account.new.verify')]
+    public function account_new_verify(Client $client, int $id){
+
+        foreach ($client->getUtilisateur() as $key => $value) {
+            $email = $value->getEmail();
+            $username = $value->getUsername();
+            $utilisateur = $value;
+        }
+        $now = new \DateTime('now');
+        $nextDay = ($now->add(new \DateInterval('P1D')))->format('Y-m-d h:i');
+        $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
+        $utilisateur->setTokenRegistration($tokenRegistration);
+        $utilisateur->setTokenRegistrationLifeTime($nextDay);
+        $this->em->flush();
+        
+        $this->mailerService->sendEmailFacture(
+            $email,
+            "Confirmation d'email",
+            "mail_registration_verify.html.twig",
+            [
+                "client"=>$client,
+                "username"=>$username,
+                "tokenRegistration" => $tokenRegistration,
+                "tokenLifeTime" => $nextDay,
+            ] 
+        );
+
+
+        return $this->render("email_sender/verify_page.html.twig", [
+            "function_name"=>'account_new_verify',
+            "email"=>$email,
+            "type"=>"success",
+            "tokenLifeTime" => $utilisateur->getTokenRegistrationLifeTime()
+        ]);
+        
+    }
+
+    #[Route('/register', name: 'app.register')]    
+    /**
+     * index
+     *
+     * @param  mixed $request
+     * @param  mixed $security
+     * @param  mixed $passwordHasher
+     * @return Response
+     */
     public function index(Request $request , Security $security,UserPasswordHasherInterface $passwordHasher): Response
     {
         /*if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -495,7 +629,9 @@ class RegistrerController extends AbstractController
 
                 //dd($nom."-".$username."-".$email."-".$numero."-".$adresse."-".$zip."-".$indication);
                 if (isset($nom,$username,$email,$numero,$adresse,$zip,$indication)){
+                    $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
                     //dd("OAKY");
+                    $utilisateur->setTokenRegistration($tokenRegistration);
                     $utilisateur->setNom($nom);
                     $utilisateur->setUsername($username);
                     $utilisateur->setEmail($email);
@@ -519,6 +655,7 @@ class RegistrerController extends AbstractController
 
                     $utilisateur->setEmailCheck($emailCheck);
                     $utilisateur->setNumeroCheck($numeroCheck);
+
                     $utilisateur->setRoles(["ROLE_CLIENT"]);
                     $hashedPassword = $passwordHasher->hashPassword($utilisateur,$password);
                     $utilisateur->setMotDePasse($hashedPassword);
@@ -569,6 +706,20 @@ class RegistrerController extends AbstractController
                     $this->em->persist($notifications);
                     $this->em->flush();
                    
+                    $this->mailerService->sendEmailFacture(
+                    $email,
+                    "Confirmation d'email",
+                    "mail_registration_verify.html.twig",
+                    [
+                        "client"=>$client,
+                        "username"=>$username,
+                        "tokenRegistration" => $tokenRegistration,
+                        "tokenLifeTime" => $utilisateur->getTokenRegistrationLifeTime(),
+                    ]
+                    
+                    );
+                    
+                   
                     return new JsonResponse([
                         'success' => true,
                         'redirect_url' => $this->generateUrl('app.client.liste'),
@@ -586,6 +737,164 @@ class RegistrerController extends AbstractController
             }
 
         return $this->redirectToRoute('app.equipe.liste');
+
+    }
+
+    #[Route('/client_own_register', name: 'app.client.own.register')]
+    public function client_own_register(Request $request ,Security $security, UserPasswordHasherInterface $passwordHasher): Response
+    {
+     
+                $this->functionImplement->checking();
+                $suspendu = $this->functionImplement->admin_suspendu();
+                if ($suspendu == 1){
+                    return $this->redirectToRoute('app.notfound');
+                }
+                
+        
+        $client = new Client;
+        $utilisateur = new Utilisateur;
+        $notifications = new Notifications;
+        $codeUiAll = new CodeUiAll;
+
+        
+
+           
+            $username=strtolower($request->request->get('username'));
+            $gps=($request->request->get('gps'));
+            $email=strtolower($request->request->get('email'));
+            $numero=$request->request->get('contact');
+            $adresse=$request->request->get('adresse');
+            $zip=$request->request->get('zip');
+            $sexe=$request->request->get('sexe');
+            $indication=$request->request->get('indication');
+            $password="1234";
+            $numeroCheck=false;
+            $emailCheck=false;
+            $statut="N/A";
+            $nom=strtoupper($request->request->get('nom'));
+            $createdAt=Date('Y-m-d h:i');
+            if ($request->isXmlHttpRequest()) {
+                if ($nom==null OR $username==null OR $email==null OR $numero==null OR $adresse==null OR $zip==null OR $indication==null){
+                    
+                    $message="Veuillez remplir tout les champs requis avant soumission";            
+                    return $this->json($message);
+
+                }
+
+                if (strlen($numero)>8){
+                    $message="Numéro de téléphone trop long!";            
+                    return $this->json($message);     
+                }
+                
+                
+                $clients = $this->utilisateurRepo->findDataClient();
+                foreach ($clients as $key => $value) {
+                    if ($value->getUsername()== $username){
+                        $message="Le username existe déjà!";            
+                        return $this->json($message);     
+                    }
+                    if ($value->getEmail()== $email){
+                        $message="Cette adresse Email existe déjà!";            
+                        return $this->json($message);     
+                    }
+
+                    if ($value->getNumero()== $numero){
+                        $message="Numéro de téléphone existant!";            
+                        return $this->json($message);     
+                    }
+                }
+
+                if(strpos($numero, "-") !== false){
+                    $message="Aucun caractère aurorisé dans le champ 'Numéro' !";
+                    
+                    return $this->json($message);
+                }
+
+                
+                
+
+                //dd($nom."-".$username."-".$email."-".$numero."-".$adresse."-".$zip."-".$indication);
+                if (isset($nom,$username,$email,$numero,$adresse,$zip,$indication)){
+                    $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
+                    //dd("OAKY");
+                    $utilisateur->setTokenRegistration($tokenRegistration);
+                    $utilisateur->setNom($nom);
+                    $utilisateur->setUsername($username);
+                    $utilisateur->setEmail($email);
+                    $utilisateur->setNumero($numero);
+                    $utilisateur->setAdresse($adresse);
+                    $utilisateur->setSexe($sexe);
+                    $utilisateur->setCreatedAt($createdAt);
+                    //dd($admin);
+
+                    $utilisateur->setEmailCheck($emailCheck);
+                    $utilisateur->setNumeroCheck($numeroCheck);
+
+                    $utilisateur->setRoles(["ROLE_CLIENT"]);
+                    $hashedPassword = $passwordHasher->hashPassword($utilisateur,$password);
+                    $utilisateur->setMotDePasse($hashedPassword);
+
+                    $codeUiFind = $this->repoCodeUiAll->findAll();
+                    if($codeUiFind==null){
+
+                        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                        $random_code = substr(str_shuffle($chars), 0, 4);
+                        $client->setCodeUi($random_code);
+                        $codeUiAll->setCodeUi($random_code);
+                        
+                    }
+                    foreach ($codeUiFind as $key => $value) {
+
+                        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                        $random_code = substr(str_shuffle($chars), 0, 4);
+                        if ($value->getCodeUi()==$random_code){
+                            //pass
+                        }
+                        else if ($value->getCodeUi()!=$random_code){
+                            $client->setCodeUi($random_code);
+                            $codeUiAll->setCodeUi($random_code);
+                        }
+
+                    }
+
+                    $client->setRoles(["ROLE_CLIENT"]);
+                    $client->setStatut($statut);
+                    $client->setZip($zip);
+                    $client->setIndication($indication);
+                    if ($gps != null) {
+                        $client->setGpsLink($gps);
+                    }
+                    $this->em->persist($client);
+                    $this->em->persist($codeUiAll);
+                    $utilisateur->setClient($client);
+                    $this->em->persist($utilisateur);
+                    $notifications->setTitre("Mise à jour Client");
+                    $notifications->setReader(false);
+                    $notifications->setCreatedAt(date("Y-m-d h:i"));
+                    $notifications->setTypeNotif("MJ");
+                   
+                    $notifications->setClient($client);
+                    $this->em->persist($notifications);
+                    $this->em->flush();
+                   
+                    
+                    return new JsonResponse([
+                        'success' => true,
+                        'redirect_url' => $this->generateUrl('app.account.new.verify',["id"=>$client->getId()]),
+                    ]);
+                    
+                }
+               
+            }
+
+            else{
+                $client = $this->repoClient->findAll();
+                return $this->render('register_own_client.html.twig', [
+                'controller_name' => 'ClientController',
+            ]);
+            }
+
+        return $this->redirectToRoute('app.client.own.register');
 
     }
 

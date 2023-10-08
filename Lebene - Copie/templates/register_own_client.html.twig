@@ -1,0 +1,530 @@
+<link href="./assets/css/main.d810cf0ae7f39f28f336.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- form method="POST" action="{{path('app.client.register')}}" -->
+
+<form id="my-form">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+
+
+                </div>
+                <div class="page-title-actions">
+
+                    <div class="d-inline-block dropdown">
+
+                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link">
+                                        <i class="nav-link-icon lnr-inbox"></i>
+                                        <span> Inbox</span>
+                                        <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link">
+                                        <i class="nav-link-icon lnr-book"></i>
+                                        <span> Book</span>
+                                        <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link">
+                                        <i class="nav-link-icon lnr-picture"></i>
+                                        <span> Picture</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a disabled class="nav-link disabled">
+                                        <i class="nav-link-icon lnr-file-empty"></i>
+                                        <span> File Disabled</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-10 col-md-12">
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+                                <div id="smartwizard">
+
+                                    <div class="form-wizard-content">
+                                        <div id="step-1">
+                                            <div id="accordion" class="accordion-wrapper mb-3">
+                                                <div class="card">
+                                                    <div id="headingOne" class="card-header">
+                                                        <button type="button" data-toggle="collapse"
+                                                            data-target="#collapseOne" aria-expanded="false"
+                                                            aria-controls="collapseOne"
+                                                            class="text-left m-0 p-0 btn btn-link btn-block">
+                                                            <span class="form-heading">Informations Personelles<p>
+                                                                    Veuillez remplir le formulaire suivant avec les
+                                                                    informatons du clients</p></span>
+                                                        </button>
+                                                    </div>
+                                                    <div data-parent="#accordion" id="collapseOne"
+                                                        aria-labelledby="headingOne" class="collapse show">
+                                                        <div class="card-body">
+
+                                                            <div class="form-row">
+                                                                <div class="col-md-6">
+                                                                    <div class="position-relative form-group">
+                                                                        <label for="emailId">Email</label>
+                                                                        <input name="email" id="emailId" placeholder=""
+                                                                            type="email" class="form-control" required>
+                                                                        <div
+                                                                            class="invalid-existant-email text-danger d-none">
+                                                                            Désolé! email existant.</div>
+                                                                        <div class="valid-email text-success d-none">
+                                                                            Nice</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="position-relative form-group">
+                                                                        <label for="examplePassword22">Nom</label>
+                                                                        <input name="nom" id="examplePassword22"
+                                                                            placeholder="" type="text"
+                                                                            class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="position-relative form-group">
+                                                                <label for="contactId">Numéro</label>
+                                                                <input name="contact" id="contactId" placeholder=""
+                                                                    type="number" class="form-control" required>
+                                                                <div
+                                                                    class="invalid-existant-contact text-danger d-none">
+                                                                    Désolé! numéro existant.</div>
+                                                                <div class="invalid-contact text-danger d-none">Entrez
+                                                                    un numéro valide (ex: +228 9000....)</div>
+                                                                <div class="valid-contact text-success d-none">Nice
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col-md-6">
+                                                                    <div class="position-relative form-group">
+
+                                                                        <div class="position-relative form-group">
+                                                                            <label for="usernameId">Username</label>
+                                                                            <input name="username" id="usernameId"
+                                                                                placeholder="" type="text"
+                                                                                class="form-control" required>
+                                                                            <div
+                                                                                class="invalid-existant-username text-danger d-none">
+                                                                                Désolé! username existant.</div>
+                                                                            <div
+                                                                                class="valid-username text-success d-none">
+                                                                                Nice</div>
+                                                                        </div>
+                                                                        <label for="">Sexe</label>
+                                                                        <div class="position-relative form-group">
+                                                                            <label for="">Masculin</label>
+                                                                            <input name="sexe" id="" placeholder=""
+                                                                                type="radio" class="form-control"
+                                                                                value="Masculin" required>
+                                                                            <label for="">Féminin</label>
+                                                                            <input name="sexe" id="" placeholder=""
+                                                                                type="radio" class="form-control"
+                                                                                value="Féminin" required>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="step-2">
+                                            <div id="accordion" class="accordion-wrapper mb-3">
+                                                <div class="card">
+                                                    <div id="headingOne" class="card-header">
+                                                        <button type="button" data-toggle="collapse"
+                                                            data-target="#collapseOne" aria-expanded="false"
+                                                            aria-controls="collapseOne"
+                                                            class="text-left m-0 p-0 btn btn-link btn-block">
+                                                            <span class="form-heading">Adresse Complète<p>Entrez tout
+                                                                    les adresses du clients</p></span>
+                                                        </button>
+                                                    </div>
+                                                    <div data-parent="#accordion" id="collapseOne"
+                                                        aria-labelledby="headingOne" class="collapse show">
+                                                        <div class="card-body">
+                                                            <div class="form-row">
+                                                                <div class="col-md-6">
+
+                                                                </div>
+                                                                <div class="col-md-6">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="position-relative form-group">
+                                                                <label for="exampleAddress">Adresse de Livraison &
+                                                                    Récupération</label>
+                                                                <input name="adresse" id="exampleAddress" placeholder=""
+                                                                    type="text" class="form-control" required>
+                                                            </div>
+
+                                                            <div class="form-row">
+                                                                <div class="col-md-6">
+                                                                    <div class="position-relative form-group">
+                                                                        <label for="exampleEmail2">Zip</label>
+                                                                        <input name="zip" id="exampleEmail2"
+                                                                            placeholder="" type="text"
+                                                                            class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="position-relative form-group">
+                                                                        <label for="examplePassword">Indication
+                                                                            détaillé</label>
+                                                                        <input name="indication" id="examplePassword"
+                                                                            placeholder="" type="text"
+                                                                            class="form-control" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="position-relative form-group">
+                                                                        <a onclick="getAddressLink()">
+                                                                            <button
+                                                                                class="btn-shadow btn-wide btn btn-success btn-lg"
+                                                                                type="button">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    height="1.5em"
+                                                                                    viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                                                                    <style>
+                                                                                        svg {
+                                                                                            fill: #ffffff
+                                                                                        }
+                                                                                    </style>
+                                                                                    <path
+                                                                                        d="M302.8 312C334.9 271.9 408 174.6 408 120C408 53.7 354.3 0 288 0S168 53.7 168 120c0 54.6 73.1 151.9 105.2 192c7.7 9.6 22 9.6 29.6 0zM416 503l144.9-58c9.1-3.6 15.1-12.5 15.1-22.3V152c0-17-17.1-28.6-32.9-22.3l-116 46.4c-.5 1.2-1 2.5-1.5 3.7c-2.9 6.8-6.1 13.7-9.6 20.6V503zM15.1 187.3C6 191 0 199.8 0 209.6V480.4c0 17 17.1 28.6 32.9 22.3L160 451.8V200.4c-3.5-6.9-6.7-13.8-9.6-20.6c-5.6-13.2-10.4-27.4-12.8-41.5l-122.6 49zM384 255c-20.5 31.3-42.3 59.6-56.2 77c-20.5 25.6-59.1 25.6-79.6 0c-13.9-17.4-35.7-45.7-56.2-77V449.4l192 54.9V255z" />
+                                                                                </svg>
+                                                                                Localiser-moi
+                                                                            </button>
+                                                                            <div class=" gps-ok-icon d-none">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#357e3a}</style><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z"/></svg>
+                                                                                Votre localisation a bien été ajouté.
+                                                                            </div>
+                                                                        </a>
+                                                                        <input type="text" style="display: none;" id="gps" name="gps">
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div id="step-3">
+                                            <div class="no-results">
+                                                <div class="swal2-icon swal2-success swal2-animate-success-icon">
+                                                    <div class="swal2-success-circular-line-left"
+                                                        style="background-color: rgb(255, 255, 255);"></div>
+                                                    <span class="swal2-success-line-tip"></span>
+                                                    <span class="swal2-success-line-long"></span>
+                                                    <div class="swal2-success-ring"></div>
+                                                    <div class="swal2-success-fix"
+                                                        style="background-color: rgb(255, 255, 255);"></div>
+                                                    <div class="swal2-success-circular-line-right"
+                                                        style="background-color: rgb(255, 255, 255);"></div>
+                                                </div>
+                                                <div class="results-subtitle mt-4">Finalisation</div>
+                                                <div class="results-title">Revoyer vos informations et enregistrer
+                                                </div>
+                                                <div class="mt-3 mb-3"></div>
+                                                <div class="text-center">
+                                                    <button class="btn-shadow btn-wide btn btn-success btn-lg"
+                                                        type="submit">Finish</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divider"></div>
+                                <div class="clearfix">
+                                    <button type="button" id="reset-btn"
+                                        class="btn-shadow float-left btn btn-link">Reset</button>
+                                    <button type="button" id="next-btn"
+                                        class="btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
+                                    <button type="button" id="prev-btn"
+                                        class="btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
+
+                                    <!--begin::Alert-->
+                                    <div
+                                        class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
+                                        <!--end::Icon-->
+
+                                        <!--begin::Wrapper-->
+                                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                                            <!--begin::Title-->
+                                            <h5 class="mb-1">Erreur 404<span class="alert-identifiant"></span></h5>
+                                            <!--end::Title-->
+                                            <!--begin::Content-->
+                                            <span class="alert-text">The alert component can be used to highlight
+                                                certain parts of your page for higher content visibility.</span>
+                                            <!--end::Content-->
+                                        </div>
+                                        <!--end::Wrapper-->
+
+                                        <!--begin::Close-->
+                                        <button type="button"
+                                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                                            data-bs-dismiss="alert">
+                                            <i class="bi bi-x fs-1 text-danger"></i>
+                                        </button>
+                                        <!--end::Close-->
+                                    </div>
+                                    <!--end::Alert-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <script>
+
+
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/dataClient',
+                dataType: 'json',
+                success: function Object(response) {
+                    console.log("RESONSE: " + response)
+                    emailId = document.getElementById('emailId');
+                    contactId = document.getElementById('contactId');
+                    usernameId = document.getElementById('usernameId');
+                    buttonSubmit = document.getElementById('finish');
+                    //buttonSubmit.disabled=true;
+
+                    let isCheckEmail = false;
+                    let isCheckContact = false;
+                    let isCheckUsername = false;
+                    emailId.addEventListener("input", function () {
+                        let isCheck = false;
+                        for (let key in response) {
+                            if (emailId.value == response[key].email) {
+                                $(".invalid-existant-email").removeClass("d-none");
+                                $(".valid-email").addClass("d-none");
+                                console.log("EXISTE");
+                                isCheck = true;
+
+                            }
+                            else if (emailId.value != response[key].email && isCheck != true) {
+                                $(".invalid-existant-email").addClass("d-none");
+                                $(".valid-email").removeClass("d-none");
+                                isCheckEmail = true;
+
+
+                            }
+                            if (emailId.value == "") {
+                                $(".invalid-existant-email").addClass("d-none");
+                                $(".valid-email").addClass("d-none");
+
+                            }
+                        }
+                    })
+                    contactId.addEventListener("input", function () {
+                        let isCheck = false;
+                        var regexp = /^\228\d{1,8}$/;
+
+                        for (let key in response) {
+                            if (contactId.value == response[key].numero) {
+                                $(".invalid-existant-contact").removeClass("d-none");
+                                $(".valid-contact").addClass("d-none");
+                                console.log("EXISTE");
+                                isCheck = true;
+                            }
+                            else if (contactId.value != response[key].numero && isCheck != true) {
+                                $(".invalid-existant-contact").addClass("d-none");
+                                $(".valid-contact").removeClass("d-none");
+                                isCheckContact = true;
+
+
+                            }
+                            /*if (regexp.test(contactId.value)) {
+                                $(".valid-contact").removeClass("d-none");
+                                $(".invalid-contact").addClass("d-none");
+                                $(".invalid-existant-contact").addClass("d-none");  
+                                console.log("FDP");  
+                            }
+                            else if(!regexp.test(contactId.value)){
+                                $(".valid-contact").addClass("d-none");
+                                $(".invalid-contact").removeClass("d-none");
+                                $(".invalid-existant-contact").addClass("d-none"); 
+                                console.log("FDDP "+(contactId.value));     
+                            }*/
+                            if (contactId.value == "") {
+                                $(".invalid-existant-contact").addClass("d-none");
+                                $(".valid-contact").addClass("d-none");
+
+                            }
+                        }
+                    })
+                    usernameId.addEventListener("input", function () {
+                        let isCheck = false;
+                        for (let key in response) {
+                            if (usernameId.value == response[key].username) {
+                                $(".invalid-existant-username").removeClass("d-none");
+                                $(".valid-username").addClass("d-none");
+                                isCheck = true;
+                            }
+                            else if (usernameId.value != response[key].username && isCheck != true) {
+                                $(".invalid-existant-username").addClass("d-none");
+                                $(".valid-username").removeClass("d-none");
+                                isCheckUsername = true;
+
+
+                            }
+                            if (usernameId.value == "") {
+                                $(".invalid-existant-username").addClass("d-none");
+                                $(".valid-username").addClass("d-none");
+
+                            }
+                        }
+                    })
+
+
+                },
+                error: function (xhr, status, error) {
+                    console.log("OKAY");
+                    console.log('Erreur : ' + xhr.responseText);
+                }
+            });
+
+        });
+
+
+
+    </script>
+
+    <script>
+        
+        function getAddressLink() {
+
+// Fonction pour récupérer l'adresse sur Google Maps
+// Vérifier si le navigateur prend en charge la géolocalisation
+
+if ("geolocation" in navigator) {
+    // Obtenir les coordonnées de l'appareil
+
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Construire le lien Google Maps
+            var googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            var encodeGpsLink = encodeURIComponent(googleMapsLink);
+            var gps = document.getElementById('gps');
+            var gps_ok_icon = document.querySelector('.gps-ok-icon');
+            gps.value = googleMapsLink;
+            gps_ok_icon.classList.remove("d-none");
+            gps_ok_icon.classList.add("d-block");
+            console.log("ertyui");
+
+
+        },
+        function (error) {
+            if (error.code === 1) {
+                alert("Veuillez autoriser l'accès a votre localisation dans les réglages/paramètres pour continuer.")
+
+            }
+            else {
+                console.log("RéessayerErreur de géolocalisation :", error);
+            }
+
+        }
+    );
+
+} else {
+    alert("La géolocalisation n'est pas prise en charge par ce navigateur.");
+}
+}
+
+        $(document).ready(function () {
+
+
+            $('#my-form').submit(function (e) {
+                e.preventDefault(); // Empêche la soumission du formulaire par défaut
+                var formData = $(this).serialize(); // Récupère les données du formulaire
+                $.ajax({
+                    url: "{{path('app.client.own.register')}}",
+                    method: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        //$('#result').html(response); // Met à jour la vue avec la réponse renvoyée par le contrôleur
+
+                        var champ = document.querySelector('.alert-dismissible');
+                        console.log("RESPONSE: " + response[1]);
+                        if (response != "") {
+
+                            var text = document.querySelector('.alert-text');
+                            text.innerText = response;
+                            champ.classList.remove("d-none");
+                        }
+
+                        if (response.success) {
+                            window.location.href = response.redirect_url;
+                        }
+
+
+                    },
+
+                    error: function (xhr, status, error) {
+                        console.log('Erreur : ' + (xhr.responseText));
+                        //var errors = JSON.parse(xhr.responseText).errors;
+                        // Affichez les messages d'erreur à l'utilisateur
+                    },
+
+                });
+            });
+        });
+    </script>
+
+</form>
+<div class="app-drawer-overlay d-none animated fadeIn"></div>
+</body>
+
+</html>

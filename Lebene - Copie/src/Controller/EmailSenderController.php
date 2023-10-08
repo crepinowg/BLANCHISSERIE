@@ -74,7 +74,7 @@ class EmailSenderController extends AbstractController
             foreach ($findFacture as $item => $value) {
                 foreach ($value as $item1 => $value1) {
                 
-                $idFacture=$value1;     
+                $idFacture=$value1; 
                 } 
             } 
             

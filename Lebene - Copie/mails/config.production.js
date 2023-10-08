@@ -15,7 +15,7 @@ module.exports = {
   build: {
     templates: {
       destination: {
-        path: '../templates/email_sender',
+        path: '',
       },
     },
   },

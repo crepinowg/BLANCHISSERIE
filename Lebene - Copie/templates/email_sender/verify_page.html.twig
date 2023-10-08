@@ -1,0 +1,94 @@
+<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+{% if function_name == "account_verify" %}
+<!--begin::Alert-->
+<div style="width: 50%;justify-content: center;margin-left: 25%;margin-top: 10%;" class="d-flex flex-center flex-column">
+  <div class="alert alert-dismissible bg-light-{{type}} d-flex flex-center flex-column py-10 px-10 px-lg-20 mb-10">
+    <!--begin::Close-->
+    <button type="button" class="position-absolute top-0 end-0 m-2 btn btn-icon btn-icon-{{type}}" data-bs-dismiss="alert">
+        <span class="svg-icon svg-icon-1">...</span>
+    </button>
+    <!--end::Close-->
+  
+    <!--begin::Icon-->
+    <span class="svg-icon svg-icon-5tx svg-icon-{{type}}mb-5">...</span>
+    <!--end::Icon-->
+  
+    <!--begin::Wrapper-->
+    <div class="text-center">
+        <!--begin::Title-->
+        {% if type == "success" %}
+        <h1 class="fw-bolder mb-5">Parfait</h1>
+        {% elseif type == "danger" %}
+        <h1 class="fw-bolder mb-5">Une erreur s'est produite</h1>
+        {% elseif type == "warning" %}
+        <h1 class="fw-bolder mb-5">Avertissement</h1>
+        {% endif %}
+        <!--end::Title-->
+  
+        <!--begin::Separator-->
+        <div class="separator separator-dashed border-{{type}} opacity-25 mb-5"></div>
+        <!--end::Separator-->
+  
+        <!--begin::Content-->
+        <div class="mb-9 text-dark">
+          {{message}}<br/>
+          PS: Prière garder si possible vos identifiants <a href="#" class="fw-bolder me-1"> (username & mot de passe)</a>. Vous les utiliserez pour vous connecter sur le prochain <a href="#" class="fw-bolder me-1">site de LEBENE.</a>
+        </div>
+        <!--end::Content-->
+  
+        <!--begin::Buttons-->
+        {% if type == "danger" %}
+        <div class="d-flex flex-center flex-wrap">
+            
+            <a href="{{path('app.account.new.verify' , {id:idClient})}}" class="btn btn-{{type}} m-2">Demander une vérification</a>
+        </div>
+        {% endif %}
+        <!--end::Buttons-->
+    </div>
+    <!--end::Wrapper-->
+  </div>
+</div>
+
+{% endif %}
+
+{% if function_name == "account_new_verify" or function_name == "client_own_register" %}
+<!--begin::Alert-->
+<div style="width: 50%;justify-content: center;margin-left: 25%;margin-top: 10%;" class="d-flex flex-center flex-column">
+  <div class="alert alert-dismissible bg-light-{{type}} d-flex flex-center flex-column py-10 px-10 px-lg-20 mb-10">
+    <!--begin::Close-->
+    <button type="button" class="position-absolute top-0 end-0 m-2 btn btn-icon btn-icon-{{type}}" data-bs-dismiss="alert">
+        <span class="svg-icon svg-icon-1">...</span>
+    </button>
+    <!--end::Close-->
+  
+    <!--begin::Icon-->
+    <span class="svg-icon svg-icon-5tx svg-icon-{{type}}mb-5">...</span>
+    <!--end::Icon-->
+  
+    <!--begin::Wrapper-->
+    <div class="text-center">
+        <!--begin::Title-->
+        <h1 class="fw-bolder mb-5">Email envoyé</h1>
+       
+  
+        <!--begin::Separator-->
+        <div class="separator separator-dashed border-{{type}} opacity-25 mb-5"></div>
+        <!--end::Separator-->
+  
+        <!--begin::Content-->
+        <div class="mb-9 text-dark">
+          Un mail de vérification viens d'être envoyé à l'adresse
+          <a href="#" class="fw-bolder me-1">{{email}}</a>. Elle restera valide jusqu'au <a href="#" class="fw-bolder me-1">{{tokenLifeTime}}</a> Pensez à vérifier vos spams.
+        </div>
+        <!--end::Content-->
+    </div>
+    <!--end::Wrapper-->
+  </div>
+</div>
+
+{% endif %}
+
+<!--end::Alert-->
+

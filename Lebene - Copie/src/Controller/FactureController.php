@@ -897,12 +897,12 @@ class FactureController extends AbstractController
                    $this->mailerService->sendEmailFacture(
                     $user->getEmail(),
                     "Facture du ".$today,
-                    "my_mail.html.twig",
+                    "mail_facture.html.twig",
                     [
                         "client"=>$client
                     ]
                     
-                );
+                    );
 
                 /* $email = (new Email())
                     ->from('toviawoukplolacrepin@gmail.com')
@@ -1597,6 +1597,22 @@ public function facture_update(Request $request,Facture $facture,int $id,MailerI
                     $this->em->persist($notifications);
                     
                     $this->em->flush();
+
+                    $today = Date("d-M-Y");
+                    foreach ($facture->getClient()->getUtilisateur() as $key => $value) {
+                      $user = $value;
+                    }
+                    $this->mailerService->sendEmailFacture(
+                     $user->getEmail(),
+                     "Mise à jour de la facture du ".$facture->getDateRecuperation(),
+                     "mail_facture.html.twig",
+                     [
+                         "client"=>$facture->getClient(),
+                         "username"=>$user->getUsername(),
+                     ]
+                     
+                     );
+ 
                    
                     return new JsonResponse([
                         'success' => true,
@@ -1681,6 +1697,22 @@ public function facture_update(Request $request,Facture $facture,int $id,MailerI
             $this->em->persist($notifications);
             
             $this->em->flush();
+
+            $today = Date("d-M-Y");
+            foreach ($facture->getClient()->getUtilisateur() as $key => $value) {
+              $user = $value;
+            }
+            $this->mailerService->sendEmailFacture(
+             $user->getEmail(),
+             "Mise à jour de la facture du ".$facture->getDateRecuperation(),
+             "mail_facture.html.twig",
+             [
+                "client"=>$facture->getClient(),
+                "username"=>$user->getUsername(),
+            ]
+             
+             );
+
             
             // Validez les données du formulaire ici
            /* $errors = $validator->validate($this->em->flush());

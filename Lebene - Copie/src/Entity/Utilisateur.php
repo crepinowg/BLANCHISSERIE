@@ -6,6 +6,7 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[InheritanceType("JOINED")]
@@ -82,6 +83,27 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'utilisateur')]
     private ?SuperAdmin $superAdmin = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $tokenRegistration = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $tokenRegistrationLifeTime = null;
+
+    #[ORM\Column]
+    private ?bool $isVerify = false;
+
+    //private $now;
+    
+    
+
+    public function __construct(){
+        $now = new \DateTime('now');
+        $nextDay = $now->add(new \DateInterval('P1D'));
+        $this->isVerify = false;
+        $this->tokenRegistrationLifeTime = $nextDay->format('d M Y h:i');
+
+    }
 
     public function getId(): ?int
     {
@@ -347,7 +369,44 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getTokenRegistration(): ?string
+    {
+        return $this->tokenRegistration;
+    }
+
+    public function setTokenRegistration(string $tokenRegistration): self
+    {
+        $this->tokenRegistration = $tokenRegistration;
+
+        return $this;
+    }
+
+    public function getTokenRegistrationLifeTime(): ?string
+    {
+        return $this->tokenRegistrationLifeTime;
+    }
+
+    public function setTokenRegistrationLifeTime(string $tokenRegistrationLifeTime): self
+    {
+        $this->tokenRegistrationLifeTime = $tokenRegistrationLifeTime;
+
+        return $this;
+    }
+
+    public function isIsVerify(): ?bool
+    {
+        return $this->isVerify;
+    }
+
+    public function setIsVerify(bool $isVerify): self
+    {
+        $this->isVerify = $isVerify;
+
+        return $this;
+    }
+
     
 
     
 }
+?>
