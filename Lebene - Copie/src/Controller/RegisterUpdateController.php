@@ -38,6 +38,7 @@ use App\Entity\Entreprise;
 use App\Service\MailerService;
 use App\Controller\FunctionImplementController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class RegisterUpdateController extends AbstractController
 {
@@ -49,7 +50,9 @@ class RegisterUpdateController extends AbstractController
 
 
       public function __construct(
-        AdministrateurRepository $repoAdmin, 
+        AdministrateurRepository $repoAdmin,
+        MailerService $mailerService,
+        TokenGeneratorInterface $tokenGeneratorInterface,
         EmployeEquipeRepository $repoEmployeEquipe, 
         EmployeRepository $repoEmploye,
         UtilisateurRepository $utilisateurRepo,
@@ -62,6 +65,8 @@ class RegisterUpdateController extends AbstractController
         AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->repoAdmin= $repoAdmin;
+        $this->mailerService= $mailerService;
+        $this->tokenGeneratorInterface= $tokenGeneratorInterface;
         $this->repoEmployeEquipe= $repoEmployeEquipe;
         $this->repoEmploye= $repoEmploye;
         $this->functionImplement = $functionImplement;
@@ -352,6 +357,8 @@ class RegisterUpdateController extends AbstractController
                             $message="Cette adresse Email existe déjà!";            
                             return $this->json($message);     
                         }
+
+                        
     
                         if ($value->getNumero()== $numero AND $value->getGerant()->getId()!= $id){
                             $message="Numéro de téléphone existant!";            
@@ -366,7 +373,59 @@ class RegisterUpdateController extends AbstractController
                  
 
                     foreach ($utilisateur as $key => $value) {
-                    
+                        if ($value->getEmail() != $email){
+                            $now = new \DateTime('now');
+                            $nextDay = ($now->add(new \DateInterval('P1D')))->format('Y-m-d h:i');
+                            $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
+                            $value->setTokenRegistration($tokenRegistration);
+                            $value->setTokenRegistrationLifeTime($nextDay);
+
+                            $value->setNom($nom);
+                            $value->setUsername($username);
+                            $value->setEmail($email);
+                            $value->setNumero($numero);
+                            $value->setIsVerify(0);
+                            if($password!=null){
+                                $hashedPassword = $passwordHasher->hashPassword($value,$password);
+                                $value->setMotDePasse($hashedPassword);
+                            }
+                            
+                            
+                            $value->setAdresse($adresse);
+                            if($checkUser == false){
+                                $value->setCreatedByGerant($gerantUser);
+                            }
+
+                            else if($checkUser == true){
+                                $value->setCreatedByAdmin($admin);
+                            }
+                            $this->em->persist($gerant);
+                            $value->setGerant($gerant);
+                            $this->em->persist($value);
+                            
+                            $this->mailerService->sendEmailFacture(
+                                $email,
+                                "Confirmation d'email",
+                                "mail_registration_verify.html.twig",
+                                [
+                                    "user"=>$value,
+                                    "username"=>$username,
+                                    "tokenRegistration" => $tokenRegistration,
+                                    "tokenLifeTime" => $value->getTokenRegistrationLifeTime(),
+                                ]                    
+                            );
+
+                            $this->em->flush();
+                            
+                            return new JsonResponse([
+                                'success' => true,
+                                'redirect_url' => $this->generateUrl('app.logout'),
+                            ]);  
+                        
+
+                        
+                        }
+                        
                         $value->setNom($nom);
                         $value->setUsername($username);
                         $value->setEmail($email);
@@ -391,9 +450,17 @@ class RegisterUpdateController extends AbstractController
                         $this->em->persist($gerant);
                         $value->setGerant($gerant);
                         $this->em->persist($value);
+                        
+                        
+                        $this->em->flush();
+
+                        
                     }
                     
-                    $this->em->flush();
+                    
+
+                    
+
                     
                     return new JsonResponse([
                         'success' => true,

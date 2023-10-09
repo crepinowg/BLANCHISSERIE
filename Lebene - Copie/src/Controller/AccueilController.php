@@ -74,6 +74,9 @@ class AccueilController extends AbstractController
                 if ($statut == 1){
                     return $this->redirectToRoute('app.logout');
                 }
+                if(!$this->getUser()->isIsVerify()){
+                    return $this->redirectToRoute('app.logout');
+                }
                 
             }
             else{
@@ -82,9 +85,13 @@ class AccueilController extends AbstractController
                     if ($statutEmploye == 1){
                         return $this->redirectToRoute('app.logout');
                     }
+                    elseif(!$this->getUser()->isIsVerify()){
+                        return $this->redirectToRoute('app.logout');
+                    }
                     else{
                         return $this->redirectToRoute('app.equipe.suivi');
                     }
+                    
                       
                 }
                 else if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')){
@@ -96,7 +103,7 @@ class AccueilController extends AbstractController
                           
             }
         }
-
+       
         $aujourdhui = Date("Y-m-d");
         $programmeDeLaJournee=$this->rappelRepo->findAll();
 

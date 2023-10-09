@@ -53,8 +53,16 @@ class SecurityController extends AbstractController
         }
 
         $this->em->flush();
-      
+
         if($this->getUser()==null){
+            return $this->render('pages-login.html.twig', [
+                'controller_name' => 'SecurityController',
+                'last_username'=>$lastUsername,
+                'error'=>$error,
+            ]);
+        }
+
+        if($this->getUser()->isIsVerify()){
             return $this->render('pages-login.html.twig', [
                 'controller_name' => 'SecurityController',
                 'last_username'=>$lastUsername,
@@ -67,7 +75,6 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('app.saisir.cle',['id'=>$this->getUser()->getAdministrateur()->getId()]);
             }
             else if($this->getUser()->getAdministrateur()->isSuspendu() == 0){
-                //dd('OKI');
                 return $this->render('pages-login.html.twig', [
                     'controller_name' => 'SecurityController',
                     'last_username'=>$lastUsername,
@@ -77,13 +84,10 @@ class SecurityController extends AbstractController
         }
 
         else if($this->getUser()->getGerant() != null){
-            //dd("1");
             if($this->getUser()->getGerant()->isStatut()==1){
-               // dd("fghjkl");
                 return $this->redirectToRoute('app.logout');
             }
             else if($this->getUser()->getGerant()->isStatut()==0){
-               // dd('OKI');
                 return $this->render('pages-login.html.twig', [
                     'controller_name' => 'SecurityController',
                     'last_username'=>$lastUsername,
@@ -99,11 +103,15 @@ class SecurityController extends AbstractController
             else if($this->getUser()->getEmploye()->isStatut()==0){
                 return $this->render('pages-login.html.twig', [
                     'controller_name' => 'SecurityController',
-                    'last_username'=>$lastUsername,
-                    'error'=>$error,
+                    'last_username' => $lastUsername,
+                    'error' => $error,
                 ]);
             }
         }
+
+        
+
+        
 
        
        

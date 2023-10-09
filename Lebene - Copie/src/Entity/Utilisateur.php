@@ -84,10 +84,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'utilisateur')]
     private ?SuperAdmin $superAdmin = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $tokenRegistration = null;
 
-    #[ORM\Column(length: 60)]
+    #[ORM\Column(length: 60,  nullable: true)]
     private ?string $tokenRegistrationLifeTime = null;
 
     #[ORM\Column]

@@ -217,6 +217,18 @@ class FunctionImplementController extends AbstractController
     #[Route('/gerant_suspendu', name: 'app.gerantSuspendu')]
     public function gerant_suspendu()
     {
+        if(!$this->getUser()!= null){
+            if(!$this->getUser()){
+                $suspendu = 0;
+                return $suspendu;
+            }
+            elseif($this->getUser()->isIsVerify()){
+                $suspendu = 1;
+                return $suspendu;
+            }
+            
+        }
+
         if($this->getUser()->getGerant() != null){
             $suspendu = $this->getUser()->getGerant()->isStatut();
             return $suspendu;

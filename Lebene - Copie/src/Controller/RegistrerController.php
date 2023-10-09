@@ -82,16 +82,15 @@ class RegistrerController extends AbstractController
     }
 
     #[Route('/account_verify/{token}/{id}', name: 'app.account.verify')]
-    public function account_verify(string $token, Client $client){
+    public function account_verify(string $token, Utilisateur $utilisateur){
 
         
-        if ($client == null OR $client->getUtilisateur() == null){
+        if ($utilisateur == null){
             $type = "warning";
             $message = "Une erreur s'est produite. Il est probable que compte est été désactivé ou supprimer. Veuillez contacter le service client lebene.service@gmail.com";
         }
         else{
-            foreach ($client->getUtilisateur() as $key => $value) {
-                $utilisateur = $value;
+            
                 if($utilisateur->getTokenRegistration() != $token){
                     if ($utilisateur->isIsVerify()){   
                         $message = "Cette vérification à déjà été faite et votre compte est actif";
@@ -143,9 +142,9 @@ class RegistrerController extends AbstractController
                     "function_name"=>'account_verify',
                     "message"=>$message,
                     "type"=>$type,
-                    "idClient"=> $client->getId()
+                    "idUser"=> $utilisateur->getId()
                 ]);
-            }
+            
         }
 
         $type = "warning";
@@ -154,18 +153,17 @@ class RegistrerController extends AbstractController
             "function_name"=>'account_verify',
             "message"=>$message,
             "type"=>$type,
-            "idClient"=> $client->getId()
+            "idUser"=> $utilisateur->getId()
         ]);
     }
 
     #[Route('/account_new_verify/{id}', name: 'app.account.new.verify')]
-    public function account_new_verify(Client $client, int $id){
+    public function account_new_verify(Utilisateur $utilisateur, int $id){
 
-        foreach ($client->getUtilisateur() as $key => $value) {
-            $email = $value->getEmail();
-            $username = $value->getUsername();
-            $utilisateur = $value;
-        }
+            dd($utilisateur);
+            $email = $utilisateur->getEmail();
+            $username = $utilisateur->getUsername();
+        
         $now = new \DateTime('now');
         $nextDay = ($now->add(new \DateInterval('P1D')))->format('Y-m-d h:i');
         $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
@@ -178,7 +176,7 @@ class RegistrerController extends AbstractController
             "Confirmation d'email",
             "mail_registration_verify.html.twig",
             [
-                "client"=>$client,
+                "user"=>$utilisateur,
                 "username"=>$username,
                 "tokenRegistration" => $tokenRegistration,
                 "tokenLifeTime" => $nextDay,
@@ -206,7 +204,7 @@ class RegistrerController extends AbstractController
      */
     public function index(Request $request , Security $security,UserPasswordHasherInterface $passwordHasher): Response
     {
-        /*if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             
             return $this->redirectToRoute('app.security');
             
@@ -225,7 +223,7 @@ class RegistrerController extends AbstractController
             else{
                 return $this->redirectToRoute('app.notfound');           
             }
-        }*/
+        }
 
         $admin = new Administrateur;
         $utilisateur = new Utilisateur;
@@ -251,7 +249,9 @@ class RegistrerController extends AbstractController
         
 
         if (isset($nom,$username,$emailPerso,$emailEntre,$contactPerso,$contactEntre,$password,$adresse,$adresseEntreprise,$nomEntreprise)){
-           
+            $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
+            //dd("OAKY");
+            $utilisateur->setTokenRegistration($tokenRegistration);
            $utilisateur->setNom($nom);
            $utilisateur->setUsername($username);
            $utilisateur->setEmail($emailPerso);
@@ -294,6 +294,17 @@ class RegistrerController extends AbstractController
            
            
            $this->em->flush();
+           $this->mailerService->sendEmailFacture(
+            $emailPerso,
+            "Confirmation d'email",
+            "mail_registration_verify.html.twig",
+            [
+                "user"=>$utilisateur,
+                "username"=>$username,
+                "tokenRegistration" => $tokenRegistration,
+                "tokenLifeTime" => $utilisateur->getTokenRegistrationLifeTime(),
+            ]                    
+        );  
            //dd($entreprise);
           
         }
@@ -402,6 +413,9 @@ class RegistrerController extends AbstractController
                 }
 
                 if (isset($nom,$username,$email,$numero,$password,$adresse,$salaire)){
+                    $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
+                    //dd("OAKY");
+                    $utilisateur->setTokenRegistration($tokenRegistration);
                     $utilisateur->setNom($nom);
                     $utilisateur->setUsername($username);
                     $utilisateur->setEmail($email);
@@ -458,6 +472,17 @@ class RegistrerController extends AbstractController
                     $utilisateur->setGerant($gerant);
                     $this->em->persist($utilisateur);
                     $this->em->flush();
+                    $this->mailerService->sendEmailFacture(
+                        $email,
+                        "Confirmation d'email",
+                        "mail_registration_verify.html.twig",
+                        [
+                            "user"=>$utilisateur,
+                            "username"=>$username,
+                            "tokenRegistration" => $tokenRegistration,
+                            "tokenLifeTime" => $utilisateur->getTokenRegistrationLifeTime(),
+                        ]                    
+                    );
                     return new JsonResponse([
                         'success' => true,
                         'redirect_url' => $this->generateUrl('app.liste.gerant'),
@@ -711,7 +736,7 @@ class RegistrerController extends AbstractController
                     "Confirmation d'email",
                     "mail_registration_verify.html.twig",
                     [
-                        "client"=>$client,
+                        "user"=>$utilisateur,
                         "username"=>$username,
                         "tokenRegistration" => $tokenRegistration,
                         "tokenLifeTime" => $utilisateur->getTokenRegistrationLifeTime(),
@@ -880,7 +905,7 @@ class RegistrerController extends AbstractController
                     
                     return new JsonResponse([
                         'success' => true,
-                        'redirect_url' => $this->generateUrl('app.account.new.verify',["id"=>$client->getId()]),
+                        'redirect_url' => $this->generateUrl('app.account.new.verify',["id"=>$utilisateur->getId()]),
                     ]);
                     
                 }
