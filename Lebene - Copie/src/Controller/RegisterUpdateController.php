@@ -127,6 +127,7 @@ class RegisterUpdateController extends AbstractController
             $zip=$request->request->get('zip');
             $sexe=$request->request->get('sexe');
             $indication=$request->request->get('indication');
+            $gps=($request->request->get('gps'));
             $password="1234";
             $numeroCheck=false;
             $emailCheck=false;
@@ -173,18 +174,45 @@ class RegisterUpdateController extends AbstractController
 
                 
                 
-
                 //dd($nom."-".$username."-".$email."-".$numero."-".$adresse."-".$zip."-".$indication);
                 if (isset($nom,$username,$email,$numero,$adresse,$zip,$indication)){
                     foreach ($utilisateur as $key => $value) {
                          //dd("OAKY");
                         $value->setNom($nom);
                         $value->setUsername($username);
-                        $value->setEmail($email);
+                        
                         $value->setNumero($numero);
                         $value->setAdresse($adresse);
                         $value->setSexe($sexe);
                         $value->setCreatedAt($createdAt);
+
+                        //return $this->json($value->getEmail());
+                        if($value->getEmail() != $email){
+                            $value->setEmail($email);
+                            $value->setIsVerify(0);
+                            $now = new \DateTime('now');
+                            $nextDay = ($now->add(new \DateInterval('P1D')))->format('Y-m-d h:i');
+                            $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
+                            $value->setTokenRegistration($tokenRegistration);
+                            $value->setTokenRegistrationLifeTime($nextDay);
+                            
+                            $this->mailerService->sendEmailFacture(
+                                $email,
+                                "Confirmation d'email",
+                                "mail_registration_verify.html.twig",
+                                [
+                                    "user"=>$value,
+                                    "username"=>$username,
+                                    "tokenRegistration" => $tokenRegistration,
+                                    "tokenLifeTime" => $value->getTokenRegistrationLifeTime(),
+                                ]
+                                
+                            );
+                            
+                            
+                        }
+            
+                        
                     
                    
                     //dd($admin);
@@ -205,6 +233,9 @@ class RegisterUpdateController extends AbstractController
 
                     $client->setStatut($statut);
                     $client->setZip($zip);
+                    if ($gps != null) {
+                        $client->setGpsLink($gps);
+                    }
                     $client->setIndication($indication);
                     $this->em->persist($client);
                     foreach ($utilisateur as $key => $value) {
@@ -224,8 +255,9 @@ class RegisterUpdateController extends AbstractController
                     }
                     $notifications->setClient($client);
                     $this->em->persist($notifications);
+
+                    
                     $this->em->flush();
-                   
                     return new JsonResponse([
                         'success' => true,
                         'redirect_url' => $this->generateUrl('app.client.liste'),
@@ -257,7 +289,7 @@ class RegisterUpdateController extends AbstractController
             
         }
         else{
-            if(($this->authorizationChecker->isGranted('ROLE_GERANT_BLEU') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR'))){
+            if(($this->authorizationChecker->isGranted('ROLE_GERANT_BLEU') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR') OR $this->authorizationChecker->isGranted('ROLE_ADMIN'))){
                
                 $this->functionImplement->checking();
 
@@ -266,7 +298,12 @@ class RegisterUpdateController extends AbstractController
                 if ($suspendu == 1){
                     return $this->redirectToRoute('app.security');
                 }
-                if ($gerant->isStatut() == 1 OR $this->getUser()->getGerant() != $gerant){
+
+                if ($suspendu == 1){
+                    return $this->redirectToRoute('app.security');
+                }
+
+                if ($gerant->isStatut() == 1 OR ($this->getUser()->getGerant() != $gerant AND !$this->authorizationChecker->isGranted('ROLE_ADMIN'))){
                     return $this->redirectToRoute('app.notfound');
                 }
 
@@ -293,6 +330,7 @@ class RegisterUpdateController extends AbstractController
             
             $checkUser=true;
             $admin = $this->getUser()->getAdministrateur();
+            
         }
             
             $nom=strtoupper($request->request->get('nom'));
@@ -311,6 +349,26 @@ class RegisterUpdateController extends AbstractController
             //dd("Nom:".$nom." Username:".$username." Mail:".$email." Numéro:".$numero." Password:".$password." Adresse:".$adresse." Niveau:".$niveau);
             //dd((int)$niveau);
             if ($request->isXmlHttpRequest()) {
+
+                if($this->authorizationChecker->isGranted('ROLE_ADMIN')){
+            
+                    $checkUser=true;
+                    $admin = $this->getUser()->getAdministrateur();
+                    
+                    if ($salaire == null){
+                        $message="Veuillez renseigner un salaire";            
+                        return $this->json($message);
+                    }
+                    else{
+                        $gerant->setSalaire($salaire);
+                        $this->em->flush();
+                        return new JsonResponse([
+                            'success' => true,
+                            'redirect_url' => $this->generateUrl('app.liste.gerant'),
+                        ]);
+                    }
+                    
+                }
                 
                 if ($nom==null OR $username==null OR $email==null OR $numero==null OR $adresse==null){
                     

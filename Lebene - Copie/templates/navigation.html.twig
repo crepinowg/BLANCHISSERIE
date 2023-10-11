@@ -136,12 +136,12 @@ if (screen.width >= 768) {
                     </a>
                     <ul>
                         <li>
-                            <a href="{{path('app.accueil')}}" class="mm-active">
-                                <i class="metismenu-icon"></i>Home
+                            <a href="{{path('app.accueil')}}"  class="{{ app.request.get('_route') == 'app.accueil' ? 'mm-active' : '' }}">
+                                <i class="metismenu-icon"></i>Accueil
                             </a>
                         </li>
                         <li>
-                            <a href="{{path('app.client')}}">
+                            <a href="{{path('app.client')}}" class="{{ app.request.get('_route') == 'app.account' ? 'mm-active' : '' }}">
                                 <i class="metismenu-icon"></i>Statistiques Clients
                             </a>
                         </li>
@@ -221,16 +221,7 @@ if (screen.width >= 768) {
                         <i class="metismenu-icon"></i>Facture
                     </a>
                 </li>
-                <li>
-                    <a href="{{path('app.icons')}}">
-                        <i class="metismenu-icon pe-7s-joy"></i> Icônes
-
-                    </a>
-                    <a href="{{path('app.icons')}}">
-                        <i class="metismenu-icon pe-7s-joy"></i> Liste des icônes
-
-                    </a>
-                </li>
+                
                 <li>
                     <a href="{{path('app.cle.liste')}}">
                         <i class="metismenu-icon"></i>Clés de produit

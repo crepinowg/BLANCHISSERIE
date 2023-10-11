@@ -894,15 +894,17 @@ class FactureController extends AbstractController
                    foreach ($client->getUtilisateur() as $key => $value) {
                      $user = $value;
                    }
-                   $this->mailerService->sendEmailFacture(
-                    $user->getEmail(),
-                    "Facture du ".$today,
-                    "mail_facture.html.twig",
-                    [
-                        "client"=>$client
-                    ]
-                    
-                    );
+                   if($user->isIsVerify()){
+                    $this->mailerService->sendEmailFacture(
+                        $user->getEmail(),
+                        "Facture du ".$today,
+                        "mail_facture.html.twig",
+                        [
+                            "client"=>$client
+                        ]
+                        
+                        );
+                   }
 
                 /* $email = (new Email())
                     ->from('toviawoukplolacrepin@gmail.com')
@@ -1602,16 +1604,18 @@ public function facture_update(Request $request,Facture $facture,int $id,MailerI
                     foreach ($facture->getClient()->getUtilisateur() as $key => $value) {
                       $user = $value;
                     }
-                    $this->mailerService->sendEmailFacture(
-                     $user->getEmail(),
-                     "Mise à jour de la facture du ".$facture->getDateRecuperation(),
-                     "mail_facture.html.twig",
-                     [
-                         "client"=>$facture->getClient(),
-                         "username"=>$user->getUsername(),
-                     ]
-                     
-                     );
+                    if($user->isIsVerify()){
+                        $this->mailerService->sendEmailFacture(
+                        $user->getEmail(),
+                        "Mise à jour de la facture du ".$facture->getDateRecuperation(),
+                        "mail_facture.html.twig",
+                        [
+                            "client"=>$facture->getClient(),
+                            "username"=>$user->getUsername(),
+                        ]
+                        
+                        );
+                    }
  
                    
                     return new JsonResponse([
@@ -1702,16 +1706,19 @@ public function facture_update(Request $request,Facture $facture,int $id,MailerI
             foreach ($facture->getClient()->getUtilisateur() as $key => $value) {
               $user = $value;
             }
-            $this->mailerService->sendEmailFacture(
-             $user->getEmail(),
-             "Mise à jour de la facture du ".$facture->getDateRecuperation(),
-             "mail_facture.html.twig",
-             [
-                "client"=>$facture->getClient(),
-                "username"=>$user->getUsername(),
-            ]
-             
-             );
+            if($user->isIsVerify()){
+                $this->mailerService->sendEmailFacture(
+                    $user->getEmail(),
+                    "Mise à jour de la facture du ".$facture->getDateRecuperation(),
+                    "mail_facture.html.twig",
+                    [
+                       "client"=>$facture->getClient(),
+                       "username"=>$user->getUsername(),
+                   ]
+                    
+                    );
+            }
+            
 
             
             // Validez les données du formulaire ici

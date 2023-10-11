@@ -13,7 +13,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#2862c8" d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192h80v56H48V192zm0 104h80v64H48V296zm128 0h96v64H176V296zm144 0h80v64H320V296zm80-48H320V192h80v56zm0 160v40c0 8.8-7.2 16-16 16H320V408h80zm-128 0v56H176V408h96zm-144 0v56H64c-8.8 0-16-7.2-16-16V408h80zM272 248H176V192h96v56z"/></svg>
                 </div>
                 <div><span class="text-uppercase font-weight-bold">
 
@@ -24,61 +24,13 @@
                         
                         </br>
 
-                        Indication: {{clients.zip}}, {{clients.indication}}</br>
+                        <h3> Calendrier </h3>
 
-                       
-                        Ajouté par l'Admin
-                       
-                        <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE
-                            CLIENT</span>
+                        <span class="text text-bolder" style="font-size: 15px;color: black;">Retrouver tout les programes, les rappels, les délai de livraison dans le calendrier.</span>
                     </div>
                 </div>
             </div>
-            <div class="page-title-actions">
-                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
-                    class="btn-shadow mr-3 btn btn-dark">
-                    <i class="fa fa-star"></i>
-                </button>
-                <div class="d-inline-block dropdown">
-                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        class="btn-shadow dropdown-toggle btn btn-info">
-                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                            <i class="fa fa-business-time fa-w-20"></i>
-                        </span>
-                        Buttons
-                    </button>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-inbox"></i>
-                                    <span> Inbox</span>
-                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-book"></i>
-                                    <span> Book</span>
-                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-picture"></i>
-                                    <span> Picture</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a disabled class="nav-link disabled">
-                                    <i class="nav-link-icon lnr-file-empty"></i>
-                                    <span> File Disabled</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+          
         </div>
     </div>
     
@@ -93,15 +45,17 @@
                 <div class="card-header">
                     <h2 class="card-title fw-bolder">Calendar</h2>
                     <div class="card-toolbar">
-                        <button class="btn btn-flex btn-primary" data-kt-calendar="add">
-                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                        <span class="svg-icon svg-icon-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor" />
-                                <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
-                            </svg>
-                        </span>
-                        <!--end::Svg Icon-->Add Event</button>
+                        <a href="{{path('app.rappel')}}">
+                            <button class="btn btn-flex btn-primary">
+                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor" />
+                                        <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <!--end::Svg Icon-->Nouveau rappel</button>
+                        </a>
                     </div>
                 </div>
                 <!--end::Card header-->

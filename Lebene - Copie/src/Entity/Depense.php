@@ -43,7 +43,7 @@ class Depense
     private Collection $notifications;
 
     #[ORM\Column(nullable:true)]
-    private ?bool $deleted = null;
+    private ?bool $deleted = false;
 
     public function __construct()
     {

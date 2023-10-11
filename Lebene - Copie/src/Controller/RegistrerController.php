@@ -82,7 +82,7 @@ class RegistrerController extends AbstractController
     }
 
     #[Route('/account_verify/{token}/{id}', name: 'app.account.verify')]
-    public function account_verify(string $token, Utilisateur $utilisateur){
+    public function account_verify(string $token, Utilisateur $utilisateur, int $id){
 
         
         if ($utilisateur == null){
@@ -91,17 +91,13 @@ class RegistrerController extends AbstractController
         }
         else{
             
+            
                 if($utilisateur->getTokenRegistration() != $token){
-                    if ($utilisateur->isIsVerify()){   
-                        $message = "Cette vérification à déjà été faite et votre compte est actif";
+                   
+                        $message = "La vérification de votre compte a échouer. Veuillez recliquer sur le bouton de l'email.";
                         $type = "warning";
-                    }
-                    else{
-                        $message = "La vérification de votre compte a échouer. Veuillez réessayer ou demander un nouveau code de vérification.";
-                    $type = "danger";
-                    }
-                    
                 }
+
     
                 elseif( (new \DateTime('now'))->format("Y-m-d h:i") > (new \DateTime($utilisateur->getTokenRegistrationLifeTime()))->format("Y-m-d h:i")){
                     if ($utilisateur->isIsVerify()){   
@@ -137,6 +133,8 @@ class RegistrerController extends AbstractController
                         $message = "Votre compte a été bien activé";
                     }
                 }
+
+                
                 
                 return $this->render("email_sender/verify_page.html.twig", [
                     "function_name"=>'account_verify',
@@ -160,9 +158,9 @@ class RegistrerController extends AbstractController
     #[Route('/account_new_verify/{id}', name: 'app.account.new.verify')]
     public function account_new_verify(Utilisateur $utilisateur, int $id){
 
-            dd($utilisateur);
             $email = $utilisateur->getEmail();
             $username = $utilisateur->getUsername();
+
         
         $now = new \DateTime('now');
         $nextDay = ($now->add(new \DateInterval('P1D')))->format('Y-m-d h:i');
@@ -606,6 +604,7 @@ class RegistrerController extends AbstractController
             $zip=$request->request->get('zip');
             $sexe=$request->request->get('sexe');
             $indication=$request->request->get('indication');
+            $gps=($request->request->get('gps'));
             $password="1234";
             $numeroCheck=false;
             $emailCheck=false;
@@ -711,6 +710,9 @@ class RegistrerController extends AbstractController
                     $client->setRoles(["ROLE_CLIENT"]);
                     $client->setStatut($statut);
                     $client->setZip($zip);
+                    if ($gps != null) {
+                        $client->setGpsLink($gps);
+                    }
                     $client->setIndication($indication);
                     $this->em->persist($client);
                     $this->em->persist($codeUiAll);

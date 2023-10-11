@@ -18,32 +18,16 @@
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-notebook icon-gradient bg-mixed-hopes"></i>
-                </div>
-                <div>Grid Tables
-                    <div class="page-title-subheading">Basic example of a Bootstrap 4 table with sort, search and filter
-                        functionality.</div>
-                </div>
-            </div>
-            <div class="page-title-actions">
-                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
-                    class="btn-shadow mr-3 btn btn-dark">
-                    <i class="fa fa-star"></i>
-                </button>
-                <div class="d-inline-block dropdown">
-                    {% if is_granted('ROLE_ADMIN')%}
-                    <a href="{{path('app.equipe.register')}}">
-                        <button type="button" class="btn-shadow  btn btn-info">
-                            <span class="btn-icon-wrapper pr-2 opacity-7">
-
-                            </span>
-                            Nouvelle équipe
-                        </button></a>
-                    {% endif %}
-                    
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#ffd43b" d="M72 88a56 56 0 1 1 112 0A56 56 0 1 1 72 88zM64 245.7C54 256.9 48 271.8 48 288s6 31.1 16 42.3V245.7zm144.4-49.3C178.7 222.7 160 261.2 160 304c0 34.3 12 65.8 32 90.5V416c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V389.2C26.2 371.2 0 332.7 0 288c0-61.9 50.1-112 112-112h32c24 0 46.2 7.5 64.4 20.3zM448 416V394.5c20-24.7 32-56.2 32-90.5c0-42.8-18.7-81.3-48.4-107.7C449.8 183.5 472 176 496 176h32c61.9 0 112 50.1 112 112c0 44.7-26.2 83.2-64 101.2V416c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32zm8-328a56 56 0 1 1 112 0A56 56 0 1 1 456 88zM576 245.7v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM320 32a64 64 0 1 1 0 128 64 64 0 1 1 0-128zM240 304c0 16.2 6 31 16 42.3V261.7c-10 11.3-16 26.1-16 42.3zm144-42.3v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM448 304c0 44.7-26.2 83.2-64 101.2V448c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32V405.2c-37.8-18-64-56.5-64-101.2c0-61.9 50.1-112 112-112h32c61.9 0 112 50.1 112 112z"/></svg>
+                    </div>
+                    <div>Suivi équipes
+                        <div class="page-title-subheading">Suivez en temps l'avancement des taches assigner a votre équipe ainsi que leur activité.</div>
+                    </div>
                 </div>
             </div>
+          
         </div>
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
@@ -76,7 +60,7 @@
                             <!--begin:Image-->
                             <div class="symbol symbol-60px me-5">
                                 <span class="symbol-label bg-danger-light">
-                                    <img src="../assets/media/svg/brand-logos/plurk.svg" class="h-50 align-self-center"
+                                    <img src="/assets/media/svg/avatars/blank.svg" class="h-50 align-self-center"
                                         alt="" />
                                 </span>
                             </div>
@@ -85,20 +69,20 @@
                             {% if is_granted('ROLE_ADMIN')  or is_granted('ROLE_GERANT_NOIR')%}
                             <div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pr-3">
                                 <a href="{{path('app.facture.showInvoice' , {id: factureEquipe.facture.id})}}" class="text-dark fw-bolder text-hover-primary fs-5">{{factureEquipe.equipe.nom}} - Facture N° <span>{{factureEquipe.facture.factureidnumber}}</span></a>
-                                <span class="text-muted fw-bold">Created at: {{factureEquipe.equipe.createdat | date('d M Y')}}</span>
+                                <span class="text-muted fw-bold">Créer le: {{factureEquipe.equipe.createdat | date('d M Y')}}</span>
                             </div>
                             {% endif %}
                             {% if is_granted('ROLE_LIVREUR')%}
                             <div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pr-3">
                                 <a href="{{path('app.factureShowEmploye' , {id: factureEquipe.facture.id})}}" class="text-dark fw-bolder text-hover-primary fs-5">{{factureEquipe.equipe.nom}} - Facture N° <span>{{factureEquipe.facture.factureidnumber}}</span></a>
-                                <span class="text-muted fw-bold">Created at: {{factureEquipe.equipe.createdat | date('d M Y')}}</span>
+                                <span class="text-muted fw-bold">Créer le: {{factureEquipe.equipe.createdat | date('d M Y')}}</span>
                             </div>
                             {% endif %}
 
                             {% if is_granted('ROLE_LAVAGE')%}
                             <div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 pr-3">
                                 <a href="" class="text-dark fw-bolder text-hover-primary fs-5">{{factureEquipe.equipe.nom}}</span></a>
-                                <span class="text-muted fw-bold">Created at: {{factureEquipe.equipe.createdat | date('d M Y')}}</span>
+                                <span class="text-muted fw-bold">Créer le: {{factureEquipe.equipe.createdat | date('d M Y')}}</span>
                             </div>
                             {% endif %}
                            
@@ -273,15 +257,15 @@
                                     {% for equipesEmployeRole in equipesEmployeNom.roles %}
                                         {% if equipesEmployeRole == "ROLE_REPASSEUR" %}
                                         <a href="#" class="symbol symbol-55px me-2" data-bs-toggle="tooltip" title="{{equipesEmployeNom.nom}}-Repasseur">
-                                            <img src="../assets/media/avatars/300-6.jpg" alt="" /> 
+                                            <img src="/assets/media/svg/avatars/blank.svg" alt="" /> 
                                         </a>
                                         {% elseif equipesEmployeRole == "ROLE_LAVAGE" %}
                                         <a href="#" class="symbol symbol-55px me-2" data-bs-toggle="tooltip" title="{{equipesEmployeNom.nom}}-Respo. Lavage">
-                                            <img src="../assets/media/avatars/300-5.jpg" alt="" />
+                                            <img src="/assets/media/svg/avatars/blank.svg" alt="" />
                                         </a>
                                         {% elseif equipesEmployeRole == "ROLE_LIVREUR" %}
                                         <a href="#" class="symbol symbol-55px me-2" data-bs-toggle="tooltip" title="{{equipesEmployeNom.nom}}-Livreur">
-                                            <img src="../assets/media/avatars/300-9.jpg" alt="" />
+                                            <img src="/assets/media/svg/avatars/blank.svg" alt="" />
                                         </a>
                                         {% endif %}
                                     {% endfor %}

@@ -13,7 +13,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#2862c8" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>        </div>
                 </div>
                 <div><span class="text-uppercase font-weight-bold">
 
@@ -47,54 +47,20 @@
                     </div>
                 </div>
             </div>
-            <div class="page-title-actions">
-                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
-                    class="btn-shadow mr-3 btn btn-dark">
-                    <i class="fa fa-star"></i>
-                </button>
-                <div class="d-inline-block dropdown">
-                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        class="btn-shadow dropdown-toggle btn btn-info">
-                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                            <i class="fa fa-business-time fa-w-20"></i>
-                        </span>
-                        Buttons
-                    </button>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-inbox"></i>
-                                    <span> Inbox</span>
-                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-book"></i>
-                                    <span> Book</span>
-                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-picture"></i>
-                                    <span> Picture</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a disabled class="nav-link disabled">
-                                    <i class="nav-link-icon lnr-file-empty"></i>
-                                    <span> File Disabled</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+          
         </div>
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+        <li class="nav-item">
+            <a role="tab" class="nav-link" href="{{path('app.client.show' , {id: clients.id})}}">
+                <span>Informations du compte</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a role="tab" class="nav-link active">
+                <span>Les Factures</span>
+            </a>
+        </li>
        
     </ul>
     <!--begin::Container-->
@@ -119,12 +85,12 @@
                             <div class="text-sm-end">
                                 <!--begin::Logo-->
                                 <a href="#" class="d-block mw-150px ms-sm-auto">
-                                    <img alt="Logo" src="../../../assets/media/svg/brand-logos/lloyds-of-london-logo.svg" class="w-100" />
+                                    <div class=""><img src="./assets/images/logo-inverse.png" style="height: 100%;width: 100%;border-radius: 50% 50%;"></div>
                                 </a>
                                 <!--end::Logo-->
                                 <!--begin::Text-->
                                 <div class="text-sm-end fw-bold fs-4 text-muted mt-7">
-                                    <div>Cecilia Chapman, 04 BP 405, Lomé-Togo</div>
+                                    <div>Adidogomé-Yokoè, 04 BP 405, Lomé-Togo</div>
                                     <div>{{entreprise.numerotelentre}}, {{entreprise.emailentre}}</div>
                                 </div>
                                 <!--end::Text-->
@@ -214,6 +180,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="fw-bold text-gray-600">
+                                               
                                                 {% set k=1 %}
                                                 {% for entete in facture%}
                                                 
@@ -226,8 +193,8 @@
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             <!--begin::Thumbnail-->
-                                                            <a href="../../ecommerce/catalog/edit-product.html" class="symbol symbol-50px">
-                                                                <span class="symbol-label" style="background-image:url(../../../assets/media/stock/ecommerce/1.gif);"></span>
+                                                            <a  class="symbol symbol-40px">
+                                                                <img src="{{asset('uploads/icones/'~ entete1.tarifs.icons.syntaxeicon)}}">
                                                             </a>
                                                             <!--end::Thumbnail-->
                                                             <!--begin::Title-->
@@ -342,16 +309,10 @@
                             <!-- begin::Actions-->
                             <div class="my-1 me-5">
                                 <!-- begin::Pint-->
-                                <button type="button" class="btn btn-success my-1 me-12" onclick="window.print();">Imprimer</button>
+                                <button type="button" class="btn btn-success my-1 me-12" onclick="window.print();">Imprimer/Télécharger</button>
                                 <!-- end::Pint-->
                                 <!-- begin::Download-->
-                                <button type="button" class="btn btn-light-success my-1">Télécharger</button>
-                                <!-- Icône "edit" -->
-                                <i class="fas fa-edit btn-primary"></i>
-
-                                <!-- Icône "delete" -->
-                                <i class="fas fa-trash btn-danger"></i>
-
+                                
                                 <!-- end::Download-->
                             </div>
 
@@ -372,7 +333,7 @@
                             {% endif %}
                             {% if livr.etat=='LIVRAISON'%}
                             {% if k==loop.index%}
-                            <a href="" class="btn btn-primary my-1">LIVRER & PAYER</a>
+                            <a  class="btn btn-primary my-1">LIVRER & PAYER</a>
                             {% endif %}
                             {% endif %}
                             {% endfor%}

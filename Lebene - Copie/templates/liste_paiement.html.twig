@@ -24,53 +24,13 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-notebook icon-gradient bg-mixed-hopes"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#2862c8" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                 </div>
-                <div>Grid Tables
-                    <div class="page-title-subheading">Basic example of a Bootstrap 4 table with sort, search and filter
-                        functionality.</div>
-                </div>
-            </div>
-            <div class="page-title-actions">
-                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
-                    class="btn-shadow mr-3 btn btn-dark">
-                    <i class="fa fa-star"></i>
-                </button>
-                <div class="d-inline-block dropdown">
-                    <a href="">
-                        
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-inbox"></i>
-                                    <span> Inbox</span>
-                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-book"></i>
-                                    <span> Book</span>
-                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-picture"></i>
-                                    <span> Picture</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a disabled class="nav-link disabled">
-                                    <i class="nav-link-icon lnr-file-empty"></i>
-                                    <span> File Disabled</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div>PAYEMENT
+                    <div class="page-title-subheading">Pour effectuer le payement d'un employé cliquer sur la flèche a droite de son nom pour procéder.</div>
                 </div>
             </div>
+            
         </div>
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
@@ -95,8 +55,8 @@
                         <!--begin::Header-->
                         <div class="card-header align-items-center border-0 mt-4">
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="fw-bolder text-dark">Payement</span>
-                                <span class="text-muted mt-1 fw-bold fs-7">Période: 14 Jan-21 Fev</span>
+                                <span class="fw-bolder text-dark">Employé à payer</span>
+                                <span class="text-muted mt-1 fw-bold fs-7"></span>
                             </h3>
 
                         </div>
@@ -108,7 +68,10 @@
                             <div class="d-flex align-items-sm-center mb-7">
                                 <!--begin::Symbol-->
                                 <div class="symbol symbol-60px symbol-2by3 me-4">
-                                    {% if loop.index == 1%}
+                                    <div class="symbol-label"
+                                        style="background-image: url('/assets/media/svg/avatars/blank.svg')">
+                                    </div>
+                                    <!-- {% if loop.index == 1%}
                                     <div class="symbol-label"
                                         style="background-image: url('../assets/media/stock/600x400/img-17.jpg')">
                                     </div>
@@ -128,7 +91,7 @@
                                     <div class="symbol-label"
                                         style="background-image: url('../assets/media/stock/600x400/img-17.jpg')">
                                     </div>
-                                    {% endif %}
+                                    {% endif %} -->
                                 </div>
                                 <!--end::Symbol-->
                                 <!--begin::Content-->
@@ -187,7 +150,10 @@
                             <div class="d-flex align-items-sm-center mb-7">
                                 <!--begin::Symbol-->
                                 <div class="symbol symbol-60px symbol-2by3 me-4">
-                                    {% if loop.index == 1%}
+                                    <div class="symbol-label"
+                                        style="background-image: url('/assets/media/svg/avatars/blank.svg')">
+                                    </div>
+                                    <!-- {% if loop.index == 1%}
                                     <div class="symbol-label"
                                         style="background-image: url('../assets/media/stock/600x400/img-17.jpg')">
                                     </div>
@@ -207,7 +173,7 @@
                                     <div class="symbol-label"
                                         style="background-image: url('../assets/media/stock/600x400/img-17.jpg')">
                                     </div>
-                                    {% endif %}
+                                    {% endif %} -->
                                 </div>
                                 <!--end::Symbol-->
                                 <!--begin::Content-->

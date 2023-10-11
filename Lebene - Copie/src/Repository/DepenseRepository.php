@@ -59,6 +59,17 @@ public function countDepense()
    
 }
 
+public function findByNonSpprimer()
+{
+    $null = "NULL";
+    return $this->createQueryBuilder('d')
+         ->where("d.deleted = 0")
+         ->getQuery()
+         ->getResult()
+         ;
+   
+}
+
 //    /**
 //     * @return Depense[] Returns an array of Depense objects
 //     */

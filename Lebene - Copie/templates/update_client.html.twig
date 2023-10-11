@@ -17,56 +17,12 @@
                             leurs coordonnées </div>
                     </div>
                 </div>
-                <div class="page-title-actions">
-                    <button type="button" data-toggle="tooltip" title="Ajouter ce client a vos favoris"
-                        data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
-                        <i class="fa fa-star"></i>
-                    </button>
-                    <div class="d-inline-block dropdown">
-                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            class="btn-shadow dropdown-toggle btn btn-info">
-                            <span class="btn-icon-wrapper pr-2 opacity-7">
-                                <i class="fa fa-business-time fa-w-20"></i>
-                            </span>
-                            Liste des clients
-                        </button>
-                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link">
-                                        <i class="nav-link-icon lnr-inbox"></i>
-                                        <span> Inbox</span>
-                                        <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link">
-                                        <i class="nav-link-icon lnr-book"></i>
-                                        <span> Book</span>
-                                        <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link">
-                                        <i class="nav-link-icon lnr-picture"></i>
-                                        <span> Picture</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a disabled class="nav-link disabled">
-                                        <i class="nav-link-icon lnr-file-empty"></i>
-                                        <span> File Disabled</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
         <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
             <li class="nav-item">
-                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab">
                     <span>Inscription client</span>
                 </a>
             </li>
@@ -107,7 +63,6 @@
                                     </ul>
 
                                     {% for clients in client.utilisateur %}
-                                    {{dump(clients)}}
                                     <div class="form-wizard-content">
                                         <div id="step-1">
                                             <div id="accordion" class="accordion-wrapper mb-3">
@@ -281,22 +236,40 @@
                                                             data-target="#collapseOne" aria-expanded="false"
                                                             aria-controls="collapseOne"
                                                             class="text-left m-0 p-0 btn btn-link btn-block">
-                                                            <span class="form-heading">Localisation - Maps<p>Uploader la
-                                                                    localication du client (GPS)</p></span>
+                                                            <span class="form-heading">Localisation - Maps<p>Localication du client (GPS)</p></span>
                                                         </button>
                                                     </div>
                                                     <div data-parent="#accordion" id="collapseOne"
                                                         aria-labelledby="headingOne" class="collapse show">
                                                         <div class="card-body">
-                                                            <div class="form-row">
-                                                                <div class="col-md-6">
-                                                                    <div class="position-relative form-group">
-                                                                        <label for="exampleEmail2">Uploader un
-                                                                            maps</label>
-                                                                        <input name="file" id="exampleEmail2"
-                                                                            placeholder="" type="file"
-                                                                            class="form-control">
-                                                                    </div>
+                                                            <div class="col-md-6">
+                                                                <div class="position-relative form-group">
+                                                                    <a onclick="getAddressLink()">
+                                                                        <button
+                                                                            class="btn-shadow btn-wide btn btn-success btn-lg"
+                                                                            type="button">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                height="1.5em"
+                                                                                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                                                                
+                                                                                <path
+                                                                                fill="white"
+                                                                                    d="M302.8 312C334.9 271.9 408 174.6 408 120C408 53.7 354.3 0 288 0S168 53.7 168 120c0 54.6 73.1 151.9 105.2 192c7.7 9.6 22 9.6 29.6 0zM416 503l144.9-58c9.1-3.6 15.1-12.5 15.1-22.3V152c0-17-17.1-28.6-32.9-22.3l-116 46.4c-.5 1.2-1 2.5-1.5 3.7c-2.9 6.8-6.1 13.7-9.6 20.6V503zM15.1 187.3C6 191 0 199.8 0 209.6V480.4c0 17 17.1 28.6 32.9 22.3L160 451.8V200.4c-3.5-6.9-6.7-13.8-9.6-20.6c-5.6-13.2-10.4-27.4-12.8-41.5l-122.6 49zM384 255c-20.5 31.3-42.3 59.6-56.2 77c-20.5 25.6-59.1 25.6-79.6 0c-13.9-17.4-35.7-45.7-56.2-77V449.4l192 54.9V255z" />
+                                                                            </svg>
+                                                                            {% if client.gpslink == null %}
+                                                                            Localiser le client
+                                                                            {% elseif client.gpslink != null %}
+                                                                            Modifier la localiser du client
+                                                                            {% endif %}
+                                                                        </button>
+                                                                        <div class=" gps-ok-icon d-none">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#357e3a}</style><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z"/></svg>
+                                                                            La localisation a bien été ajouté.
+                                                                        </div>
+                                                                    </a>
+                                                                    <input type="text" style="display: none;" id="gps" name="gps" value="{{client.gpslink}}">
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -318,13 +291,13 @@
                                                     <div class="swal2-success-circular-line-right"
                                                         style="background-color: rgb(255, 255, 255);"></div>
                                                 </div>
-                                                <div class="results-subtitle mt-4">Finished!</div>
-                                                <div class="results-title">You arrived at the last form wizard step!
+                                                <div class="results-subtitle mt-4">Finalisation!</div>
+                                                <div class="results-title">Vous êtes arriver à la dernière étape, vérifiez et soumettez!
                                                 </div>
                                                 <div class="mt-3 mb-3"></div>
                                                 <div class="text-center">
                                                     <button class="btn-shadow btn-wide btn btn-success btn-lg"
-                                                        type="submit">Finish</button>
+                                                        type="submit">Modifier</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -338,13 +311,13 @@
                                     <button type="button" id="reset-btn"
                                         class="btn-shadow float-left btn btn-link">Reset</button>
                                     <button type="button" id="next-btn"
-                                        class="btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
+                                        class="btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Précédent</button>
                                     <button type="button" id="prev-btn"
-                                        class="btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
+                                        class="btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Suivant</button>
 
                                     <!--begin::Alert-->
                                     <div
-                                        class="alert alert-dismissible bg-light-danger border border-danger d-flex flex-column flex-sm-row p-5 mb-10 d-none">
+                                        class="alert alert-dismissible bg-light-danger border border-danger  flex-column flex-sm-row p-5 mb-10 d-none">
                                         <!--begin::Icon-->
                                         <span class="svg-icon svg-icon-2hx svg-icon-danger me-4 mb-5 mb-sm-0">...</span>
                                         <!--end::Icon-->
@@ -507,6 +480,49 @@
     </script>
 
     <script>
+
+function getAddressLink() {
+
+// Fonction pour récupérer l'adresse sur Google Maps
+// Vérifier si le navigateur prend en charge la géolocalisation
+
+if ("geolocation" in navigator) {
+    // Obtenir les coordonnées de l'appareil
+
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Construire le lien Google Maps
+            var googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            var encodeGpsLink = encodeURIComponent(googleMapsLink);
+            var gps = document.getElementById('gps');
+            var gps_ok_icon = document.querySelector('.gps-ok-icon');
+            gps.value = googleMapsLink;
+            gps_ok_icon.classList.remove("d-none");
+            gps_ok_icon.classList.add("d-block");
+            console.log("ertyui");
+
+
+        },
+        function (error) {
+            if (error.code === 1) {
+                alert("Veuillez autoriser l'accès a votre localisation dans les réglages/paramètres pour continuer.")
+
+            }
+            else {
+                console.log("RéessayerErreur de géolocalisation :", error);
+            }
+
+        }
+    );
+
+} else {
+    alert("La géolocalisation n'est pas prise en charge par ce navigateur.");
+}
+}
+
         $(document).ready(function () {
             $('#my-form').submit(function (e) {
                 e.preventDefault(); // Empêche la soumission du formulaire par défaut

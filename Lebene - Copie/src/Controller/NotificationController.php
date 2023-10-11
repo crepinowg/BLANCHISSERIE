@@ -12,16 +12,19 @@ use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Controller\FunctionImplementController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class NotificationController extends AbstractController
 {
 
     public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
         NotificationsRepository $notifRepo , 
         FunctionImplementController $functionImplement,
         EntityManagerInterface $em)
     {
         $this->em = $em;
+        $this->authorizationChecker = $authorizationChecker;
         $this->notifRepo = $notifRepo;
         $this->functionImplement = $functionImplement;
         

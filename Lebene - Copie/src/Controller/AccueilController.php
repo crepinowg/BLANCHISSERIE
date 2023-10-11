@@ -128,7 +128,7 @@ class AccueilController extends AbstractController
 
             $factureAll=$this->factureRepo->findAll();
         
-
+            $app = $this->getUser();
         
             /* Déclaration d'un objet d'instance. functionImplement */
 
@@ -137,6 +137,7 @@ class AccueilController extends AbstractController
             
             $this->em->flush();
             return $this->render('home.html.twig', [
+                'app'=>$app,
                 'controller_name' => 'AccueilController',
                 'clientCount'=>$clientCount,
                 //'clientCounts'=>$clientCounts,

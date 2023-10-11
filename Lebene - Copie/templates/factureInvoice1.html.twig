@@ -11,86 +11,16 @@
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">
-                <div class="page-title-icon">
-                    <i class="pe-7s-graph icon-gradient bg-ripe-malin"></i>
-                </div>
-                <div><span class="text-uppercase font-weight-bold">
-
-                        {% for clientNom in clients.utilisateur%}
-                        {{clientNom.nom}} - {{clientNom.username}}
-                        {% endfor %}
-
-                    </span>
-                    <div class="page-title-subheading">
-                        {% for clientEmail in clients.utilisateur%}
-                        {{clientEmail.email}} - {{clientEmail.numero}}
-                        {% endfor %}
-                        </br>
-
-                        Indication: {{clients.zip}}, {{clients.indication}}</br>
-
-                        {% if clients.admin == null%}
-                        Ajouté par le Gérant
-                        {% for gerantNom in clients.gerant.utilisateur%}
-                        {{gerantNom.nom}}
-                        {% endfor%}
-                        {% elseif clients.admin != null%}
-                        Ajouté par l'Admin
-                        {% for adminNom in clients.admin.utilisateur%}
-                        {{adminNom.nom}}</br>
-                        Crée le {{adminNom.createdat | date("d M Y")}} à {{adminNom.createdat | date("h:i")}}
-                        {% endfor%}
-                        {% endif %}</br>
-                        <span class="text text-bolder" style="font-weight: bold;font-size: 20px;color: black;">COMPTE
-                            CLIENT</span>
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#ffd43b" d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM64 80c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16zm128 72c8.8 0 16 7.2 16 16v17.3c8.5 1.2 16.7 3.1 24.1 5.1c8.5 2.3 13.6 11 11.3 19.6s-11 13.6-19.6 11.3c-11.1-3-22-5.2-32.1-5.3c-8.4-.1-17.4 1.8-23.6 5.5c-5.7 3.4-8.1 7.3-8.1 12.8c0 3.7 1.3 6.5 7.3 10.1c6.9 4.1 16.6 7.1 29.2 10.9l.5 .1 0 0 0 0c11.3 3.4 25.3 7.6 36.3 14.6c12.1 7.6 22.4 19.7 22.7 38.2c.3 19.3-9.6 33.3-22.9 41.6c-7.7 4.8-16.4 7.6-25.1 9.1V440c0 8.8-7.2 16-16 16s-16-7.2-16-16V422.2c-11.2-2.1-21.7-5.7-30.9-8.9l0 0c-2.1-.7-4.2-1.4-6.2-2.1c-8.4-2.8-12.9-11.9-10.1-20.2s11.9-12.9 20.2-10.1c2.5 .8 4.8 1.6 7.1 2.4l0 0 0 0 0 0c13.6 4.6 24.6 8.4 36.3 8.7c9.1 .3 17.9-1.7 23.7-5.3c5.1-3.2 7.9-7.3 7.8-14c-.1-4.6-1.8-7.8-7.7-11.6c-6.8-4.3-16.5-7.4-29-11.2l-1.6-.5 0 0c-11-3.3-24.3-7.3-34.8-13.7c-12-7.2-22.6-18.9-22.7-37.3c-.1-19.4 10.8-32.8 23.8-40.5c7.5-4.4 15.8-7.2 24.1-8.7V232c0-8.8 7.2-16 16-16z"/></svg>
+                    </div>
+                    <div>Facture détaillée
+                        <div class="page-title-subheading">Visualiser les informations complète d'une facture</div>
                     </div>
                 </div>
             </div>
-            <div class="page-title-actions">
-                <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom"
-                    class="btn-shadow mr-3 btn btn-dark">
-                    <i class="fa fa-star"></i>
-                </button>
-                <div class="d-inline-block dropdown">
-                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        class="btn-shadow dropdown-toggle btn btn-info">
-                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                            <i class="fa fa-business-time fa-w-20"></i>
-                        </span>
-                        Buttons
-                    </button>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-inbox"></i>
-                                    <span> Inbox</span>
-                                    <div class="ml-auto badge badge-pill badge-secondary">86</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-book"></i>
-                                    <span> Book</span>
-                                    <div class="ml-auto badge badge-pill badge-danger">5</div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">
-                                    <i class="nav-link-icon lnr-picture"></i>
-                                    <span> Picture</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a disabled class="nav-link disabled">
-                                    <i class="nav-link-icon lnr-file-empty"></i>
-                                    <span> File Disabled</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+         
         </div>
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
@@ -111,11 +41,11 @@
             </a>
         </li>
 
-        <li class="nav-item">
+       <!--  <li class="nav-item">
             <a role="tab" class="nav-link " href="dashboards-crm-variation.html">
                 <span>Paramètres</span>
             </a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a role="tab" class="nav-link active" href="">
                 <span>Invoice détails</span>
@@ -139,10 +69,10 @@
                                 <div class="d-flex flex-stack pb-10">
                                     <!--begin::Logo-->
                                     <a href="#">
-                                        <img alt="Logo" src="../../../assets/media/svg/brand-logos/code-lab.svg" />
+                                        <div class=""><img src="./assets/images/logo-inverse.png" style="height: 40%;width: 40%;border-radius: 50% 50%;"></div>
                                     </a>
                                     <!--end::Logo-->
-                                    {% for livr in facture %}
+                                    <!-- {% for livr in facture %}
 
                                     
                                     {% if livr.etat=='ATTENTE'%}
@@ -152,7 +82,7 @@
                                     <a href="#" class="btn btn-sm btn-primary">Approuvé</a>
                                    
                                     {% endif %}
-                                    {% endfor%}
+                                    {% endfor%} -->
                                     <!--begin::Action-->
                                     
                                     <!--end::Action-->
@@ -289,6 +219,9 @@
                                                     <tr class="fw-bolder text-gray-700 fs-5 text-end">
                                                         <td class="d-flex align-items-center pt-6">
                                                             <div class="ms-5 text-capitalize">
+                                                                <a class="symbol symbol-20px">
+                                                                    <img src="{{asset('uploads/icones/'~ entete1.tarifs.icons.syntaxeicon)}}">
+                                                                </a>
                                                                 {{entete1.tarifs.icons.nomicon}}
                                                                     {% if entete1.express == 1 and entete1.expressdelivered == 0%}
                                                                     <a href="{{path('app.facture.express_livrer' , {id: entete1.id})}}"><div class="badge badge-danger">COLLECTE</div></a>
@@ -304,7 +237,13 @@
                                                                     {% if entete1.express == 0 %}
                                                                         <div class=""></div>
                                                                     {% endif %}
-                                                                <div class="fs-7 text-muted">Delivery Date: {{entete.datelivraison | date('d/m/y')}}</div>
+                                                                {% if entete1.tarifs.type == 1 %}
+                                                                <div class="fs-7 text-muted">Lav. | Delivery Date: {{entete.datelivraison | date('d/m/y')}}</div>
+                                                                {% elseif entete1.tarifs.type == 2 %}
+                                                                <div class="fs-7 text-muted">LR | Delivery Date: {{entete.datelivraison | date('d/m/y')}}</div>
+                                                                {% elseif entete1.tarifs.type == 3 %}
+                                                                <div class="fs-7 text-muted">Rep. | Delivery Date: {{entete.datelivraison | date('d/m/y')}}</div>
+                                                                {%endif%}
                                                             </div>
                                                         </td>
                                                         <td class="pt-6">{{entete1.tarifs.prix | number_format}}F</td>
@@ -475,7 +414,12 @@
                                 <div class="mb-6">
                                     <div class="fw-bold text-gray-600 fs-7">Indication:</div>
                                     <div class="fw-bolder fs-6 text-gray-800">{{facture.client.indication}} ~
-                                    <a href="#" class="link-primary ps-1">Go to maps</a></div>
+                                        {% if facture.client.gpslink == null %}
+                                         <a class="link-primary ps-1">Localisation indisponible</a>
+                                        {% elseif facture.client.gpslink != null %}
+                                         <a href="{{facture.client.gpslink}}" class="link-primary ps-1">Go to maps</a>
+                                         {%endif%}
+                                    </div>
                                 </div>
                                 <!--end::Item-->
                                 
@@ -486,15 +430,11 @@
                         
                         <!--end::Sidebar-->
                     </div>
-                     <!-- begin::Actions-->
+                     <!--
                      <div class="my-1 me-5">
-                        <!-- begin::Pint-->
                         <button type="button" class="btn btn-success my-1 me-12">Envoyer au client</button>
-                        <!-- end::Pint-->
-                        <!-- begin::Download-->
                         <button type="button" class="btn btn-light-success my-1">Télécharger</button>
-                        <!-- end::Download-->
-                    </div>
+                    </div> -->
                     <!--end::Layout-->
                 </div>
                 <!--end::Body-->

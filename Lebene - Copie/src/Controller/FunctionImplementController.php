@@ -99,15 +99,15 @@ class FunctionImplementController extends AbstractController
     public function totalDepenses()
     {
         $factureAll=$this->factureRepo->findAll();
-        $depenses=$this->depenseRepo->findAll();
+        $depenses=$this->depenseRepo->findByNonSpprimer();
 
         $totalDepenses=0;
         foreach ($depenses as $key => $value) {
-            if($value->isCalculDepense() == false){
+            
                 $totalDepenses = $totalDepenses + $value->getPrixTotal();
                 $value->setCalculDepense(true);
                 $this->em->persist($value);
-            }  
+             
         }
         //dd($totalDepenses);
         return $totalDepenses;

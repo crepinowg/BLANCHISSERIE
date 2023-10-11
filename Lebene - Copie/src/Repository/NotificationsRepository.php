@@ -52,6 +52,7 @@ class NotificationsRepository extends ServiceEntityRepository
     public function findAllOrder()
     {
         $query= $this->createQueryBuilder('n')
+            ->where('n.reader = 0')
             ->orderBy('n.id', 'DESC')
             
         ;

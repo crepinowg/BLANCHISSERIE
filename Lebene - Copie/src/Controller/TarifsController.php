@@ -72,10 +72,26 @@ class TarifsController extends AbstractController
             $icons = $this->iconsRepo->findAll();
             $tarifsAll = $this->tarifsRepo->findAll();
             if ($request->isXmlHttpRequest()) {
+                
+                $verifyIconsObjet = false;
+                foreach ($icons as $key => $value) {
+                    $iconsObjet=$request->request->get('iconsObjet'.$key+1);
+
+                    if($iconsObjet != null){
+                        $verifyIconsObjet = true;
+                    }
+                }
+
+                if (!$verifyIconsObjet) {
+                    $message="Veuillez choisir un vêtement pour continuer.";
+                    return $this->json($message);
+                }
+
                 foreach ($icons as $key => $value) {
 
                     $tarifs = "tarifs".$key+1;
                     $tarifs = new Tarifs;
+                    
                     
                     $iconsObjet=$request->request->get('iconsObjet'.$key+1);
                     $prix=$request->request->get('prix');
@@ -90,6 +106,8 @@ class TarifsController extends AbstractController
                         $message="Le prix doit être supérieur ou égale a 50F";            
                         return $this->json($message);
                     }
+
+                    
                     
                     
                     if (isset($prix,$type)) {
@@ -124,14 +142,9 @@ class TarifsController extends AbstractController
                                 $tarifs->setAdmin($admin);
                             }
 
-                            if($express == false){
                                 
-                                $tarifs->setExpress(false);
-                            }
-                            elseif($express == true){
-                                
-                                $tarifs->setExpress(true);
-                            }
+                            $tarifs->setExpress($express);
+                           
                             
                             $this->em->persist($tarifs);
                             
@@ -186,6 +199,7 @@ class TarifsController extends AbstractController
 
 
         $tarif = new Tarifs;
+
         if(($this->authorizationChecker->isGranted('ROLE_GERANT_BLEU') OR $this->authorizationChecker->isGranted('ROLE_GERANT_NOIR'))){
             $checkUser=false;
             $gerantUser = $this->getUser()->getGerant();
@@ -200,12 +214,14 @@ class TarifsController extends AbstractController
             $tarifsAll = $this->tarifsRepo->findAll();
             if ($request->isXmlHttpRequest()) {
                 $tarifss->setStatut(false);
+                $iteration = 0;
                // $this->foreignKeyManager->disableForeignKeys();
                 foreach ($icons as $key => $value) {
-
+                    $iteration =$iteration + 1;
+                    
                     //$tarifs = "tarifs".$key+1;
                     
-                    $iconsObjet=$request->request->get('iconsObjet'.$key+1);
+                    $iconsObjet=$request->request->get('iconsObjet');
                     $prix=$request->request->get('prix');
                     $type=$request->request->get('type');
                     $express=$request->request->get('express');
@@ -220,58 +236,64 @@ class TarifsController extends AbstractController
                         return $this->json($message);
                     }
                     
-                    
-                    if (isset($prix,$type)) {
-                        if(isset($iconsObjet)){
-
-                            if($iconsObjet == true){
-                                foreach ($tarifsAll as $key => $values) {
-                                    
-                                    if ($values->getIcons()== $value AND $values->getType()==$type AND $values->isExpress()==$express AND $values->getId()!=$id AND $values->isStatut()==1){
-                                        $message="Le tarif  '".strtoupper($values->getIcons()->getNomIcon())."' a été préalablement enregistrer. Veuillez la modifier";            
-                                        return $this->json($message);
-                                    }
-                                }
-                                $tarif->setIcons($value);
-                            }
-
-                                
-                                if($type == true){
-                                    $tarif->setType($type);
-                                }
-    
-                                $tarif->setPrix($prix);
-                                
-    
-                                if($checkUser == false){
-                                    $tarif->setGerant($gerantUser);
-                                }
-                    
-                                else if($checkUser == true){
-                                    $tarif->setAdmin($admin);
-                                }
-    
-                                if($express == false){
-                                    
-                                    $tarif->setExpress(false);
-                                }
-                                elseif($express == true){
-                                    
-                                    $tarif->setExpress(true);
-                                }
-                                
-                                $this->em->persist($tarif);
-    
-                        }
+                    if ($iconsObjet == null) {
+                        $message="Veuillez choisir un vêtement pour continuer.";
+                        return $this->json($message);
                     }
+                    
+                    if (isset($prix,$type) AND $iconsObjet == $value->getId()) {
+
+                        //return $this->json($iteration);
+                        
+                        foreach ($tarifsAll as $key => $values) {
+                            
+                            if ($values->getIcons()== $value AND $values->getType()==$type AND $values->isExpress()==$express AND $values->getId()!=$id AND $values->isStatut()==1){
+                                $message="Le tarif  '".strtoupper($values->getIcons()->getNomIcon())."' a été préalablement enregistrer. Veuillez la modifier";            
+                                return $this->json($message);
+                            }
+                        }
+                        
+                        $tarif->setIcons($value);
+
+                        if($type == true){
+                            $tarif->setType($type);
+                        }
+
+                        $tarif->setPrix($prix);
+                        
+
+                        if($checkUser == false){
+                            $tarif->setGerant($gerantUser);
+                        }
+            
+                        else if($checkUser == true){
+                            $tarif->setAdmin($admin);
+                        }
+
+                        if($express == false){
+                            
+                            $tarif->setExpress(false);
+                        }
+                        elseif($express == true){
+                            
+                            $tarif->setExpress(true);
+                        }
+                        
+                        $this->em->persist($tarif);
+                        $this->em->flush();
+                        //$this->foreignKeyManager->enableForeignKeys();
+                        return new JsonResponse([
+                            'success' => true,
+                            'redirect_url' => $this->generateUrl('app.tarifs.liste'),
+                        ]);
+    
+                        
+                    }
+
+                    
                 }
                                
-                $this->em->flush();
-                //$this->foreignKeyManager->enableForeignKeys();
-                return new JsonResponse([
-                    'success' => true,
-                    'redirect_url' => $this->generateUrl('app.tarifs.liste'),
-                ]);
+                
             }
             else{
                 $icons = $this->iconsRepo->findAll();
